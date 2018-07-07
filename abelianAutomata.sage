@@ -182,7 +182,7 @@ class CompleteAutomaton(object):
 
     def SCCs(self):
         """
-        Return a vector from each terminal strongly connected component
+        Return each terminal strongly connected component
         """
 
         complete = self.completeGraph()
@@ -190,7 +190,7 @@ class CompleteAutomaton(object):
         return sccs
 
 
-    def digraph(self, v):
+    def anchorAt(self, v):
         """
         Return a graph representing the automaton anchored at v
         """
@@ -214,7 +214,7 @@ class CompleteAutomaton(object):
         """
         Returns a graphplot object for the automaton anchored at v
         """
-        return plot2(self.digraph(v)
+        return plot2(self.anchorAt(v)
                     ,vertex_colors = {"red": [v]}
                     ,vertex_size   = 300 * self.m
                     )
