@@ -79,7 +79,10 @@ class CompleteAutomaton(object):
         self.A   = A
         self.r   = vector(r)
         self.m   = len(self.r)
-        self.chi = A.charpoly()
+        self.chi = self.A.charpoly()
+
+        self.Ai   = self.A.inverse()
+        self.chii = self.Ai.charpoly()
 
     def wreath(self, v):
         """
@@ -93,6 +96,15 @@ class CompleteAutomaton(object):
             return (self.A * v, self.A*v), False
         else:
             return (self.A * (v - self.r), self.A * (v + self.r)), True
+
+    def scaleByPoly(self, p):
+        """
+        Return a new CompleteAutomaton which is this one scaled by p
+        """
+        p = P(list(p))
+        q = P(list(self.r))
+
+        return CompleteAutomaton(self.A, vector((p * q) % P(self.chii)))
 
     def run(self,v,w):
         """
