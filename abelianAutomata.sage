@@ -44,30 +44,30 @@ sys.setrecursionlimit(MAX_DEPTH)
 # Declare 'z'
 P.<z> = PolynomialRing(ZZ)
 
-def plot2(D, **kwargs):
-    """
-    Pretty print a digraph
+class ADiGraph(DiGraph):
+    def plot2(self, **kwargs):
+        """
+        Pretty print a digraph
 
-    Edges have the following coloring:
-        0 | 0 -> black
-        1 | 1 -> grey
-        0 | 1 -> green
-        1 | 0 -> blue
-    """
-    edge_colormap = {"0|0": "black"
-                    ,"1|1": "grey"
-                    ,"0|1": "green"
-                    ,"1|0": "blue"
-                    }
+        Edges have the following coloring:
+            0 | 0 -> black
+            1 | 1 -> grey
+            0 | 1 -> green
+            1 | 0 -> blue
+        """
+        edge_colormap = {"0|0": "black"
+                        ,"1|1": "grey"
+                        ,"0|1": "green"
+                        ,"1|0": "blue"
+                        }
 
-    return D.graphplot(layout         = 'spring'
-                        ,color_by_label = edge_colormap
-                        ,vertex_color   = 'white'
-                        ,iterations     = PLOT_ITERS
-                        ,vertex_labels  = True
-                        ,dpi            = PLOT_DPI
-                        ,**kwargs
-                        ).plot()
+        return self.graphplot(layout         = 'spring'
+                             ,color_by_label = edge_colormap
+                             ,vertex_color   = 'white'
+                             ,iterations     = PLOT_ITERS
+                             ,dpi            = PLOT_DPI
+                             ,**kwargs
+                             ).plot()
 
 
 class CompleteAutomaton(object):
@@ -82,7 +82,16 @@ class CompleteAutomaton(object):
         self.chi = self.A.charpoly()
 
         self.Ai   = self.A.inverse()
-        self.chii = self.Ai.charpoly()
+        self.chii = P(self.Ai.charpoly())
+
+    def scaleByPoly(self, p):
+        """
+        Return a new CompleteAutomaton which is this one scaled by p
+        """
+        p = P(list(p))
+        q = P(list(self.r))
+
+        return CompleteAutomaton(self.A, vector((p * q) % P(self.chii)))
 
     def wreath(self, v):
         """
@@ -96,15 +105,6 @@ class CompleteAutomaton(object):
             return (self.A * v, self.A*v), False
         else:
             return (self.A * (v - self.r), self.A * (v + self.r)), True
-
-    def scaleByPoly(self, p):
-        """
-        Return a new CompleteAutomaton which is this one scaled by p
-        """
-        p = P(list(p))
-        q = P(list(self.r))
-
-        return CompleteAutomaton(self.A, vector((p * q) % P(self.chii)))
 
     def run(self,v,w):
         """
@@ -131,9 +131,15 @@ class CompleteAutomaton(object):
         except IndexError: # Happens if w is empty
             return "" 
 
+    def wordCoord(self,w):
+        """
+        Return v such that v(0) = w
+        """
+        return sum([(0 if w[i] is '0' else 1) * self.Ai^i * self.r for i in range(len(w))])
+
     def iterorbit(self,v,w):
         """
-        Return an iterator for the orbit of w at v
+        Return an iterator for the orbit of v at w
         """
         y = self.run(v,w)
         while y != x:
@@ -178,7 +184,7 @@ class CompleteAutomaton(object):
             addEdges(v)
             going, v = increment(v)
 
-        return DiGraph(edges)
+        return ADiGraph(edges)
 
     def SCCs(self):
         """
@@ -188,7 +194,6 @@ class CompleteAutomaton(object):
         complete = self.completeGraph()
         sccs = complete.strongly_connected_components()
         return sccs
-
 
     def anchorAt(self, v):
         """
@@ -208,13 +213,4 @@ class CompleteAutomaton(object):
                 getClosure(v1)
 
         getClosure(v)
-        return DiGraph(edges)
-
-    def plot(self, v):
-        """
-        Returns a graphplot object for the automaton anchored at v
-        """
-        return plot2(self.anchorAt(v)
-                    ,vertex_colors = {"red": [v]}
-                    ,vertex_size   = 300 * self.m
-                    )
+        return ADiGraph(edges)
