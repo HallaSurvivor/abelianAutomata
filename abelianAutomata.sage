@@ -34,6 +34,20 @@ B13 = companion_matrix([ 1/2,  1/2,  1/2, 1], format='left')
 B14 = companion_matrix([ 1/2,    1,    1, 1], format='left')
 # }}}
 
+#{{{ Stuff for testing
+
+def binLen(n):
+    """
+    All binary strings of length n
+    """
+    if n == 0:
+        return [""]
+    else:
+        recur = binLen(n-1)
+        return map(lambda xs: "1"+xs, recur) + map(lambda xs: "0"+xs, recur)
+
+#}}}
+
 # plot settings
 PLOT_DPI = 200
 PLOT_ITERS = 1000
@@ -43,6 +57,7 @@ sys.setrecursionlimit(MAX_DEPTH)
 
 # Declare 'z'
 P.<z> = PolynomialRing(ZZ)
+Q.<x> = PolynomialRing(QQ)
 
 class ADiGraph(DiGraph):
     def plot2(self, **kwargs):
@@ -135,14 +150,14 @@ class CompleteAutomaton(object):
         """
         Return v such that v(0) = w
         """
-        return sum([(0 if w[i] is '0' else 1) * self.Ai^i * self.r for i in range(len(w))])
+        return sum([int(w[i]) * self.Ai^i * self.r for i in range(len(w))])
 
     def iterorbit(self,v,w):
         """
         Return an iterator for the orbit of v at w
         """
         y = self.run(v,w)
-        while y != x:
+        while y != w:
             yield y
             y = self.run(v,y)
 
