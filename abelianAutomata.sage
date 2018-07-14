@@ -55,9 +55,9 @@ PLOT_ITERS = 1000
 MAX_DEPTH=10000
 sys.setrecursionlimit(MAX_DEPTH)
 
-# Declare 'z'
-P.<z> = PolynomialRing(ZZ)
-Q.<x> = PolynomialRing(QQ)
+# Define polynomial rings
+RZ.<z> = PolynomialRing(ZZ)
+RQ.<x> = PolynomialRing(QQ)
 
 class ADiGraph(DiGraph):
     def plot2(self, **kwargs):
@@ -93,20 +93,25 @@ class CompleteAutomaton(object):
         assert A.dimensions()[0] == len(r)
         self.A   = A
         self.r   = vector(r)
+
         self.m   = len(self.r)
         self.chi = self.A.charpoly()
 
         self.Ai   = self.A.inverse()
-        self.chii = P(self.Ai.charpoly())
+        self.chii = RZ(self.Ai.charpoly())
+
+        self.endo = RQ.quo(self.chii)
+        self.x    = self.endo.gens()[0]  # the variable for self.R
+
 
     def scaleByPoly(self, p):
         """
         Return a new CompleteAutomaton which is this one scaled by p
         """
-        p = P(list(p))
-        q = P(list(self.r))
+        p = RZ(list(p))
+        q = RZ(list(self.r))
 
-        return CompleteAutomaton(self.A, vector((p * q) % P(self.chii)))
+        return CompleteAutomaton(self.A, vector((p * q) % RZ(self.chii)))
 
     def wreath(self, v):
         """
