@@ -32,9 +32,21 @@ B11 = companion_matrix([ 1/2,    0,    0, 1], format='left')
 B12 = companion_matrix([ 1/2,    0,    0, 1], format='left')
 B13 = companion_matrix([ 1/2,  1/2,  1/2, 1], format='left')
 B14 = companion_matrix([ 1/2,    1,    1, 1], format='left')
+
+"""
+For ease of looping
+"""
+matrices = [A1,A2,A3,A4,A5,A6
+           ,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12,B13,B14
+           ]
 # }}}
 
-#{{{ Stuff for testing
+
+# {{{ Miscelaneous (useful) things
+
+# Define polynomial rings
+RZ.<z> = PolynomialRing(ZZ)
+RQ.<x> = PolynomialRing(QQ)
 
 def binLen(n):
     """
@@ -46,7 +58,21 @@ def binLen(n):
         recur = binLen(n-1)
         return map(lambda xs: "1"+xs, recur) + map(lambda xs: "0"+xs, recur)
 
-#}}}
+def expandTransPeriod(self,u,v):
+    """
+    Return a generator uv* given u and v
+    """
+    for c in u:
+        yield c
+
+    if v == "":
+        return
+
+    i = 0
+    while v != "":
+        yield v[i % len(v)]
+        i += 1
+
 
 # plot settings
 PLOT_DPI = 200
@@ -54,10 +80,6 @@ PLOT_ITERS = 1000
 
 MAX_DEPTH=10000
 sys.setrecursionlimit(MAX_DEPTH)
-
-# Define polynomial rings
-RZ.<z> = PolynomialRing(ZZ)
-RQ.<x> = PolynomialRing(QQ)
 
 class ADiGraph(DiGraph):
     def plot2(self, **kwargs):
@@ -85,33 +107,44 @@ class ADiGraph(DiGraph):
                              ).plot()
 
 
+# }}}
+
+
 class CompleteAutomaton(object):
-    def __init__(self, A, r):
+    def __init__(self, A, r=None):
         """
         Construct the Complete Automaton for a given (A,r) pair.
-        """
-        assert A.dimensions()[0] == len(r)
-        self.A   = A
-        self.r   = vector(r)
 
-        self.m   = len(self.r)
-        self.chi = self.A.charpoly()
+        Principal (r = e1) by default
+        """
+        self.A    = A
+        self.r    = vector(r) if r else m.columns()[1]
+
+        self.m    = len(self.r)
+        self.chi  = self.A.charpoly()
 
         self.Ai   = self.A.inverse()
         self.chii = RZ(self.Ai.charpoly())
 
         self.endo = RQ.quo(self.chii)
-        self.x    = self.endo.gens()[0]  # the variable for self.R
+        self.x    = self.endo.0
 
+        self.p    = RZ(list(self.r))
+
+    def mult(f,g):
+        """
+        multiply two vectors/polynomials (facilitates notation abuse)
+        """
+        p = RZ(list(f))
+        q = RZ(list(g))
+
+        return p * q % self.chii
 
     def scaleByPoly(self, p):
         """
         Return a new CompleteAutomaton which is this one scaled by p
         """
-        p = RZ(list(p))
-        q = RZ(list(self.r))
-
-        return CompleteAutomaton(self.A, vector((p * q) % RZ(self.chii)))
+        return CompleteAutomaton(self.A, vector(self.mult(p, self.r)))
 
     def wreath(self, v):
         """
@@ -151,11 +184,17 @@ class CompleteAutomaton(object):
         except IndexError: # Happens if w is empty
             return "" 
 
-    def wordCoord(self,w):
+    def wordCoord(self,u,v=None):
         """
-        Return v such that v(0) = w
+        Return (f,p) such that f(0^omega) = uv* in (p.G) (G is the current group)
         """
-        return sum([int(w[i]) * self.Ai^i * self.r for i in range(len(w))])
+        print("WARNING: this may still be buggy!")
+        pu = self.endo([int(ui) for ui in u])
+        pv = self.endo([int(vi) for vi in v]) if v else self.endo(0)
+
+        quo = self.endo(1-self.x^len(v)) if v else self.endo(1)
+        f = vector(list(self.endo(pu*quo + pv*(self.x^len(u)))))
+        return f, quo
 
     def iterorbit(self,v,w):
         """
@@ -234,3 +273,31 @@ class CompleteAutomaton(object):
 
         getClosure(v)
         return ADiGraph(edges)
+
+    def knfApprox(self, u, v, f=None):
+        """
+        Return a generator of approximations for omegaKNF 
+        with coefficients given by uv* starting at f (defaults to delta)
+        """
+        if f == None:
+            f = self.r
+        else:
+            f = vector(f)
+
+        fn = vector([0]*self.m)  # start at identity
+        for c in expandTransPeriod(u,v):
+            fn += int(c) * f
+            f = self.Ai * f
+            yield fn
+
+    def knfExact(self, u, v, f=None):
+        """
+        Return a (vector, polynomial) pair (x, p) such that
+        x \in p . G (where G is the current group) is the
+        function corresponding to the limit of the omegaKNF 
+        uv* starting at f (delta by default)
+        """
+        if f == None:
+            f = self.r
+        else:
+            f = vector(f)
