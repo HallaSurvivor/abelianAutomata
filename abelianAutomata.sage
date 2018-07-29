@@ -281,7 +281,7 @@ and residuation vector:
             yield y
             y = self.run(f,y)
 
-    def anchorAt(self, f=None, plot=True):
+    def plot(self, f=None, plot=True):
         """
         Plots a graph representing the automaton anchored at @f
 
