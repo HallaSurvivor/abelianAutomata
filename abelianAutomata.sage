@@ -1,46 +1,133 @@
 load("tim/graph_loop.sage")
 
 #{{{ matrix definitions
-"""
-All the 2d matrices for ease of use (order taken from Okano's paper)
+matrices2 = 
+[ companion_matrix([-(1/2) , 0      , 1], align='left')
+, companion_matrix([1/2    , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1      , 1], align='left')
+]
 
-lists are poly coefficients starting with constant term
-"""
-A1 = companion_matrix([-1/2,    0, 1], format='left')
-A2 = companion_matrix([ 1/2,    0, 1], format='left')
-A3 = companion_matrix([ 1/2, -1/2, 1], format='left')
-A4 = companion_matrix([ 1/2,  1/2, 1], format='left')
-A5 = companion_matrix([ 1/2,   -1, 1], format='left')
-A6 = companion_matrix([ 1/2,    1, 1], format='left')
+matrices3 = 
+[ companion_matrix([-(1/2) , -(1/2) , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 1      , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , -1     , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/ 2   , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1      , 1      , 1], align='left')
+]
 
-A  = A6  # default A to be the CCC^3_2 matrix
+matrices4 = 
+[ companion_matrix([-(1/2) , -1     , 0      , 1      , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1      , 0      , -1     , 1], align='left')
+, companion_matrix([1/2    , -1     , 1      , -1     , 1], align='left')
+, companion_matrix([1/ 2   , -1     , 3/2    , -(3/2) , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , -(1/2) , 0      , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 1      , -1     , 1], align='left')
+, companion_matrix([1/ 2   , -(1/2) , 1      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , -1     , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 0      , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , 1/2    , 1/ 2   , 1], align='left')
+, companion_matrix([1/2    , 0      , 1      , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1      , 1], align='left')
+, companion_matrix([1/2    , 1      , 1      , 1      , 1], align='left')
+, companion_matrix([1/2    , 1      , 3/2    , 3/2    , 1], align='left')
+]
 
-"""
-Might as well do the 3d matrices while we're here...
-"""
-B1  = companion_matrix([-1/2, -1/2,  1/2, 1], format='left')
-B2  = companion_matrix([-1/2,    0,    0, 1], format='left')
-B3  = companion_matrix([-1/2,    0,  1/2, 1], format='left')
-B4  = companion_matrix([-1/2,    0,    1, 1], format='left')
-B5  = companion_matrix([-1/2,  1/2, -1/2, 1], format='left')
-B6  = companion_matrix([-1/2,  1/2,    0, 1], format='left')
-B7  = companion_matrix([-1/2,    1,   -1, 1], format='left')
-B8  = companion_matrix([-1/2, -1/2,  1/2, 1], format='left')
-B9  = companion_matrix([ 1/2, -1/2, -1/2, 1], format='left')
-B10 = companion_matrix([ 1/2,    0, -1/2, 1], format='left')
-B11 = companion_matrix([ 1/2,    0,    0, 1], format='left')
-B12 = companion_matrix([ 1/2,    0,    0, 1], format='left')
-B13 = companion_matrix([ 1/2,  1/2,  1/2, 1], format='left')
-B14 = companion_matrix([ 1/2,    1,    1, 1], format='left')
+matrices5 = 
+[ companion_matrix([-(1/2) , -1     , -(1/2) , 1/2    , 1      , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 0      , 1      , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1      , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 0      , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1      , 1], align='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1      , 3/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , -(1/2) , 1/2    , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , -(1/2) , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 1/2    , 1], align='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , -1     , 1      , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1/ 2   , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1      , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 0      , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 1/2    , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -1     , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , 0      , 1], align='left')
+, companion_matrix([-(1/2) , 1/2    , 1      , -1     , -(1/2) , 1], align='left')
+, companion_matrix([-(1/2) , 1      , -1     , 1      , -1     , 1], align='left')
+, companion_matrix([-(1/2) , 1      , -(1/2) , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/ 2   , -1     , 1/2    , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/ 2   , -(1/2) , 0      , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 1      , -(3/2) , 1], align='left')
+, companion_matrix([1/ 2   , -(1/2) , 1/2    , 0      , -1     , 1], align='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/ 2   , -(1/2) , 1/2    , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 0      , 1], align='left')
+, companion_matrix([1/ 2   , 0      , -(1/2) , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , -1     , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , -(1/2) , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , -(1/2) , 1], align='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 0      , 1/2    , 1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/ 2   , -1     , -1     , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , -1     , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/ 2   , -(1/2) , -(1/2) , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , -(1/2) , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 0      , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1      , 1/2    , 1], align='left')
+, companion_matrix([1/2    , 1      , 1/2    , 1/2    , 1      , 1], align='left')
+, companion_matrix([1/2    , 1      , 1      , 1      , 1      , 1], align='left')
+]
 
-"""
-For ease of looping
-"""
-matrices = [A1,A2,A3,A4,A5,A6
-           ,B1,B2,B3,B4,B5,B6,B7,B8,B9,B10,B11,B12,B13,B14
-           ]
 # }}}
-
 
 # {{{ Miscelaneous (useful) things
 
@@ -82,7 +169,7 @@ MAX_DEPTH=10000
 sys.setrecursionlimit(MAX_DEPTH)
 
 class ADiGraph(DiGraph):
-    def plot2(self, **kwargs):
+    def plot2(self, labeled=False, **kwargs):
         """
         Pretty print a digraph
 
@@ -103,6 +190,7 @@ class ADiGraph(DiGraph):
                              ,vertex_color   = 'white'
                              ,iterations     = PLOT_ITERS
                              ,dpi            = PLOT_DPI
+                             ,vertex_labels  = labeled
                              ,**kwargs
                              ).plot()
 
@@ -118,7 +206,7 @@ class CompleteAutomaton(object):
         Principal (r = e1) by default
         """
         self.A    = A
-        self.r    = vector(r) if r else m.columns()[1]
+        self.r    = vector(r)
 
         self.m    = len(self.r)
         self.chi  = self.A.charpoly()
@@ -127,24 +215,17 @@ class CompleteAutomaton(object):
         self.chii = RZ(self.Ai.charpoly())
 
         self.endo = RQ.quo(self.chii)
-        self.x    = self.endo.0
-
-        self.p    = RZ(list(self.r))
-
-    def mult(f,g):
-        """
-        multiply two vectors/polynomials (facilitates notation abuse)
-        """
-        p = RZ(list(f))
-        q = RZ(list(g))
-
-        return p * q % self.chii
+        self.x    = self.endo.0  # the variable for self.R
 
     def scaleByPoly(self, p):
         """
         Return a new CompleteAutomaton which is this one scaled by p
         """
-        return CompleteAutomaton(self.A, vector(self.mult(p, self.r)))
+        print("WARNING: busted")
+        p = RZ(list(p))
+        q = RZ(list(self.r))
+
+        return CompleteAutomaton(self.A, vector((p * q) % RZ(self.chii)))
 
     def wreath(self, v):
         """
@@ -155,7 +236,7 @@ class CompleteAutomaton(object):
         v = vector(v)
 
         if v[0] % 2 == 0:
-            return (self.A * v, self.A*v), False
+            return (self.A * v, self.A * v), False
         else:
             return (self.A * (v - self.r), self.A * (v + self.r)), True
 
@@ -188,13 +269,13 @@ class CompleteAutomaton(object):
         """
         Return (f,p) such that f(0^omega) = uv* in (p.G) (G is the current group)
         """
-        print("WARNING: this may still be buggy!")
         pu = self.endo([int(ui) for ui in u])
         pv = self.endo([int(vi) for vi in v]) if v else self.endo(0)
 
         quo = self.endo(1-self.x^len(v)) if v else self.endo(1)
         f = vector(list(self.endo(pu*quo + pv*(self.x^len(u)))))
         return f, quo
+
 
     def iterorbit(self,v,w):
         """
