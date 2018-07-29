@@ -1,130 +1,130 @@
 load("tim/graph_loop.sage")
 
 #{{{ matrix definitions
-matrices2 = 
-[ companion_matrix([-(1/2) , 0      , 1], align='left')
-, companion_matrix([1/2    , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1      , 1], align='left')
+matrices2 = \
+[ companion_matrix([-(1/2) , 0      , 1], format='left')
+, companion_matrix([1/2    , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1      , 1], format='left')
 ]
 
-matrices3 = 
-[ companion_matrix([-(1/2) , -(1/2) , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 1      , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , -1     , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/ 2   , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1      , 1      , 1], align='left')
+matrices3 = \
+[ companion_matrix([-(1/2) , -(1/2) , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 1      , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , -1     , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/ 2   , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1      , 1      , 1], format='left')
 ]
 
-matrices4 = 
-[ companion_matrix([-(1/2) , -1     , 0      , 1      , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 0      , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1      , 0      , -1     , 1], align='left')
-, companion_matrix([1/2    , -1     , 1      , -1     , 1], align='left')
-, companion_matrix([1/ 2   , -1     , 3/2    , -(3/2) , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , -(1/2) , 0      , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 1      , -1     , 1], align='left')
-, companion_matrix([1/ 2   , -(1/2) , 1      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , -1     , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 0      , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , 1/2    , 1/ 2   , 1], align='left')
-, companion_matrix([1/2    , 0      , 1      , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , -(1/2) , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1      , 1      , 1], align='left')
-, companion_matrix([1/2    , 1      , 1      , 1      , 1], align='left')
-, companion_matrix([1/2    , 1      , 3/2    , 3/2    , 1], align='left')
+matrices4 = \
+[ companion_matrix([-(1/2) , -1     , 0      , 1      , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1      , 0      , -1     , 1], format='left')
+, companion_matrix([1/2    , -1     , 1      , -1     , 1], format='left')
+, companion_matrix([1/ 2   , -1     , 3/2    , -(3/2) , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , -(1/2) , 0      , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 1      , -1     , 1], format='left')
+, companion_matrix([1/ 2   , -(1/2) , 1      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , -1     , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 0      , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , 1/2    , 1/ 2   , 1], format='left')
+, companion_matrix([1/2    , 0      , 1      , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1      , 1], format='left')
+, companion_matrix([1/2    , 1      , 1      , 1      , 1], format='left')
+, companion_matrix([1/2    , 1      , 3/2    , 3/2    , 1], format='left')
 ]
 
-matrices5 = 
-[ companion_matrix([-(1/2) , -1     , -(1/2) , 1/2    , 1      , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 0      , 1      , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1      , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , 0      , 0      , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1      , 1], align='left')
-, companion_matrix([-(1/2) , -(1/2) , 0      , 1      , 3/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , -(1/2) , 1/2    , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , -(1/2) , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 0      , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 1/2    , 1], align='left')
-, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , -1     , 1      , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1/ 2   , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1      , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 0      , 0      , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 0      , 1/2    , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 1/2    , -1     , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , 0      , 1], align='left')
-, companion_matrix([-(1/2) , 1/2    , 1      , -1     , -(1/2) , 1], align='left')
-, companion_matrix([-(1/2) , 1      , -1     , 1      , -1     , 1], align='left')
-, companion_matrix([-(1/2) , 1      , -(1/2) , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/ 2   , -1     , 1/2    , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 0      , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/ 2   , -(1/2) , 0      , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 0      , 1      , -(3/2) , 1], align='left')
-, companion_matrix([1/ 2   , -(1/2) , 1/2    , 0      , -1     , 1], align='left')
-, companion_matrix([1/2    , -(1/2) , 1/2    , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/ 2   , -(1/2) , 1/2    , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 0      , 1], align='left')
-, companion_matrix([1/ 2   , 0      , -(1/2) , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , -1     , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , -(1/2) , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 0      , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 1/2    , -(1/2) , 1], align='left')
-, companion_matrix([1/2    , 0      , 0      , 1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 0      , 1/2    , 1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/ 2   , -1     , -1     , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , -(1/2) , -1     , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/ 2   , -(1/2) , -(1/2) , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , -(1/2) , -(1/2) , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 0      , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 0      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 0      , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1/2    , 1      , 1      , 1/2    , 1], align='left')
-, companion_matrix([1/2    , 1      , 1/2    , 1/2    , 1      , 1], align='left')
-, companion_matrix([1/2    , 1      , 1      , 1      , 1      , 1], align='left')
+matrices5 = \
+[ companion_matrix([-(1/2) , -1     , -(1/2) , 1/2    , 1      , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 0      , 1      , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , -(1/2) , 1/2    , 1      , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 0      , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1/2    , 1      , 1], format='left')
+, companion_matrix([-(1/2) , -(1/2) , 0      , 1      , 3/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , -(1/2) , 1/2    , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , -(1/2) , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 0      , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 0      , 1/2    , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , -(1/2) , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 0      , 1/2    , 1], format='left')
+, companion_matrix([-(1/2) , 0      , 1/2    , 1/2    , 1      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , -1     , 1      , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1/ 2   , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , -(1/2) , 1      , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 0      , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 0      , 1/2    , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -1     , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 1/2    , -(1/2) , 0      , 1], format='left')
+, companion_matrix([-(1/2) , 1/2    , 1      , -1     , -(1/2) , 1], format='left')
+, companion_matrix([-(1/2) , 1      , -1     , 1      , -1     , 1], format='left')
+, companion_matrix([-(1/2) , 1      , -(1/2) , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/ 2   , -1     , 1/2    , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/ 2   , -(1/2) , 0      , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 0      , 1      , -(3/2) , 1], format='left')
+, companion_matrix([1/ 2   , -(1/2) , 1/2    , 0      , -1     , 1], format='left')
+, companion_matrix([1/2    , -(1/2) , 1/2    , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/ 2   , -(1/2) , 1/2    , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , -(1/2) , 0      , 1], format='left')
+, companion_matrix([1/ 2   , 0      , -(1/2) , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , -(1/2) , 1/2    , -1     , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , -(1/2) , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , -(1/2) , 1], format='left')
+, companion_matrix([1/2    , 0      , 0      , 1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 0      , 1/2    , 1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/ 2   , -1     , -1     , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , -1     , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/ 2   , -(1/2) , -(1/2) , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , -(1/2) , -(1/2) , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 0      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 0      , 1/2    , 0      , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1/2    , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1/2    , 1      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1/2    , 1      , 1      , 1/2    , 1], format='left')
+, companion_matrix([1/2    , 1      , 1/2    , 1/2    , 1      , 1], format='left')
+, companion_matrix([1/2    , 1      , 1      , 1      , 1      , 1], format='left')
 ]
 
 # }}}
@@ -159,192 +159,145 @@ def expandTransPeriod(self,u,v):
     while v != "":
         yield v[i % len(v)]
         i += 1
-
-
-# plot settings
-PLOT_DPI = 200
-PLOT_ITERS = 1000
-
-MAX_DEPTH=10000
-sys.setrecursionlimit(MAX_DEPTH)
-
-class ADiGraph(DiGraph):
-    def plot2(self, labeled=False, **kwargs):
-        """
-        Pretty print a digraph
-
-        Edges have the following coloring:
-            0 | 0 -> black
-            1 | 1 -> grey
-            0 | 1 -> green
-            1 | 0 -> blue
-        """
-        edge_colormap = {"0|0": "black"
-                        ,"1|1": "grey"
-                        ,"0|1": "green"
-                        ,"1|0": "blue"
-                        }
-
-        return self.graphplot(layout         = 'spring'
-                             ,color_by_label = edge_colormap
-                             ,vertex_color   = 'white'
-                             ,iterations     = PLOT_ITERS
-                             ,dpi            = PLOT_DPI
-                             ,vertex_labels  = labeled
-                             ,**kwargs
-                             ).plot()
-
-
 # }}}
 
 
 class CompleteAutomaton(object):
-    def __init__(self, A, r=None):
+    def __init__(self, A, e=None):
         """
-        Construct the Complete Automaton for a given (A,r) pair.
+        Construct the Complete Automaton for a given (@A, @e) pair.
 
-        Principal (r = e1) by default
+        @e defaults to e1
+        (so we default to the principal group)
         """
+        if e == None: e = A.columns()[1]
+
         self.A    = A
-        self.r    = vector(r)
+        self.e    = vector(e)
 
-        self.m    = len(self.r)
+        self.m    = A.dimensions()[0]
+
         self.chi  = self.A.charpoly()
 
         self.Ai   = self.A.inverse()
         self.chii = RZ(self.Ai.charpoly())
 
-        self.endo = RQ.quo(self.chii)
-        self.x    = self.endo.0  # the variable for self.R
+        self.endo = RZ.quo(self.chii)
+
+    def __repr__(self):
+        return \
+"""
+===============================
+CompleteAutomaton with matrix:
+{}
+and residuation vector:
+{}
+===============================
+""".format(self.A,self.e)
 
     def scaleByPoly(self, p):
         """
-        Return a new CompleteAutomaton which is this one scaled by p
+        Returns a new CompleteAutomaton: self scaled by @p
         """
-        print("WARNING: busted")
-        p = RZ(list(p))
-        q = RZ(list(self.r))
+        p = self.endo(list(p))
+        q = self.endo(list(self.e))
 
-        return CompleteAutomaton(self.A, vector((p * q) % RZ(self.chii)))
+        return CompleteAutomaton(self.A, p * q)
 
-    def wreath(self, v):
+    def wreath(self, f):
         """
-        Get the wreath representation of v
+        Get the wreath representation of a function @f
 
-        (v0,v1), toggle
+        Returns: 
+            f0, f1, toggle
         """
-        v = vector(v)
+        f = vector(f)
 
-        if v[0] % 2 == 0:
-            return (self.A * v, self.A * v), False
+        if f[0] % 2 == 0:
+            return self.A * f, self.A * f, False
         else:
-            return (self.A * (v - self.r), self.A * (v + self.r)), True
+            return self.A * (f - self.e), self.A * (f + self.e), True
 
-    def run(self,v,w):
+    def run(self,f,u):
         """
-        Treat v as a function acting on w
+        Run @f on a string @u
+
+        Returns:
+            f u, del_u f
         """
-        v = vector(v)
+        f = vector(f)
 
-        def flip(x):
-            if   x == "0": 
-                return "1"
-            elif x == "1": 
-                return "0"
-            else:
-                raise ValueError("Can't flip {0}".format(x))
-
-        try:
-            hd, tl = w[0], w[1:]
-            (v0,v1), t = self.wreath(v)
-
+        if u == "":
+            return "", f
+        else:
+            uNew,  fNew     = self.run(f,u[:-1])
+            fNew0, fNew1, t = self.wreath(fNew)
+            
             if t:
-                return flip(hd) + self.run((v0 if hd == "0" else v1), tl)
+                if u[-1] == "0": return uNew + "1", fNew0
+                if u[-1] == "1": return uNew + "0", fNew1
             else:
-                return hd + self.run(v0, tl)
-        except IndexError: # Happens if w is empty
-            return "" 
+                return uNew + u[-1], fNew0
+
+    def norm(self,f):
+        """
+        Get the norm of a function @f
+
+        Returns: 
+            1/2^k where k is the position of the first 1 in f(0^omega)
+        """
+        f = vector(f)
+
+        if f.is_zero(): 
+            return 0
+        else:
+            f0, _, t = self.wreath(f)
+            if t: return 1
+            else: return 1/2 * self.norm(f0)
 
     def wordCoord(self,u,v=None):
         """
-        Return (f,p) such that f(0^omega) = uv* in (p.G) (G is the current group)
+        Returns: 
+            (f,p) such that f(0^omega) = uv* in (p.G) (G is the current group)
         """
-        pu = self.endo([int(ui) for ui in u])
-        pv = self.endo([int(vi) for vi in v]) if v else self.endo(0)
+        if v == None: v = ""
 
-        quo = self.endo(1-self.x^len(v)) if v else self.endo(1)
-        f = vector(list(self.endo(pu*quo + pv*(self.x^len(u)))))
+        pu = self.endo([int(ui) for ui in u])
+        pv = self.endo([int(vi) for vi in v])
+
+        x = self.endo.0
+
+        quo = 1 - x^len(v) if v else self.endo(1)
+        f = vector(pu*quo + pv*(x^len(u)))
         return f, quo
 
 
-    def iterorbit(self,v,w):
+    def iterorbit(self,f,u):
         """
-        Return an iterator for the orbit of v at w
+        Returns an iterator for the orbit of @f at @w
         """
-        y = self.run(v,w)
-        while y != w:
+        y = self.run(f,u)
+        while y != u:
             yield y
-            y = self.run(v,y)
+            y = self.run(f,y)
 
-    def completeGraph(self):
+    def anchorAt(self, f=None, plot=True):
         """
-        Return a graph of all the vectors within the spectral radius of the matrix
+        Plots a graph representing the automaton anchored at @f
+
+        if @plot is False, then we return the graph itself
+
+        @f defaults to e1
         """
-        spectralRadius = abs(max(self.chi.complex_roots()))
-        searchRadius   = floor((spectralRadius^self.m) / (1 - spectralRadius))
+        if f == None:
+            f = self.A.columns()[1] # The worst possible way to say e1
 
-        edges = {}
-
-        def addEdges(v):
-            (v0,v1), t = self.wreath(v)
-            if tuple(v) in edges:
-                return
-            if t:
-                edges[tuple(v)] = {tuple(v0): '0|1', tuple(v1): '1|0'}
-            else:
-                edges[tuple(v)] = {tuple(v0): '0|0', tuple(v1): '1|1'}
-            addEdges(v0)
-            addEdges(v1)
-            
-        def increment(v):
-            try:
-                hd, tl = v[0], v[1:]
-                if hd != searchRadius:
-                    return True, [(hd+1)] + tl
-                else:
-                    b, xs = increment(tl)
-                    return b, [-searchRadius] + xs
-
-            except IndexError:
-                return False, []
-
-        v = [-searchRadius] * self.m
-        going = True
-        while going:
-            addEdges(v)
-            going, v = increment(v)
-
-        return ADiGraph(edges)
-
-    def SCCs(self):
-        """
-        Return each terminal strongly connected component
-        """
-
-        complete = self.completeGraph()
-        sccs = complete.strongly_connected_components()
-        return sccs
-
-    def anchorAt(self, v):
-        """
-        Return a graph representing the automaton anchored at v
-        """
         edges = {}
         def getClosure(v):
             if tuple(v) in edges:
                 return
             else:
-                (v0,v1), t = self.wreath(v)
+                v0, v1, t = self.wreath(v)
                 if t:
                     edges[tuple(v)] = {tuple(v0): '0|1', tuple(v1): '1|0'}
                 else:
@@ -352,33 +305,23 @@ class CompleteAutomaton(object):
                 getClosure(v0)
                 getClosure(v1)
 
-        getClosure(v)
-        return ADiGraph(edges)
+        getClosure(f)
 
-    def knfApprox(self, u, v, f=None):
-        """
-        Return a generator of approximations for omegaKNF 
-        with coefficients given by uv* starting at f (defaults to delta)
-        """
-        if f == None:
-            f = self.r
+        D = DiGraph(edges)
+        if plot:
+            vertex_colormap = {"red": [tuple(f)]}
+            edge_colormap = {"0|0": "grey", "0|1":"green", "1|0":"blue"}
+
+            size = max((D.order() + 1)/2, 10)
+
+            return D.graphplot(layout='spring'
+                              ,iterations=1000
+                              ,dpi=200
+                              ,vertex_labels=False
+                              ,color_by_label=edge_colormap
+                              ,vertex_colors=vertex_colormap
+                              ,vertex_color='white'
+                              ,figsize=[size, size]
+                              ).plot()
         else:
-            f = vector(f)
-
-        fn = vector([0]*self.m)  # start at identity
-        for c in expandTransPeriod(u,v):
-            fn += int(c) * f
-            f = self.Ai * f
-            yield fn
-
-    def knfExact(self, u, v, f=None):
-        """
-        Return a (vector, polynomial) pair (x, p) such that
-        x \in p . G (where G is the current group) is the
-        function corresponding to the limit of the omegaKNF 
-        uv* starting at f (delta by default)
-        """
-        if f == None:
-            f = self.r
-        else:
-            f = vector(f)
+            return D
