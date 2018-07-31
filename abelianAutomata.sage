@@ -394,6 +394,12 @@ def oddElementsOfPrincipalAreUnits():
     """
     It is true that every odd state of the principal is a unit,
     but is it true that every unit is an odd state of the principal?
+
+    ======================================
+
+    I ran this and started getting a BUNCH of counterexamples in dim3,
+    but upon checking some by hand, it looks like they may not have been
+    units after all?
     """
 
     @cached_function
