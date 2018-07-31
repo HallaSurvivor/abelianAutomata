@@ -352,6 +352,15 @@ def leftResAlmostHom(trials=10, depth=1000, verbose=False):
         note: in principal machine this is clear since 
         EVERY function eventually residuates to I
     )
+
+    ===========================================================
+
+    looks true. Tried with 100 trials and depth 100,000 and every
+    hom eventually had difference 0
+
+    note though, this might be for ``dumb reasons'' because A^100,000
+    is SUPER shrinking, and it's possible we just collapsed everything
+    to the zero vector by the end
     """
     for m in matrices2 + matrices3 + matrices4 + matrices5:
         dim = m.dimensions()[0]
