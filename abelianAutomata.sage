@@ -129,7 +129,7 @@ matrices5 = \
 
 # }}}
 
-# {{{ Miscelaneous (useful) things
+# {{{ miscelaneous (useful) things
 
 # Define polynomial rings
 RZ.<z> = PolynomialRing(ZZ)
@@ -144,6 +144,12 @@ def binLen(n):
     else:
         recur = binLen(n-1)
         return map(lambda xs: "1"+xs, recur) + map(lambda xs: "0"+xs, recur)
+
+def randVect(n=2,s=100):
+    """
+    A random integer vector of size n
+    """
+    return vector([int(s * random()) for _ in range(n)])
 
 def expandTransPeriod(self,u,v):
     """
@@ -161,7 +167,7 @@ def expandTransPeriod(self,u,v):
         i += 1
 # }}}
 
-
+#{{{ the automaton group class
 class CompleteAutomaton(object):
     def __init__(self, A, e=None):
         """
@@ -171,6 +177,7 @@ class CompleteAutomaton(object):
         (so we default to the principal group)
         """
         if e == None: e = A.columns()[1]
+        assert e[0] % 2 == 1
 
         self.A    = A
         self.e    = vector(e)
@@ -325,3 +332,51 @@ and residuation vector:
                               ).plot()
         else:
             return D
+
+#}}}
+
+#{{{ testing conjectures, building intuition, etc
+def leftResAlmostHom(trials=10, depth=1000, verbose=False):
+    """
+    Left residuation is `almost` a homomorphism in the following sense:
+    (f+g)_0 != f_0 + g_0 iff f,g both odd
+
+    Notice that when they ARE both odd, (f+g)_0 = f_0 + g_0 + gamma
+
+    So then |(f+g)_0 - (f_0 + g_0)| <= |gamma|
+
+    Given n, can we always find k such that
+    |(f+g)_{0^k} - (f_{0^k} + g_{0^k})| <= 1/2^n
+
+    (
+        note: in principal machine this is clear since 
+        EVERY function eventually residuates to I
+    )
+    """
+    for m in matrices2 + matrices3 + matrices4 + matrices5:
+        dim = m.dimensions()[0]
+        aut = CompleteAutomaton(m,2*randVect(dim,100)+vector([1]*dim))
+        print(aut)
+        for i in range(trials):
+            f = 2 * randVect(dim,1000) + vector([1]*dim) # make them odd
+            g = 2 * randVect(dim,1000) + vector([1]*dim) # make them odd
+            t = f + g
+
+            fStart = f
+            gStart = g
+
+            k, min_ = 0, 1  # k such that the difference in del_0^k is min_
+            for j in range(depth):
+                f, _, _ = aut.wreath(f)
+                g, _, _ = aut.wreath(g)
+                t, _, _ = aut.wreath(t)
+                n = aut.norm(t - (f+g))
+
+                if n < min_:
+                    k = j
+                    min_ = n
+                if min_ == 0:
+                    break
+            if verbose or min_ != 0:
+                print("min: {} k: {} f: {} g: {} fk: {} gk: {}".format(min_,k,fStart,gStart,f,g))
+#}}}
