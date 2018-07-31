@@ -388,4 +388,31 @@ def leftResAlmostHom(trials=10, depth=1000, verbose=False):
                     break
             if verbose or min_ != 0:
                 print("min: {} k: {} f: {} g: {} fk: {} gk: {}".format(min_,k,fStart,gStart,f,g))
+
+
+def oddElementsOfPrincipalAreUnits():
+    """
+    It is true that every odd state of the principal is a unit,
+    but is it true that every unit is an odd state of the principal?
+    """
+
+    @cached_function
+    def getVs(dim):
+        if dim == 0:
+            return [[]]
+        else:
+            olds = getVs(dim - 1)
+            new = []
+            for i in range(-50,50): # This is probably all of them...
+                new += [old+[i] for old in olds]
+            return new
+
+    for m in matrices2 + matrices3: # + matrices4 + matrices5:
+        aut = CompleteAutomaton(m)
+        print(aut)
+        units = [ tuple(v) for v in getVs(aut.m) if abs(aut.endo(v).norm()) == 1 ]
+        D = aut.plot(plot=False)
+        for u in units:
+            if not D.has_vertex(u):
+                print(u)
 #}}}
