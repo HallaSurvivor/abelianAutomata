@@ -1,4 +1,4 @@
-\documentclass[12]{article}
+\documentclass[12pt]{article}
 
 \usepackage{amsmath,amsthm,amssymb}
 
@@ -115,7 +115,7 @@ Thus, the study of Group Extensions is sufficient to study all abelian automata.
   distinct cycles $c_0$ and $c_1$ from $f$ to $f$ in $\A$.
   Each of these cycles gives rise to a matrix equation 
   $\v_f = g_0(\v_f,\bar{e}) = g_1(\v_f,\bar{e})$ corresponding to following
-  the path in $\Z^m$ (with unknown residuation vector \bar{e}). 
+  the path in $\Z^m$ (with unknown residuation vector $\bar{e}$). 
   Then $(g_0 - g_1)(\v_f, \bar{e}) = \bar{0}$ and we can solve for 
   $\bar{e}$ in terms of $\v_f$.
 
@@ -169,7 +169,7 @@ We will first prove the result in the finite case.
 Denote this function by $\langle u \rangle$. 
 
 \begin{thm}
-  The orbit of $f$ at $u$ is given by the line $\Zf + \langle u \rangle$
+  The orbit of $f$ at $u$ is given by the line $\Z f + \langle u \rangle$
 \end{thm}
 
 \begin{proof}
@@ -205,15 +205,15 @@ exists.
     &= \sum_{i=0}^{|t|} t_i x^i \delta 
         + x^{|t|} \sum_{i=0}^{\infty} v^*_i x^i \delta\\
     &= \sum_{i=0}^{|t|} t_i x^i \delta 
-        + x^{|t|} \frac{\sum_{i=0}^{|v|} v^_i x^i \delta}{1 - x^{|v|}}\\
+         + x^{|t|} \frac{\sum_{i=0}^{|v|} v_i x^i \delta}{1 - x^{|v|}}\\
     &= \left ( 
         \sum_{i=0}^{|t|} t_i x^i
-        + x^{|t|} \frac{\sum_{i=0}^{|v|} v^_i x^i}{1 - x^{|v|}}
+        + x^{|t|} \frac{\sum_{i=0}^{|v|} v_i x^i}{1 - x^{|v|}}
        \right ) \cdot \delta\\
     &= \frac%
         {%
           1 - x^{|v|} \sum_{i=0}^{|t|} t_i x^i + 
-          x^{|t|} \sum_{i=0}^{|v|} v^_i x^i
+          x^{|t|} \sum_{i=0}^{|v|} v_i x^i
         }
         {1 - x^{|v|}}
        \cdot \delta\\
@@ -228,6 +228,6 @@ exists.
 \end{proof}
 
 For ultimately periodic strings $u \in \2^\omega$, $f$ orbits
-of $u$ correspond to lines $\Zf + \langle u \rangle$.
+of $u$ correspond to lines $\Z f + \langle u \rangle$.
 
 \end{document}
