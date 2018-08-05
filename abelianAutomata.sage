@@ -189,7 +189,8 @@ class CompleteAutomaton(object):
         self.Ai   = self.A.inverse()
         self.chii = RZ(self.Ai.charpoly())
 
-        self.endo = RZ.quo(self.chii)
+        self.endo  = RZ.quo(self.chii)
+        self.endo2 = ZZ.extension(self.chii,'a')
 
     def __repr__(self):
         return \
@@ -400,6 +401,11 @@ def oddElementsOfPrincipalAreUnits():
     I ran this and started getting a BUNCH of counterexamples in dim3,
     but upon checking some by hand, it looks like they may not have been
     units after all?
+
+    ======================================
+
+    Nevermind, we're SOL... turns out these rings have infinitely 
+    many units. Comes from dirichlet's unit thm + monogeneity conjecture
     """
 
     @cached_function
