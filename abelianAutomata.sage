@@ -192,6 +192,8 @@ class CompleteAutomaton(object):
         self.endo  = RZ.quo(self.chii)
         self.endo2 = ZZ.extension(self.chii,'a')
 
+        self.principal_vectors = self.plot(self.e, False).vertices()
+
     def __repr__(self):
         return \
 """
@@ -333,6 +335,29 @@ and residuation vector:
                               ).plot()
         else:
             return D
+
+    def tile(self, n=None):
+        """
+        Returns a list representing the vectors in the nth approximation
+        of the attractor of the IFS whose functions are given by 
+        inverse residuation.
+
+        @n is 10 by default (warning: gets slow quickly)
+        """
+
+        if n == None:
+            n = 10 
+
+        out = [vector([0,0])]
+        old = out
+        for i in range(n):
+            print(i)
+            new = []
+            for v in old:
+                new += [self.A * v + self.e, self.A * v - self.e, self.A * v]
+            out += new
+            old = new
+        return out
 
 #}}}
 
