@@ -336,29 +336,6 @@ and residuation vector:
         else:
             return D
 
-    def tile(self, n=None):
-        """
-        Returns a list representing the vectors in the nth approximation
-        of the attractor of the IFS whose functions are given by 
-        inverse residuation.
-
-        @n is 10 by default (warning: gets slow quickly)
-        """
-
-        if n == None:
-            n = 10 
-
-        out = [vector([0,0])]
-        old = out
-        for i in range(n):
-            print(i)
-            new = []
-            for v in old:
-                new += [self.A * v + self.e, self.A * v - self.e, self.A * v]
-            out += new
-            old = new
-        return out
-
 #}}}
 
 #{{{ testing conjectures, building intuition, etc
@@ -452,4 +429,36 @@ def oddElementsOfPrincipalAreUnits():
         for u in units:
             if not D.has_vertex(u):
                 print(u)
+
+
+def tile(aut, n=None, save=None):
+    """
+    Returns a list representing the vectors in the nth approximation
+    of the attractor of the IFS whose functions are given by 
+    inverse residuation.
+
+    @n is 10 by default (warning: gets slow quickly)
+    """
+
+    if n == None:
+        n = 10 
+
+    out = [vector([0,0,0])]
+    old = out
+    for i in range(n):
+        print(i)
+        new = []
+        for v in old:
+            new += [aut.A * (v + aut.e), aut.A * (v - aut.e), aut.A * v]
+        out += new
+        old = new
+
+    g = Graphics()
+    g += list_plot3d(out)
+    g += list_plot3d(aut.principal_vectors, color='red')
+    if save:
+        g.save(save)
+    else:
+        g.show()
+
 #}}}
