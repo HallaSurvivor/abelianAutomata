@@ -454,8 +454,8 @@ def tile(aut, n=None, save=None):
         old = new
 
     g = Graphics()
-    g += list_plot3d(out)
-    g += list_plot3d(aut.principal_vectors, color='red')
+    g += point3d(out, opacity=.6)
+    g += point3d(aut.principal_vectors, color='red')
     if save:
         g.save(save)
     else:
