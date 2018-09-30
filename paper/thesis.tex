@@ -13,6 +13,7 @@
 \newcommand{\Am}{\textbf{A}}
 \newcommand{\del}{\partial}
 \renewcommand{\v}{\bar{v}}
+\newcommand{\e}{\bar{e}}
 \newcommand{\T}{\mathcal{T}}
 
 \newtheorem{thm}{Theorem}
@@ -111,10 +112,12 @@ or does not
 We extend these definitions to the entire group, and say $f \in \G(\A)$ 
 is odd iff it flips the first bit of its input.
 
-Further, we define $\del_0, \del_1 : \G(\A) \to \G(\A)$ by 
-$\del_i \underline{s} = \underline{\delta(s,i)}$\ldots
-
-TODO: better way to define this?
+Further, recall the \textbf{0-residual} (resp. \textbf{1-residual}) of a 
+function $f \in \G(\A)$ is the unique function 
+$\del_0 f$ such that $f(0w) = f(0) \del_0 f(w)$ 
+(resp. $f(1w) = f(1) \del_1 f(w)$). 
+For a state $s \in \A$, it is clear that 
+$\del_i \underline{s} = \underline{\delta(s,i)}$.
 
 It is a theorem by Sutner that $\G(\A)$ is abelian iff for 
 even states $\del_0 f - \del_1 f = I$ and for odd states
@@ -134,12 +137,12 @@ if its first component is odd, and even otherwise.
 
 A theorem by Nekrashevich and Sidki tells us that
 
-\begin{thm}
+\begin{thm}[Nekrashevich and Sidki]
   There is a matrix $\Am$ associated to each automaton 
   (though multiple automata may share a matrix, as we will soon see)
-  such that for any odd vector $\bar{e}$ 
-  \[ \del_0 f = \Am (\varphi(f) - e) \] and
-  \[ \del_1 f = \Am (\varphi(f) + e) \]
+  such that for any odd vector $\e$ 
+  \[ \del_0 f = \Am (\varphi(f) - \e) \] and
+  \[ \del_1 f = \Am (\varphi(f) + \e) \]
 
   For even vectors, 
   \[ \del_0 f = \del_1 f = \Am (\varphi(f)) \]
@@ -150,47 +153,47 @@ A theorem by Nekrashevich and Sidki tells us that
 \end{thm}
 
 To that end, we can define the \textbf{Complete Automaton} 
-$\mathfrak{C}(\Am, \bar{e})$ as the Mealy machine whose state set is all of
+$\mathfrak{C}(\Am, \e)$ as the Mealy machine whose state set is all of
 $\Z^m$, and whose transitions are given by the above formulas.
 
-Notice that we can take any state $f \in \mathfrak{C}(\Am, \bar{e})$, 
+Notice that we can take any state $f \in \mathfrak{C}(\Am, \e)$, 
 and close $\{ f \}$ under residuation.
 Further, since $\Am$ is a contraction, the resulting closure will be finite.
 We call this machine $\A_f$, and recognize $\G(\A_f)$ is a subgroup of 
-$\G(\mathfrak{C}(\Am, \bar{e}))$.
+$\G(\mathfrak{C}(\Am, \e))$.
 
-The free parameter $\bar{e}$ seems confusing at first. Particularly 
+The free parameter $\e$ seems confusing at first. Particularly 
 when one tries to understand how it effects the $\A_f$ which live in
-$\mathfrak{C}(\Am, \bar{e})$. We will show later that every abelian automaton
-lives in $\mathfrak{C}(\Am, \bar{e})$ for infinitely many $\bar{e}$, and
-further we will characterize exactly which $\bar{e}$ these are, and for which
-$f$ is $\A_f \subseteq \mathfrak{C}(\Am, \bar{e})$ the desired automaton.
+$\mathfrak{C}(\Am, \e)$. We will show later that every abelian automaton
+lives in $\mathfrak{C}(\Am, \e)$ for infinitely many $\e$, and
+further we will characterize exactly which $\e$ these are, and for which
+$f$ is $\A_f \subseteq \mathfrak{C}(\Am, \e)$ the desired automaton.
 
 To that end, we will say that a function $f$ is \textbf{Located at} 
-$\v \in \mathfrak{C}(\Am, \bar{e})$ iff some isomorphism $\varphi$ sends 
+$\v \in \mathfrak{C}(\Am, \e)$ iff some isomorphism $\varphi$ sends 
 $f$ to $\v$. We make an analogous definition for an entire automaton $\A$
 being \textbf{Located at} $f$ if 
-$\A = \A_f \subseteq \mathfrak{C}(\Am, \bar{e})$
+$\A = \A_f \subseteq \mathfrak{C}(\Am, \e)$
 
 \subsection{Principal Automata}
 It was shown by Okano that there is a distinguished automaton $\P$, 
 called the \textbf{Principal Automaton}, associated to each matrix.
 $\P$ is defined to be 
-$\P = \A_{\bar{e_1}} \cup \A_{-\bar{e_1}} \subseteq \mathfrak{C}(\Am, \bar{e_1})$,
+$\P = \A_{\e_1} \cup \A_{-\e_1} \subseteq \mathfrak{C}(\Am, \e_1)$,
 though there is a longstanding conjecture that in most cases this is
 the same machine as
-$\A_{\bar{e_1}} \subseteq \mathfrak{C}(\Am, \bar{e_1})$.
+$\A_{\e_1} \subseteq \mathfrak{C}(\Am, \e_1)$.
 
 $\P$ is minimal in the following sense: $\G(\P) \leq \G(\A)$ for every
 $\A$ sharing a matrix with $\P$. 
 TODO: Should I prove this? I suppose I could discuss the difference technique
 to get a direct proof\ldots
 
-Further, let $\delta$ denote the generator for $\P$, namely if $\bar{e}$
-is the residuation vector, $\delta$ is located at $\bar{e}$.
+Further, let $\delta$ denote the generator for $\P$, namely if $\e$
+is the residuation vector, $\delta$ is located at $\e$.
 
-In fact, it is easy to see that $\P$ will be located at $\bar{e}$ in
-$\mathfrak{C}(\Am, \bar{e})$ for all $\bar{e}$. A proof has been
+In fact, it is easy to see that $\P$ will be located at $\e$ in
+$\mathfrak{C}(\Am, \e)$ for all $\e$. A proof has been
 omitted, as we will prove a much more general version of this claim
 in the next section.
 
@@ -198,23 +201,23 @@ in the next section.
 Going forward, $\G$ will denote $\G(\P)$ for some principal machine $\P$.
 
 In the case of interest, $\G \cong \Z^m$. Further, $\del_0$ extends to 
-a $\frac{1}{2}$-Integral matrix $\Am$ of irreducible character. Then
+a matrix $\Am$ of irreducible character as in Thm 1. Then
 $\G$ admits representation as a $\Z[x]$ module where 
 $x \cdot \v = \Am^{-1}\v$, extended linearly.
 Further, since $\Am$ has irreducible character (in $\Z$ and in $\Q$), 
 so does $\Am^{-1}$. Thus this module is cyclic, 
-and generated by $\bar{e_1} = \delta$.
+and generated by $\e_1 = \delta$.
 
 Clearly $\text{End}_{\G}$, the ring of module endomorphisms of $\G$, 
 is isomorphic to $\Z[x]/(\chi^*)$, 
 where $\chi^*$ is the characteristic polynomial of $\Am^{-1}$.
 Now for some $p \in \text{End}_{\G}$ we write
-$p \cdot \G$ in place of $\G(\mathfrak{C}(\Am,p \cdot \bar{e_1}))$.
+$p \cdot \G$ in place of $\G(\mathfrak{C}(\Am,p \cdot \e_1))$.
 
 That is to say, $p \cdot \G$ has as its states $\Z^m$ and as its 
 residuations
-$\del_0 \v = \Am (\v - p \cdot \bar{e_1})$, and 
-$\del_1 \v = \Am (\v + p \cdot \bar{e_1})$
+$\del_0 \v = \Am (\v - p \cdot \e_1)$, and 
+$\del_1 \v = \Am (\v + p \cdot \e_1)$
 
 Since the residuation vector must be odd, we note $p$ must have odd
 constant term.
@@ -252,8 +255,8 @@ at $p \cdot \v$. In fact, this is true in a more general sense:
   \[ \del_0 f' = \Am (r \cdot \v) = r \cdot \Am \v = r \cdot \del_0 f \]
 
   If $f$ is odd, then
-  \[ \del_0 f' = \Am (r \cdot \v - q \cdot \bar{e_1}) 
-               = r \cdot \Am (\v - p \cdot \bar{e_1})
+  \[ \del_0 f' = \Am (r \cdot \v - q \cdot \e_1) 
+               = r \cdot \Am (\v - p \cdot \e_1)
                = r \cdot \del_0 f \]
 
   A similar argument shows $\del_1 f' = r \cdot \del_1 f$
@@ -266,9 +269,9 @@ However there are plenty of vectors which do not have the above form.
 How do they behave? We call such vectors (and their corresponding functions)
 \textbf{Fractional}, due to the following observation.
 
-Consider $3 \cdot \G$. What does $\bar{e_1}$ do as a function?
-Well, $3\bar{e_1}$ is the same function as $\delta$, and so
-$\bar{e_1}$ should behave like ``$\frac{1}{3}\delta$'', and in fact it does.
+Consider $3 \cdot \G$. What does $\e_1$ do as a function?
+Well, $3\e_1$ is the same function as $\delta$, and so
+$\e_1$ should behave like ``$\frac{1}{3}\delta$'', and in fact it does.
 
 In general, $\v \in p \cdot \G$ behaves like $p^{-1} \cdot \v \in \G$,
 (where $p^{-1}$ comes from $\Q[x]$ and so $p^{-1} \cdot \v \in \Q^m$)
@@ -276,13 +279,16 @@ and so Group Extensions give us access to fractional functions from
 our base group $\G$.
 
 \begin{thm}
-  $\forall p \in Z[x]$ with odd constant term,\\
-  $\{ p^{-1} \cdot \v~|~\v \in \Z^m \} (\leq \Q^m) \cong p \cdot \G$.\\
+  $\forall p \in Z[x]$ with odd constant term, 
+  $p^{-1} \cdot \Z^m \cong p \cdot \G$.
   Further, this isomorphism respects $\del_0$ and $\del_1$.
 \end{thm}
 
 \begin{proof}
-  Let $p^{-1} \cdot \Z^m = \{ p^{-1} \cdot \v~|~\v \in \Z^m \}$\\
+  Here we think of $p^{-1} \cdot \Z^m = \{ p^{-1} \cdot \v~|~\v \in \Z^m \}$
+  as a subgroup of $\Q^m$. Residuaition in this setting is given by
+  $\del_0 \v = \Am (\v - \e_1)$ and $\del_1 \v = \Am (\v + \e_1)$ 
+
   Consider $\varphi~:~p^{-1} \cdot \Z^m \to p \cdot \G$ by
   $\varphi(p^{-1} \cdot \v) = \v$.\\
   $\varphi$ is clearly bijective, and is a homomorphism since:
@@ -307,9 +313,9 @@ our base group $\G$.
 
   \begin{align*}
        \varphi(\del_0 p^{-1} \cdot \v)
-    &= \varphi(\Am (p^{-1} \cdot \v - \bar{e_1}))\\
-    &= \varphi(p^{-1} \cdot \Am (\v - p \cdot \bar{e_1}))\\
-    &= \Am (\v - p \cdot \bar{e_1})\\
+    &= \varphi(\Am (p^{-1} \cdot \v - \e_1))\\
+    &= \varphi(p^{-1} \cdot \Am (\v - p \cdot \e_1))\\
+    &= \Am (\v - p \cdot \e_1)\\
     &= \del_0 \varphi(p^{-1} \cdot \v)
   \end{align*}
 
@@ -320,7 +326,8 @@ Thus we can view functions in $p \cdot \G$ as fractions of functions in $\G$.
 It is a natural question to ask which fractions are attainable in this way.
 
 Clearly, for any $f \in \G$, we can attain $\frac{1}{k} f$ for any odd $k$.
-However, even fractions are unattainable, even in limiting cases. 
+However, fractions with even denominator are unattainable, 
+even as limits of sequences of functions.
 This is clear, since $\frac{1}{2}\delta$, for instance, must 
 when applied twice, flip the first bit of the input. But it must itself
 be even or odd. In either case, $2 \frac{1}{2} \delta$ does not flip the 
@@ -328,31 +335,31 @@ first bit, a contradiction.
 
 \section{Characterizing Automata}
 Every strongly connected automaton $\A$ lives in some $p \cdot \G$.
-Further, $\A$ can always be anchored with an odd state at $\bar{e_1}$. 
+Further, $\A$ can always be anchored with an odd state at $\e_1$. 
 Thus, the study of Group Extensions is sufficient to study all abelian automata.
 
 \begin{thm}
   Every strongly connected abelian automaton $\A$ can be 
-  located at $\bar{e_1}$ in $p \cdot \G$ for some $p$.
+  located at $\e_1$ in $p \cdot \G$ for some $p$.
 \end{thm}
 
 \begin{proof}
   An algorithm for computing the matrix $\Am$ associated to $\A$ is
   described by Becker, and has been omitted.
 
-  Let $f$ be an odd state in $\A$. Then $f_0$ and $f_1$ are distinct
+  Let $f$ be an odd state in $\A$. Then $\del_0 f$ and $\del_1 f$ are distinct
   and both have paths to $f$ by strongly connectedness. Thus we have two
   distinct cycles $c_0$ and $c_1$ from $f$ to $f$ in $\A$.
   Each of these cycles gives rise to a matrix equation 
-  $\v_f = g_0(\v_f,\bar{e}) = g_1(\v_f,\bar{e})$ corresponding to following
-  the path in $\Z^m$ (with unknown residuation vector $\bar{e}$). 
-  Then $(g_0 - g_1)(\v_f, \bar{e}) = \bar{0}$ and we can solve for 
-  $\bar{e}$ in terms of $\v_f$.
+  $\v_f = g_0(\v_f,\e) = g_1(\v_f,\e)$ corresponding to following
+  the path in $\Z^m$ (with unknown residuation vector $\e$). 
+  Then $(g_0 - g_1)(\v_f, \e) = \bar{0}$ and we can solve for 
+  $\e$ in terms of $\v_f$.
 
-  Choosing $\v_f = \bar{e_1}$ gives a value for the residuation vector $e$,
+  Choosing $\v_f = \e_1$ gives a value for the residuation vector $e$,
   which (by cyclicity) gives a polynomial $p_e$ 
-  such that $p_e \cdot \bar{e_1} = e$. Then, by construction, $\A$ is 
-  a subautomaton of $p_e \cdot \G$, and is anchored with $f$ at $\bar{e_1}$.
+  such that $p_e \cdot \e_1 = e$. Then, by construction, $\A$ is 
+  a subautomaton of $p_e \cdot \G$, and is anchored with $f$ at $\e_1$.
   As desired.
 \end{proof}
 
@@ -399,7 +406,7 @@ and
 
 \[ (\Am + \textbf{I})^{-1} (\Am - \textbf{I}) f =  e \]
 
-Choosing $f = \bar{e_1}$ gives $e = \begin{pmatrix} -3 \\ -2 \end{pmatrix}$.
+Choosing $f = \e_1$ gives $e = \begin{pmatrix} -3 \\ -2 \end{pmatrix}$.
 
 Then $f = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \in (-3-2x) \cdot \G$
 
@@ -490,15 +497,16 @@ exists.
        \right ) \cdot \delta\\
     &= \frac%
         {%
-          1 - x^{|v|} \sum_{i=0}^{|t|} t_i x^i + 
+          \left ( 1 - x^{|v|} \right ) \sum_{i=0}^{|t|} t_i x^i + 
           x^{|t|} \sum_{i=0}^{|v|} v_i x^i
         }
         {1 - x^{|v|}}
        \cdot \delta\\
-    &= \frac{q}{1 - x^{|v|}} \cdot \delta
   \end{align*}
+   
 
-  Finally, this sum is convergent in the cantor topology, since 
+  This last sum is of the form $\frac{q}{1 - x^{|v|}} \cdot \delta$, 
+  and is convergent in the cantor topology, since (by construction)
   for each $N \geq 0$, for all $n \geq N$, the $nth$ partial sums 
   agree on the first $N$ bits of the string.
 
