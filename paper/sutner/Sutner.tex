@@ -1,0 +1,1682 @@
+%---------------------------------------------------------------------------
+% Time-stamp: <2017-12-20 16:39:27 sutner> 
+%
+% :File:	Sutner.tex
+% :Purpose:	Morita book contribution, Adamatzky 
+%
+%---------------------------------------------------------------------------
+
+\documentclass[12pt]{svmult}
+
+% choose options for [] as required from the list
+% in the Reference Guide
+
+% \usepackage{mathptmx}       % selects Times Roman as basic font
+\usepackage{helvet}         % selects Helvetica as sans-serif font
+\usepackage{courier}        % selects Courier as typewriter font
+% \usepackage{type1cm}        % activate if the above 3 fonts are
+                            % not available on your system
+%
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+% see the list of further useful packages
+% in the Reference Guide
+
+\makeindex             % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+% \usepackage{kstexmacs}
+\usepackage{xspace}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{todonotes}
+\usepackage{stmaryrd}
+\usepackage{xparse}
+\usepackage{mathtools}
+\usepackage{url}
+
+\let\oldvec\vec%  svmult must break vec
+\let\vec=\relax
+\usepackage{accents}
+\let\vec\oldvec%  restore 
+
+
+%---------------------------------------------------------------------------
+% macros
+
+\def\emph#1{\textcolor{blue}{#1}}
+\let\eps=\varepsilon
+\parindent=0mm
+\parskip=1ex
+
+%---------------------------------------------------------------------------
+\def\2{\mathbf{2}}
+\def\Aut{\mathsf{Aut}}
+\def\CCC#1#2{\mathsf{CC}^{#1}_{#2}}
+\def\DD{\mathcal{D}}            % OK? 
+\def\F#1{\underline{\smash{#1}}\,}       % transducer map
+\def\FF{\mathbb{F}}
+\def\II{\Z_{\FF}}
+\def\O{\mathit{O}}
+\def\PP{\mathfrak{P}}
+\def\SS{\Star{\2}}
+\def\SUC#1{\mathsf{Suc}_{#1}}
+\def\SymG{\mathfrak{S}}
+\def\cA{\mathcal{A}}
+\def\cC{\mathcal{C}}
+\def\cN{\mathcal{N}}
+\def\cQ{\mathcal{Q}}
+\def\cT{\mathcal{T}}
+\def\gap#1{\gamma_{#1}}         % gap 
+\def\grp{\mathcal{G}}           % the group
+\def\gshuf{\mathsf{shf}}
+\def\ii{\mathbf{i}}
+\def\N{\mathbb{N}}
+\def\oa{\overline{a}}
+\def\ob{\overline{b}}
+\def\pari{\mathop{\mathrm{par}}}
+\def\post#1{{#1}^{+}}
+\def\postomega#1{{#1}^\omega}
+\def\pre#1{{#1}^{-}}
+\def\preomega#1{\nowt^\omega \kern0.05em{#1}}
+\def\Q{\mathbb{Q}}
+\def\R{\mathbb{R}}
+\def\resid#1#2{\partial_{#1}{#2}}         % residual
+\def\sO{\widetilde{\mathit{O}}}
+\def\Set#1#2{\left\{\, {#1} \,\middle|\, {#2}\,\right\}}
+\def\set#1#2{\{\, {#1} \mid {#2}\,\}}
+\def\setof#1{\left\{ {#1} \right\}}
+\def\sgr{\mathcal{S}}                % the semigroup
+\def\struct#1{ \left\langle \, {#1} \,\right\rangle\futurelet\next\mathcorr}
+\def\trnp#1#2{{#1}{/}{#2}}
+\def\Z{\mathbb{Z}}
+
+%  automata
+\def\AA{\mathsf{A}}             % fundamental matrix
+\def\Ai{\mathsf{A}^{-1}}        % fundamental matrix inverse
+\def\GL#1{\mathsf{GL}_{#1}(\Z)}
+\def\ZM#1{\Z[{#1}]}               % Z module, span
+\def\canaut{\fA}                % canonical automaton
+\def\cgraut#1{\fC_{#1}}         % complete group automaton
+\def\chis{\Star{\chi}}          % reciprocal characteristic polynomial 
+\def\cmpaut{\fC}                % complete automaton
+\def\fA{\mathfrak{A}}
+\def\fC{\mathfrak{C}}           %
+\def\graut#1{\fA_{#1}}          % group automaton
+\def\lab{\mathsf{lab}}          % label of path
+\def\ppol#1#2{P^{#1}_{#2}}      % path polynomial 
+\def\trans#1#2#3{{#1}\stackrel{{#2}}{\longrightarrow}{#3}}
+\def\trtm{\overline{1}}
+\def\trtp{1}
+\def\trtz{0}
+\def\tsym{\2_{s}}               % trits
+\def\unvo{\mathbf{e}_{1}}
+\def\unvt{\mathbf{e}_{2}}
+\def\val{\mathsf{val}}          % value
+
+
+\def\mathcorr{\ifx\next.\mkern -.3mu\else\ifx\next,\mkern -.3mu\else\,\fi\fi}
+\def\func#1#2#3{{#1}:{#2}\to{#3}\futurelet\next\mathcorr}
+\DeclarePairedDelimiter\card{|}{|}
+\renewcommand{\vec}[1]{\bm{{#1}}}
+\providecommand{\Star}[1]{{#1}^{\star}}
+\newenvironment{klein}{\bigl(\begin{smallmatrix}}{\end{smallmatrix}\bigl)}
+\DeclarePairedDelimiter{\mynorm}{\lVert}{\rVert}
+\NewDocumentCommand{\vnorm}{ s O{} m }{%
+  \IfBooleanTF{#1}{\mynorm*{#3}_{\infty}}{\mynorm[#2]{#3}}%
+}
+
+\NewDocumentCommand{\Dnumb}{ s g }{%
+  \IfBooleanTF{#1}{\DD_{\infty}}{\DD_{#2}}%
+}
+
+
+
+%---------------------------------------------------------------------------
+\begin{document}
+
+\title{Abelian Invertible Automata}
+\author{Klaus Sutner}
+\institute{Carnegie Mellon University, Pittsburgh, USA}
+
+\maketitle
+
+\abstract{Invertible transducers are particular Mealy automata that define so-called
+  automata groups, subgroups of the full automorphism group of the infinite binary
+  tree.  In the recent past, automata groups have become a major source of
+  interesting and challenging constructions in group theory.  While this research
+  typically focuses on properties of the associated groups, we describe the
+  topological structure of the associated automata in the special case where the
+  group in question is free Abelian.  As it turns out, there are connections between
+  these automata and the theory of algebraic number fields as well as the theory of
+  tiles. We conclude with a conjecture about the connectivity properties of the 
+  canonical invertible automata generating free Abelian groups.}
+
+%---------------------------------------------------------------------------
+\section{Motivation}
+\label{sec:motivation}
+
+
+Historically, the idea of reversible computation had its roots in physics rather than logic: 
+at the fundamental level, the laws of physics are reversible.  
+Since computing devices can obviously be realized within the context of these laws, 
+it is plausible that computation itself should be amenable to reversibility: 
+there ought to be a way to make the requisite logical operations reversible 
+\cite{Bennett73,Lecerf63:machine_turing,Landauer96:physical_nature}.
+Perhaps surprisingly, this idea turns out to be of some practical importance, since reversible computation 
+can be carried out without any thermodynamical cost \cite{Bennett82}, at least as a 
+matter of principle. 
+Morita has given many ingenious examples of reversible computation in the context of 
+discrete dynamical systems, and in particular cellular automata  
+\cite{MoritaHarao89:univ_rever_ca,Morita92:univ_rever_oneway_ca,Morita94:rever_ca,Morita08:ecss}.
+As these examples show, and contrary to what was tacitly assumed till the 1960s, reversible 
+computation is a rich and endlessly challenging area of computability theory. 
+We now even have the beginnings of a more structural approach 
+to reversible computation \cite{Abramsky05:reversible}, 
+following roughly Girard's Geometry of Interaction.
+
+
+It can be argued that in the realm of algebra it is the concept of a 
+group that best captures the notion of reversibility:
+any action by a group element $g$ can be undone by the action associated with $g^{-1}$. 
+It is thus natural to ask whether reversible computation might have any direct 
+connections with group theory. 
+A first step in this direction was taken by Serre, albeit in a different context: 
+he suggested to study subgroups of the full automorphism group $\Aut(\SS)$ of 
+the infinite binary tree $\SS$ \cite{Serre77:arbres_amalgames}.
+The topological group $\Aut(\SS)$ is profinite, and thus Hausdorff, compact and totally disconnected. 
+In some interesting cases,  subgroups can be described by certain finite state 
+machines that are naturally reversible. 
+More precisely, there are Mealy automata $\cA$ over a binary alphabet that have 
+associated \emph{inverse automata} $\cA'$ such that the composition of their respective 
+transductions is the identity. 
+The transductions in question are length-preserving and thus do not admit 
+universal computation.
+Yet their associated groups are surprisingly complicated and there are many challenging questions 
+associated with these automata. 
+In fact, groups defined by invertible automata have become a standard source 
+of examples and counterexamples in group theory 
+\cite{Nekrashevych05:self_similar_groups,Sidki00:one_rooted_trees}. 
+A case in point is a 5-state automaton due to Grigorchuk \cite{GrigorchukNS00:automata_groups} that 
+defines a subgroup of  $\Aut(\SS)$ with intermediate growth, answering a question by Milnor. 
+Grigorchuk goes so far as to describe the discovery of very small automata 
+associated with complicated groups as one of the ``wonderful phenomena in modern mathematics.'' 
+If one considers semigroups rather than groups, there is even a 2-state non-invertible Mealy 
+automaton that exhibits intermediate growth \cite{Bartholdi05:smallest_mealy}.
+
+
+We are here interested in a slightly different perspective: the computational complexity 
+of the discrete dynamical systems defined by invertible Mealy automata. 
+Given an automorphism $f$ defined by some automaton $\cA$, one would like to understand the orbits
+$x \, \Star{f}$ of words $x \in \SS$ under $f$. 
+In particular, one would like to analyze the computational complexity of the 
+question whether a word appears in the orbit of another (Orbit Problem)
+and where in the orbit it appears (Timestamp Problem). 
+These questions are quite difficult in general, so it makes sense to restrict 
+one's attention to a scenario that is of little interest from the group theory 
+perspective: all the groups in question are free Abelian. 
+In this limited setting, one can give a description of the automorphism $f$ in terms 
+of the algebraic integers in an algebraic number field associated with the automaton.
+Nonetheless, it requires some amount of effort to characterize the associated automata. 
+The existence of numeration systems for algebraic integers then produces a convenient
+normal form for the automorphisms and is helpful in classifying the relevant automata 
+and tackling the orbit problems just mentioned. 
+For example, somewhat surprisingly it turns out that, in some cases, the Orbit Problem 
+can be solved by a finite state machine, despite the fact that the orbits have exponential length. 
+Alas, little is known about the general situation.
+
+We will here refrain from giving detailed proofs and confine ourselves to simple 
+sketches.  We refer the reader to the literature for details, in particular 
+\cite{Nekrashevych05:self_similar_groups,GrigorchukNS00:automata_groups,%
+Sidki00:one_rooted_trees,Sutner13:invertible_iteration,Sutner13:iteration_ijfcs,SutnerLewi12:ibiv_jalc,%
+Okano15:thesis}.
+
+%---------------------------------------------------------------------------
+\section{Transducers and Automorphisms of the Binary Tree}
+\label{sec:terminology}
+
+
+For our purposes, an \emph{invertible transducer} is a type of Mealy automaton 
+$\cA = \struct{Q,\2,\tau}$ where $\func{\tau}{Q \times \2}{\2 \times Q}$. 
+In the customary arrow notation, all transitions are of the form 
+$p \xrightarrow{\trnp{a}{\pi_{p}(a)}} q$;
+here $\pi_{p}$ is a permutation of the alphabet $\2$ depending on the source state $p$;
+for background see 
+\cite{Sakarovitch09:automata_theory,Berstel09:transductions_cfl,ElgotMezei65:relations_fa}.
+Our automata have no initial and final states; Eilenberg referred to these devices as 
+output modules \cite{Eilenberg74}. 
+In order to obtain a transduction $\cA(p)$ from $\SS$ to $\SS$ 
+we select an arbitrary initial state $p$ in $\cA$. 
+To lighten notation, we write $\F{p}$ for this map 
+whenever  the automaton is clear from context. 
+Note that all our automorphisms naturally extend to maps $\postomega{\2}\to\postomega{\2}$. 
+We refer to states such that $\pi_{p} = I$ as 
+\emph{copy states}, and as \emph{toggle states} otherwise. 
+We will write application of our automorphisms as a right action on finite or infinite words,  
+$x \, f$.
+
+Any interesting invertible automaton must have at least one copy state and one 
+toggle state.
+Surprisingly, the 2-state machine in figure \ref{fig:lamplighter}, with one 
+toggle and copy state each, already generates the lamplighter group, in perfect 
+keeping with Grigorchuk's observation from above. 
+
+%---------------------------------------------------------------------------
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=0.8]{invtrans-20-sta}
+  \caption{The smallest interesting invertible automaton.}
+  \label{fig:lamplighter}
+\end{figure}
+%---------------------------------------------------------------------------
+
+The transduction semigroup generated by all the $\cA(p)$, $p \in Q$, under composition will 
+be written $\sgr(\cA)$; and $\grp(\cA)$ the corresponding group. 
+While it is convenient to admit infinite automata, the situation where the Mealy automaton 
+has finite state set is by far the most interesting. 
+As it turns out, many interesting groups admit such a representation:
+free groups, free Abelian groups, certain nilpotent groups, the lamplighter 
+group, and in particular Grigorchuk's group. 
+Computationally, it is straightforward to construct automata that represent 
+the elements of $\sgr(\cA)$ using the standard product construction for the 
+composition of rational transductions described in \cite{ElgotMezei65:relations_fa}. 
+Of course, the size of these machines grows exponentially, so the construction
+is only feasible in rather limited circumstances. 
+To handle the group $\grp(\cA)$, one usually also needs the \emph{inverse automaton}
+$\cA'$ that is obtained by interchanging the input/output bits for all toggle states. 
+Note that we may have  $\sgr(\cA) = \grp(\cA)$, in which case there is no need for 
+the inverse automaton; we call $\cA$ \emph{group-like} in this situation. 
+It is easy to see that  $\sgr(\cA)$ is Abelian if, and only if, $\grp(\cA)$ is Abelian. 
+
+We will transfer standard notions from semigroup and group theory to the corresponding
+automata. 
+For example, we may refer to an automaton as being torsion-free Abelian. 
+
+Here is are some simple examples. 
+The automaton $\SUC{2}$ in figure~\ref{fig:successor-2}, the \emph{successor automaton} 
+of rank 2, generates the monoid $\N^{2}$. 
+If the loop has length $n$ rather than 2 as in figure~\ref{fig:successor-2} we obtain
+the general successor automaton of rank $n$, see below for an algebraic definition. 
+In the case where $n=1$ these machines are also referred to as adding machines or odometers;
+regrettably, for $n \geq 2$ the notion of sausage automaton appears in the literature. 
+It is not hard to see that all orbits of our invertible binary automata have length a power of $2$. 
+For $\SUC{2}$, the orbit of a word $x$ of length $2k$ under transduction $\F{1}$ has length $2^{k}$. 
+To see why, let $u, v \in \2^{k}$ and write $\gshuf$ for the perfect shuffle operation. 
+Then 
+%
+$$
+     \gshuf(u,v) \, \F{1} = \gshuf( u \, f, v )
+$$
+%
+where $f$ is the truncated successor function in reverse binary
+(another automorphism of $\SS$, defined by the analogous successor automaton 
+where state 1 has a self-loop under $1/0$) and $\F{1} = \SUC{2}(1)$ as per our 
+notational convention. 
+
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=1.1]{invtrans-16-sta}
+  \caption{The successor automaton $\SUC{2}$ of rank 2, generating the free monoid $\N^{2}$.}
+  \label{fig:successor-2}
+\end{figure}
+%---------------------------------------------------------------------------
+
+By contrast, the machine $\cA$ in figure \ref{fig:exotic-counter-2} generates $\Z^2$ as 
+a semigroup.  To see why, note that $\F{1}^{-1} = \F{2}$, and similarly 
+$\F{3}^{-1} = \F{4}$. 
+This is an example of an automaton that admits a \emph{skew-symmetry} $\varphi$: 
+a transition $\trans{p}{a/b}{q}$ is mapped to $\trans{\varphi(p)}{\oa/\ob}{\varphi(q)}$. 
+Thus,  state $\varphi(p)$ defines the inverse function of state $p$ and the automaton 
+is obviously group-like. 
+As in the previous example, the orbit of a word of 
+length $2k$ under $\F{1}$ has length $2^{k}$ and has a similar description in terms of 
+shuffle. Alas, this time there is no simple description for the associated map $f$. 
+Note that $\F{1}^{k}$ similarly produces orbits of length $2^{k}$ for odd $k$, 
+whereas even powers of $\F{1}$ produce shorter orbits. 
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics{invtrans-17-sta}
+  \caption{An automaton that uses a successor-like function to generate the free 
+    Abelian group of rank 2.}
+  \label{fig:exotic-counter-2}
+\end{figure}
+%---------------------------------------------------------------------------
+
+The example also shows that full edge labels in the diagrams lead to visual clutter. 
+It is preferable to relabel transitions as follows; 
+this convention will also be useful in section~\ref{sec:path-polys}.
+Henceforth, a toggle transition $\trans{p}{0/1}{q}$ will be written as $\trans{p}{1}{q}$,
+a toggle transition $\trans{p}{1/0}{q}$  as $\trans{p}{\trtm}{q}$  
+and a copy transition $\trans{p}{a/a}{q}$  as $\trans{p}{0}{q}$ or even 
+simply as $\trans{p}{}{q}$. 
+The labels $\tsym = \setof{\trtm,\trtz,\trtp}$ will be referred to as \emph{trits} to emphasize 
+similarity to balanced ternary numeration systems. 
+Numerically we will interpret $\trtm$ as $-1$. 
+
+Here is our last example of an automaton, using this convention. 
+The 3-state machine is group-like and indeed generates $\Z^2$, but this time there 
+is no obvious reason for this. 
+As it turns out, the identity  $\F{0}^{2}\F{1}^{2}\F{2} = I$ holds, from which 
+observation our claim can easily be derived (to avoid confusion, we always write $I$ for 
+the identity automorphism of $\SS$). 
+Again, the orbit of words of length $2k$ under $\F{0}$ has length $2^{k}$, 
+but this time the situation is a bit more complicated:
+one can show that for any fixed orbit under $\F{0}$ and any  $u \in \2^{k}$ there is precisely 
+one $v \in \2^{k}$ such that $\gshuf(u,v)$ lies in the orbit. 
+Hence the orbits of even length words under $\F{0}$ have the form  
+$\set{ \gshuf(u,v \,f)}{ u \in \2^{k} }$ for some finite transduction $f$. 
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.8]{invtrans-18-sta}
+  \caption{Another automaton generating the free Abelian group of rank 2, 
+    albeit it in a less obvious manner.}
+  \label{fig:CCC-3-2}
+\end{figure}
+%---------------------------------------------------------------------------
+
+
+The description of automorphisms of $\SS$ in terms of Mealy automata is convenient 
+since standard algorithms from automata theory can be exploited in the study of 
+these automorphisms. 
+For example, we may safely assume that the Mealy automata are minimal in the sense 
+that no two states have the same behavior, if we consider them as acceptors over 
+$\2 \times \2$ in the obvious manner. 
+All the sample automata we have seen so far are indeed minimal. 
+Thus we may safely assume that all the basic maps $\F{k}$, $k \in Q$, are distinct as,
+for example, in figure~\ref{fig:CCC-3-2}. 
+
+Of course, it is also important to have a more algebraic description available. 
+To begin with, note that any automorphism $f$ of $\SS$ can be written in the recursive form 
+$f = (f_{0},f_{1}) s$ where $s \in \SymG_{2}$, the symmetric group on two letters: 
+$s$ describes the action of $f$ on $\2$, construed as the first level of $\SS$, 
+and $f_0$ and $f_1$ are the automorphisms induced by $f$ on the two subtrees of the root
+(which are naturally isomorphic to the whole tree). 
+Thus there are \emph{residuation maps} $\func{\resid{a}{}}{\Aut(\SS)}{\Aut(\SS)}$, 
+$a \in \2$, and 
+a \emph{parity map} $\func{\pari}{\Aut(\SS)}{\SymG_{2}}$ that produce the corresponding 
+decomposition. 
+Here we write $\sigma$ for the 
+transposition in $\SymG_{2}$ and suppress the identity in this context. 
+We refer to an automorphism of the form $f = (f_{0},f_{1})\sigma$  as \emph{odd}, all others
+$f = (f_{0},f_{1})$ as \emph{even}.  
+In other words, $f$ is even if $a \, f = a$ for $a \in \2$, and odd otherwise. 
+Clearly, $\F{p}$ is odd if, and only if, $p$ is a toggle state. 
+We can describe the full automorphism group as a wreath product:
+%
+$$
+  \Aut(\SS) \simeq ( \Aut(\SS) \times  \Aut(\SS) ) \rtimes \SymG_{2}.
+$$
+%
+The group operation in the wreath product has the form 
+%
+$$
+  (f_{0},f_{1}) s \: (g_{0},g_{1}) t  = (f_{0} g_{s(0)}, f_{1}g_{s(1)})\, st.
+$$
+%
+In the context of sequential functions, residuals were first introduced by Raney 
+\cite{Raney58:sequential_functions} and 
+correspond exactly to the recursive components in the wreath decomposition. 
+Note that a subgroup $G$ of $\Aut(\SS)$ may not be closed under residuation; 
+if it is, we call $G$ \emph{self-similar} or \emph{state-closed}. 
+In this case, the wreath characterization of the full automorphism group carries 
+over:  $G \simeq ( G \times G ) \rtimes \SymG_{2}$. 
+
+For legibility, we will occasionally write $\pre{k}$ rather than $k-1$, and 
+$\post{k}$ rather than $k+1$.  
+As an example, using wreath notation, the successor automaton $\SUC{n}$ of rank $n$, with a 
+loop of length $n$ rather than just 2 as in figure~\ref{fig:successor-2}, has the form 
+%
+$$
+   \F{0} =  (\F{0},\F{0})       \qquad\qquad
+   \F{1} =  (\F{0},\F{n}) \, \sigma \qquad\qquad
+   \F{k} =  (\F{\pre{k}},\F{\pre{k}}), \quad 2 \leq  k \leq  n.
+$$
+%
+Using the shuffle characterization from above, it is not hard to show that $\SUC{n}$ 
+generates the free Abelian monoid $\N^{n}$, but not a group. 
+%
+The automaton in figure~\ref{fig:CCC-3-2} can be generalized like so.
+A \emph{cycle-cum-chord} transducer is given by
+%
+$$
+   \F{0} =  (\F{\pre{n}},\F{\pre{m}})\sigma      \qquad\qquad
+   \F{k} =  (\F{\pre{k}},\F{\pre{k}}),     \quad 1 \leq  k < n.
+$$
+%
+where $1 \leq m \leq n$. 
+We will write $\CCC{n}{m}$ for this transducer. 
+The diagram of $\CCC{6}{4}$ is shown in figure~\ref{fig:ccc-6-4}.
+One can show that  $\CCC{n}{m}$ generates the free Abelian group of rank 
+$n - \gcd(n,m)$. 
+As we will see, these are in a sense the most basic invertible automata 
+generating free Abelian groups. 
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=1.0]{invtrans-24-sta}
+  \caption{A cycle-cum-chord automaton that generates the free Abelian group of rank $4$.}
+  \label{fig:ccc-6-4}
+\end{figure}
+%---------------------------------------------------------------------------
+
+Self-similar subgroups of $\Aut(\SS)$ can always be translated into Mealy automata, 
+though not necessarily finite ones. 
+For suppose $G$ is self-similar.  We can construct the \emph{complete group automaton}
+for $G$, in symbols $\cgraut{G}$, as follows:  the automaton has $G$ as state set
+and the transitions 
+$f \xrightarrow{\trnp{a}{a \, f}} \resid{a}{f}$.
+In general, this invertible transducer will be infinite, but certainly 
+$\sgr(\cgraut{G})$ is a group and isomorphic to $G$. 
+Note that the complete automaton always admits the skew-symmetry mentioned above.  
+As already mentioned, more interesting is a representation of $G$ in terms 
+of a finite automaton. To this end, call 
+$G$ is \emph{finite-state} if for all $f \in G$ the number of residuals 
+$\resid{x}{f}$ is finite. 
+% 
+If $G$ is self-similar, finite-state and finitely generated, we can construct 
+the \emph{group automaton}  $\graut{G}$, a subautomaton of $\cgraut{G}$, just like the 
+complete group automaton, but with state set restricted to the collection of all 
+residuals of the generators of $G$. 
+The group generated by $\graut{G}$ is isomorphic to $G$, but the semigroup may 
+be different as is the case for successor automata.  
+Note that $\graut{G}$ is minimal by construction. 
+%
+To recover parts of $\cmpaut(\cA)$ computationally from  $\graut{G}$ we can use 
+the standard product machine construction combined with minimization to obtain 
+a machine for each automorphism $f \in G$. 
+Unless  $\graut{G}$ is group-like, some of the components in these products
+will be copies of the inverse automaton $\graut{G}'$.
+The complete automaton is then the limit of these automata. 
+Note that the product machine construction combined with minimization is directly 
+related to questions of growth, so one should in general expect no simple descriptions 
+of the resulting automata \cite{BartholdiSilva10a:groups_automata}. 
+
+%---------------------------------------------------------------------------
+
+
+%---------------------------------------------------------------------------
+\section{Abelian Automata}
+\label{sec:abelian-automata}
+
+Given a nontrivial, state-closed group  $G$ acting on $\SS$, it is clear that the collection 
+of even elements forms a subgroup $H$ of index 2.
+Moreover, restricted to $H$, the residuation maps are group homomorphisms.
+Correspondingly, one can define an action of a group $G$ on $\SS$, 
+given a subgroup $H \leq G$ of index 2 and a homomorphism $\func{\Phi}{H}{G}$. 
+Fix coset representatives $h_{0} = 1$ and $h_{1} \in G - H$ and define the action via 
+%
+$$
+     ax \, f = b \, (x \, \Phi(h_{b}^{-1} f h_{a}))
+$$
+%
+where $b$ is determined by the condition that $h_{b}^{-1}fh_{a} \in H$. 
+Unfortunately, this action may fail to be faithful and the conditions 
+under which it is are slightly complicated, see 
+\cite{Nekrashevych05:self_similar_groups,NekrashevychSidki04:automorphisms}.
+In the Abelian case, no problems arise and one can rewrite this characterization
+using additive notation in the form 
+%
+$$
+ax \, f   = %  
+\begin{cases}
+a \,( x\,\Phi(f))  & \text{if $f \in H$,}    \\
+\oa \,( x\,\Phi(f + (-1)^{a}g))  & \text{if $f \notin H$} 
+\end{cases}
+$$
+%
+where $g$ is a suitably chosen coset representative, $g \in G - H$. 
+As an example, consider $G = \Z^{2}$ with generators $\unvo$ and $\unvt$ and 
+$H = \struct{2\unvo,\unvt}$. 
+We can set $\Phi(2a,b) = (b,a)$ and let $g = \unvo$. 
+Then, for example,  $\postomega{0} (4,3) = 0100\postomega{1}$ 
+and $\postomega{1} (4,3) = 10100\postomega{1}$. 
+
+It is fairly easy to check whether a given invertible Mealy automaton generates 
+an Abelian group. 
+Suppose $G \leq \Aut(\SS)$ is self-similar.  For any automorphism $f \in G$ 
+define its \emph{gap} to be  $\gap{f} = (\resid{0}{f}) (\resid{1}{f})^{-1}  \in G$, 
+so that $\resid{0}{f} = \gap{f} \, \resid{1}{f}$. 
+An easy induction using wreath representation shows the following. 
+
+\begin{lemma}
+\label{lem:abelian}
+A self-similar group $G \leq \Aut(\SS)$ is Abelian if, and only if, 
+all even elements of $G$ have gap value $I$, 
+and all odd elements have the same gap value. 
+\end{lemma}
+
+
+The conditions of the lemma naturally carry over to an automaton generating 
+the group $G$. 
+So suppose $\cA$ is an invertible automaton that satisfies the gap conditions
+so that $\sgr(\cA)$ is Abelian. 
+To avoid tedious special cases, let us note that the transduction monoid 
+and group are Boolean precisely when every toggle state has gap $I$. 
+By minimality, this means that every such state has out-degree 1 
+(we consider the transition diagram to be a simple graph rather than a 
+multi-graph). 
+In the other case we obtain a free Abelian monoid and group. 
+From now on, we will always assume that we are in the second case.
+We refer to $\gap(\F{p})$ for any toggle state $p$ as the \emph{gap value} of $\cA$. 
+It follows easily from minimality that any state $p$ has at most one 
+predecessor copy state.  For toggle predecessors note that for any $a \in \2$ 
+there can be at most one $q$  such that 
+$\trans{q}{a/\oa}{p}$. 
+However, it may well happen that there are distinct predecessors 
+$q_{0}$ and $q_{1}$ such that $\trans{q_{a}}{a/\oa}{p}$. 
+Thus, every state 
+has indegree at most 3 in a minimal invertible 
+automaton, and it is not hard to show that this bound is tight. 
+
+
+So suppose $\cA$ is a minimal invertible automaton with $n$ states and 
+$n_{0}$ toggle states.  We may safely assume $n_{0} < n$. 
+It is clear that one can test whether $\cA$ is Abelian in polynomial time 
+by checking directly that all the maps  $\F{p}$ commute. 
+This requires a product machine construction $\cA_{p} \otimes \cA_{q}$
+as described in \cite{ElgotMezei65:relations_fa}
+and a test that $\cA_{p} \otimes \cA_{q}$ and $\cA_{q} \otimes \cA_{p}$ 
+are behaviorally equivalent. 
+The latter property can be handled in time $\sO(n^2)$ using the standard 
+algorithm in \cite{HopcroftUllman}.
+Using the gap characterization, we can instead check that all the copy states 
+have out-degree 1 and check that all   
+product automata $\cA_{p} \otimes \cA'_{p}$ where $p$ is a toggle state have the same 
+behavior. 
+
+\begin{lemma}
+Given a minimal invertible automaton on $n$ states, one can test 
+commutativity in $\sO(n_{0}n^{2})$ steps. 
+\end{lemma}
+
+Note that the test is trivial for an invertible automaton that 
+contains just a single toggle state $p$.
+In this case, the automaton will be Abelian if, and only if, it 
+consists of a \emph{copy chain}, a directed path of copy states, ending in a toggle state 
+of the form 
+%
+$$
+    q_{k} \stackrel{0}{\longrightarrow} q_{\pre{k}} \stackrel{0}{\longrightarrow} \ldots %
+    \stackrel{0}{\longrightarrow} q_{1} \stackrel{0}{\longrightarrow} q_{0}
+$$
+%
+plus two back transitions starting at the toggle state. 
+We refer to this part of the complete automaton as the copy chain at $q_0$ of length $k$. 
+As an example, consider the cycle-cum-chord automaton in figure \ref{fig:ccc-6-4}.
+Note that copy chains of arbitrary length always exist; in fact, we can construct an
+infinite copy chain at any toggle state, see section \ref{sec:knuth-normal-form} for an 
+application of this idea. 
+
+
+For the two transitions emanating from the toggle state $q_0$, there are two possibilities. 
+First, they may both end at two copy states in the chain. 
+We may safely assume that one of the transitions leads back to $q_{k}$, 
+so we are dealing with a cycle-cum-chord transducer. 
+The other possibility is that one of these transitions leads to the identity state
+(recall that we assume minimality).  
+In this case we obtain a successor automaton $\SUC{n}$, see
+\cite{Nekrashevych05:self_similar_groups}.
+
+%---------------------------------------------------------------------------
+
+
+
+Consider a group $G \leq \Aut(\SS)$. 
+Following Nekrashevych and Sidki \cite{NekrashevychSidki04:automorphisms}, we will refer 
+to $G$  as an \emph{$m$-lattice} if $G$ is state-closed and free Abelian of finite rank $m$. 
+Suppose $\cA$ generates an $m$-lattice. 
+As we have seen, the complete automaton associated with $\cA$ is a computable 
+structure. 
+In particular, we can effectively construct a finite subautomaton for any 
+automorphism $f \in \grp(\cA)$. 
+The reference shows that a computationally preferable representation of the complete automaton 
+can be obtained by using $\Z^m$ directly as state set.
+Call $u \in \Z^{m}$ \emph{even} if its first component $u_1$  is even, and \emph{odd} otherwise. 
+Then the transition function $\tau$ of the complete automaton can be described in terms 
+of a \emph{residuation matrix} $\AA \in 1/2 \: \Z^{m \times m}$ and an odd \emph{residuation vector} 
+$e \in \Z^{m}$ by
+%
+\begin{equation} 
+\tau(u,d) = \AA (u + d e)   \label{eq:3}
+\end{equation}
+%
+where $d = 0$ whenever $u$  is even, and $d = \pm1$ otherwise 
+(recall our labeling convention from above). 
+Writing $c_{i}$ for the $i$th column of $\AA$, we have $e = \Ai( c_{1} + v )$ 
+where $v$ is integral. 
+The matrices $\AA$ in question are non-singular and \emph{1/2-integral}:  
+$\AA^{-1}(\Z^{m}) \cap \Z^{m}$ is a sublattice of $\Z^m$ of index 2.
+As a matter of fact, using similarity with respect to $\GL{m}$, 
+we can safely assume that the matrix $\AA$ has the form 
+%
+\begin{equation}
+  \label{eq:4}
+  \AA = 
+  \begin{pmatrix}
+    \frac{a_{11}}{2} &  a_{12} &   \ldots & a_{1m} \\
+    \frac{a_{21}}{2} &  a_{22} &   \ldots & a_{2m} \\
+    \vdots  &  \vdots&   \ddots & \vdots \\ 
+    \frac{a_{m1}}{2} &  a_{m2} &   \ldots & a_{mm} 
+   \end{pmatrix}
+\end{equation}
+%
+where all the coefficients $a_{ij}$ are integral. 
+One can verify that the characteristic polynomials of these matrices have the form 
+%
+\begin{equation} \label{eq:chi}
+  \chi(z) = z^{m} + 1/2\bigl( g_{m-1}z^{m-1} + \ldots + g_{1}z + g_{0} \bigr) 
+\end{equation}
+%
+where all the coefficients $g_i$ are integral; in particular $g_0 = \pm1$.
+In the case of interest to us when the action induced by $\AA$ is faithful, it is shown in the 
+reference that $\chi(z)$ is irreducible, a property we will tacitly assume from now on. 
+Computational evidence suggests that most matrices $\AA$ have but one $\GL{m}$
+class  \cite{Okano15:thesis,NekrashevychSidki04:automorphisms}.
+In this case we can further assume that the matrix $\AA$ has the form of a companion 
+matrix with fractional components again only appearing in the first column, and 
+all other columns being unit vectors. 
+One property of these characteristic polynomials $\chi(z)$ that is crucial for our purposes 
+is the fact that all their roots have modulus strictly less than 1. 
+Thus any residuation matrix $\AA$ has spectral radius strictly less than 1, and $\AA$ 
+is a contraction. 
+As elements of the corresponding algebraic number field, all roots have denominator 2. 
+
+The complete automaton $\cmpaut(\AA,e)$ now takes the following simple form 
+and is obviously computable:
+%  ERROR: eq:chi
+the state set is $\Z^m$ and the transition function is given by equation~\eqref{eq:3}.
+Unlike the product automata mentioned earlier, this infinite Mealy automaton is always reduced
+in the sense that any two distinct states have distinct behavior. 
+In the following we will always interpret the complete automaton in this manner. 
+
+
+%---------------------------------------------------------------------------
+\subsection{Canonical and Principal Automata}
+\label{sec:canonical-automata}
+
+As in the last section, consider the complete automaton  $\cmpaut(\AA,e)$ 
+for some $m$-lattice $G$.
+We are interested in finite subautomata of  $\cmpaut(\AA,e)$ that generate the same 
+lattice. 
+Following \cite{Nekrashevych05:self_similar_groups}, 
+define the \emph{nucleus} $\cN$ of the action as the following subset of $G$:
+%
+$$
+    \cN = \bigcup_{g \in G} \bigcap_{n \in \N} \set{ \resid{x}{g} }{ \card{x} \geq n }
+$$
+%
+Thus, $\cN$ consists of all states of the complete automaton that are reachable from 
+a cycle. 
+Note that $\cN$ naturally defines a subautomaton of $\cmpaut(\AA,e)$ and it is shown
+in \cite{Nekrashevych05:self_similar_groups} that this automaton generates the lattice. 
+The action is called \emph{contracting} if $\cN$ is finite and one can show that 
+all $m$-lattices are contracting in this sense. 
+As a consequence, it is decidable whether two Abelian automata generate the same 
+lattice. 
+The algorithm given in the reference relies on the claim that the nucleus can be 
+effectively generated; see below for a plausible method.  
+An image of the nucleus of the successor automaton $\SUC{2}$ of rank 2 is shown in 
+figure \ref{fig:sausage-nucleus}. 
+Note the extraneous strongly connected components that could be removed without 
+changing the generated group (the subautomaton colored red already generates the 
+group). 
+
+\vspace{3ex} 
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=1.0]{sausage-nucleus}
+  \caption{The nucleus automaton associated with the sausage automaton of 
+  rank 2.}
+  \label{fig:sausage-nucleus}
+\end{figure}
+%---------------------------------------------------------------------------
+
+
+%---------------------------------------------------------------------------
+
+Select some anchor point $u \in \Z^{m}$, $u \neq 0$, and form the closure under the 
+transition function defined by equation~\eqref{eq:chi}.
+The elements of the closure will have the form 
+%
+\begin{equation}
+\label{eq:closure}
+    \AA^{k} \cdot u + \bigl( a_{k} \AA^{k} + a_{k-1} \AA^{k-1} + \ldots + a_{1} \AA \bigr) \cdot e
+\end{equation}
+%
+where all the coefficients $a_i$ are trits, $a_{i} \in \tsym$. 
+Since $\AA$ is a contraction, the closure is always finite. 
+We will refer to the resulting automaton as a \emph{canonical automaton (for $\AA$)}
+and write $\fA(\AA,e,u)$. 
+We may safely assume that $u$ is odd, otherwise $\fA(\AA,e,u)$ has the form 
+$\fA(\AA,e,u_{0})$ plus a copy chain ending at $u_0$, the first toggle state obtained by 
+repeated residuation from $u$. 
+The description of points in the closure becomes somewhat simpler if the anchor point $u$ is 
+equal to $\unvo$; correspondingly we write $\fA(\AA,e)$ and even $\fA(\AA)$ if in addition $e = \unvo$. 
+The latter automaton will be called the \emph{principal automaton (for $\AA$)} and is 
+entirely determined by the residuation matrix $\AA$. 
+In either case, we are dealing with subautomata of the finite nucleus. 
+Note that the principal automaton always contains the sink $0$ since there is a 
+transition $\trans{\unvo}{-1}{0}$. 
+Computational evidence suggests that the principal automaton almost always contains 
+$-\unvo$ and is skew-symmetric. 
+The only exception to this rule appears to be the successor automata based on 
+the characteristic polynomial $\chi(z) = z^{m} - 1/2$ as in figure~\ref{fig:successor-2}:
+here the principal automaton has three strongly connected components, the sink plus two 
+parts that are skew-symmetric to each other.  
+In this case, either one of these components alone produces just a monoid, not a group. 
+To avoid special cases, in this situation we will here refer to the automaton comprised 
+of all three strongly connected components as the principal automaton. 
+Note that the nucleus automaton is strictly larger than the principal one for all 
+$m \geq 2$. 
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.8]{invtrans-21-sta}
+  \caption{The principal automaton associated with $\chi(z) = z^{2} + z + 1/2$. 
+    States are labeled by algebraic integers. Note the skew-symmetry.}
+  \label{fig:principal-2lat}
+\end{figure}
+%---------------------------------------------------------------------------
+
+Now consider the condensation graph of $\cmpaut(\AA,e)$, i.e., the graph whose 
+nodes are the strongly connected components of $\cmpaut(\AA,e)$ and whose edges are inherited. 
+Then remove all nodes that fail to be both reachable and co-reachable from non-trivial 
+strongly connected components; call this the strict condensation graph. 
+It is easy to see from equation \eqref{eq:closure} that there are only finitely many 
+non-trivial strongly connected components, and they are all finite. 
+A component induces a subautomaton if it is terminal in the strict condensation graph: 
+it has no out-edges. 
+Again, we will think of the terminal component $0$ as being part of the principal automaton. 
+
+
+An algorithm to compute the nucleus is implicit in Okano \cite{Okano15:thesis}. 
+Let $V$ be the Vandermonde matrix given by the $m$ roots of the characteristic polynomial $\chi(z)$,
+define the vector norm $\vnorm{x} = \vnorm*{V \cdot x}$ in terms of the Chebyshev norm 
+and let $\lambda < 1$ be the spectral radius of $\AA$. 
+Then $\vnorm{c_{1}} = \lambda^{m}$ and, for the induced matrix norm, we have 
+$\vnorm{\AA} = \lambda$. 
+For any point $u$ on a cycle one can then show that  $\vnorm{u} \leq \lambda^{m}/(1-\lambda)$.
+Thus the search for strongly connected components can be limited to a finite region of 
+the complete automaton.
+Note, though, that the region becomes quite large when $\lambda$ is close to $1$.
+
+As an example, consider the residuation matrix 
+%
+$$
+    \AA = \begin{pmatrix} -1 & 1 \\ -1/2 & 0 \end{pmatrix}  \qquad  \chi(z) = z^{2} + z + 1/2
+$$
+%
+This is the matrix associated with the cycle-cum-chord transducer $\CCC{3}{2}$ in 
+figure~\ref{fig:CCC-3-2} and has spectral radius $\lambda = 1/\sqrt{2}$.
+The roots of $\chi(z)$ have absolute norm $2$. 
+The corresponding principal automaton, a 7 state machine, is shown in figure \ref{fig:principal-2lat}; 
+the state labels will be explained in section \ref{sec:path-polys}. 
+In this case, the strongly connected component of the anchor point $\unvo$ admits a skew-symmetry.
+The principal automaton here coincides with the nucleus.  
+On the other hand, if we select the residuation vector to be $e = (3,2)$, the canonical automaton 
+$\fA(\AA,e)$ has but 3 states and is isomorphic to $\CCC{3}{2}$. 
+Clearly $\fA(\AA,e)$ fails to admit any skew-symmetry, yet it still generates the free 
+Abelian group of rank 2 \cite{SutnerLewi12:ibiv_jalc}.
+In this case, the nucleus has 5 subautomata: the principal automaton, plus two pairs of 
+skew-symmetric ones.
+These automata are generated by the powers of the transduction $\CCC{3}{2}(0)$. 
+
+% %---------------------------------------------------------------------------
+% \begin{figure}[t]
+%   \centering
+%   \includegraphics[scale=0.8]{invtrans-22-sta}
+%   \caption{A canonical automaton for $\chi(z) = z^{2} + z + 1/2$ with offset $r = c_{1}-\unvt$.
+%     States are represented by their path polynomials.}
+%   \label{fig:canonical-2lat}
+% \end{figure}
+% %---------------------------------------------------------------------------
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.8]{tile-2-6}
+  \caption{The integral self-affine tile associated with $\chi(z) = z^{2} + z + 1/2$, 
+  using the standard digit $(1,0)$. The tile has Lebesgue measure $1$ and lattice tiles 
+  $\R^2$ with tiling set $\Z^{2}$. It is known as the twin-dragon.}
+  \label{fig:tile-2-6}
+\end{figure}
+%---------------------------------------------------------------------------
+
+
+Consider some subautomaton $\cA$ of $\cmpaut(\AA,e)$ and a transition
+$\trans{p}{d}{q}$ whose target $q$ lies in $\cA$, but whose source $p$ does not. 
+Let $\cA_{+}$ denote the smallest subautomaton  of $\cmpaut(\AA,e)$ that contains $\cA$ and $p$. 
+
+\begin{lemma}
+\label{lem:extension}
+$\cA_{+}$ generates the same group as $\cA$.
+\end{lemma}
+
+To see why, first assume that $p$ is a copy state and consider the copy chain at 
+$q = q_{0}$ of length $\pre{m}$. 
+As a consequence of equation ~\eqref{eq:chi} and using additive notation we have 
+%
+\begin{equation}
+\label{eq:chi-chain}
+2 \F{q_{0}}  + g_{m-1} \F{q_{1}} + \ldots \pm \F{q_{\pre{m}}} = I.
+\end{equation}
+%
+By repeated residuation it follows that $p = q_{1} \in  \ZM{Q}$ where $Q$ is the 
+state set of $\cA$. 
+%
+If $p$ is a toggle state, we may safely assume that the new transition has the form 
+$\trans{p}{\trtm}{q}$.  Let $\trans{p}{1}{q'}$, so that $q' = q + \gamma \in \ZM{Q}$
+where $\gamma$ is the gap value from above. 
+Hence we can apply the same residuation argument as in the first case to show that 
+$p \in  \ZM{Q}$.
+
+Reading the lemma in the opposite direction, we see that there are two types of 
+interesting subautomata of the nucleus of $\cmpaut(\AA,e)$ 
+%
+\begin{itemize}
+\item  the principal automaton $\fA(\AA)$, and
+\item  terminal strongly connected automata. 
+\end{itemize}
+%
+To see why, consider a terminal strongly connected component $S$ in a subautomaton 
+$\cA$ of the complete automaton. 
+If $S$ consists only of $0$ we are dealing with the principal automaton;
+otherwise $S$ itself defines a subautomaton that generates the same group as $\cA$. 
+The principal automata all seem to have a non-trivial skew automorphism, all the 
+others do not
+(but recall our convention regarding successor automata as in figure~\ref{fig:successor-2}). 
+
+
+
+%---------------------------------------------------------------------------
+\subsection{Self-Affine Tiles}
+\label{sec:self-affine-tiles}
+
+Let us digress briefly to comment on the connection between Abelian invertible automata and 
+questions related to tilings and iterated function systems. 
+Since $\AA$ is a contraction, the representation of the elements of a subautomaton of 
+$\cmpaut(\AA,e)$ in equation \eqref{eq:closure} naturally gives rise to a 
+so-called \emph{tile}, a compact subset of $\R^m$ of positive Lebesgue measure. 
+More precisely, fix a set $\DD \subseteq \R^{m}$ of \emph{ generalized digits}.
+We are only interested in the case $\card{\DD} = 2$; moreover,  
+we may assume without loss of generality that one of the digits is $0$ so that 
+$\DD = \setof{0,d}$. 
+We can think of the \emph{tile} as being determined by an iterated function system 
+given by $\AA$ and $\DD$: we are interested in the compact set $T \subseteq \R^{m}$ 
+such that 
+%
+\begin{align}
+\label{eq:tile}
+     T &=  \AA (T + \DD) \\
+\intertext{It is easy to see that $T$ has the explicit representation}
+     T &=  \Set{ \sum_{i=1}^{\infty} \AA^{-i} d_{i}}{ d_{i} \in \DD } \subseteq \R^{m}
+\end{align}
+%
+The tile $T$ is called \emph{self-affine} if it has positive Lebesgue measure, 
+a property that is somewhat rare.  
+To develop a test for positive measure, consider all real vectors that admit a
+description in terms of a $k$-digit expansion of the form 
+%
+\begin{equation}
+\label{eq:dnumbs}
+\Dnumb{k} = \Set{ \sum_{i=0}^{k-1} \AA^{-i} d_{i}}{ d_{i} \in \DD }
+\end{equation}
+%
+% Also let $\Dnumb* = \bigcup \Dnumb{k}$ be the collection of all vectors that have 
+% finite expansion in terms of $\Ai$ and $\DD$. 
+It was shown by Lagarias and Wang \cite{LagariasWang96:tiles,LagariasWang97:integral_tiles} 
+that $T$ has positive measure if, and only if, the cardinality of $\Dnumb{k}$ is $2^{k}$ 
+for all $k$. 
+It follows from the results in section \ref{sec:knuth-normal-form} that this condition is 
+satisfied for our residuation matrices and digit sets described below. 
+
+Now define the \emph{containment lattice} of $\Ai$ and $\DD$ to be the $\Z$-module generated by 
+the pre-images of $\DD$ under $\Ai$:
+%
+\begin{equation}
+  \label{eq:containment}
+  \ZM{\Ai,\DD} = \ZM{\DD,\Ai\,\DD,\ldots,\AA^{-n+1}\DD}
+\end{equation}
+%
+Clearly, the containment lattice contains the symmetric digit set 
+$\Delta \DD = \setof{-d,0,+d}$ and is closed under $\Ai$.
+A digit set is said to be \emph{primitive} if $\ZM{\Ai,\DD} = \Z^{m}$.
+Now consider the digit $d = \Ai(c_{1} + v)$. 
+The containment lattice is none other than the $\Z$-linear closure of the set of points 
+co-reachable from the origin in $\cmpaut(\AA,d)$. 
+Indeed, in conjugation with the conjecture in section \ref{sec:conjecture}, it consists 
+precisely of these points; to wit, the collection of all tame automorphisms, 
+see section~\ref{sec:conjecture} for definitions.  
+At any rate, in particular for $d = \unvo$ we obtain a primitive digit set. 
+A primitive digit set is \emph{standard} if the digits form a complete residue system of 
+$\Z^{n}/\Ai \Z^{n}$. 
+In other words, for a non-zero digit $d$ we must have $\AA \, d$ non-integral. 
+This is, of course, precisely the choice of the residuation vector. 
+Hence we obtain self-affine tiles, and for $d = \unvo$ the tiling set can be chosen to be the 
+full lattice $\Z^{m}$. 
+Figure \ref{fig:tile-2-6} shows an example of such a tile. 
+Note that the origin is the only integral point in the tile. 
+
+
+%---------------------------------------------------------------------------
+\section{Path Polynomials}
+\label{sec:path-polys}
+
+We will now develop yet another representation of the complete automaton that is 
+helpful in studying path existence problems. 
+As a starting point, consider 
+the question of how the nuclei of $\cmpaut(\AA,e)$ and their subautomata compare for different
+values of the residuation vector $e$. 
+Fix some residuation matrix $\AA$ and vector $e = \Ai(c_{1} + v)$ where 
+$c_{1}$ is the first column of $\AA$ and $v$ is integral. 
+Our first result shows that as far as the gap value is concerned, only the residuation
+matrix matters. 
+
+
+\begin{theorem}
+\label{thm:gap-value}
+The principal automaton is isomorphic to a subautomaton of $\cmpaut(\AA,e)$
+for all $e$. 
+As a consequence, the gap value of $\cmpaut(\AA,e)$ depends 
+only on the residuation matrix $\AA$. 
+\end{theorem}
+
+There are two ways to establish this result. 
+The first is essentially taken from \cite{Okano15:thesis} and directly 
+constructs a linear map that defines the embedding. 
+To this end, define an $m \times m$ integral matrix with column vectors 
+%
+\begin{equation}
+  \label{eq:r-matrix}
+  E = \bigl( e, \AA^{-1}e,  \ldots, \AA^{-\pre{m}}e ) 
+\end{equation}
+%
+One can check that $E$ is non-singular and it commutes with $\AA$. 
+As a consequence, $E$ induces a monomorphism from $\cmpaut(\AA)$ to $\cmpaut(\AA,e)$,  
+so that  $\cmpaut(\AA)$ is always (isomorphic to) a subautomaton of $\cmpaut(\AA,e)$.
+In particular, $E$ shows that $\fA(\AA,e,e)$ is an isomorphic copy of 
+the principal automaton $\fA(\AA)$. 
+
+A rather different approach to theorem~\ref{thm:gap-value} focuses on a description 
+of paths in the complete automaton $\cmpaut(\AA,e)$, and in particular in the principal automaton. 
+Consider a path 
+%
+\begin{equation}
+  \label{eq:path}
+    \pi : e \stackrel{d_{0}}{\longrightarrow} q_{1} \stackrel{d_{1}}{\longrightarrow} \ldots %
+    \stackrel{d_{k-2}}{\longrightarrow} q_{\pre{k}} \stackrel{d_{\pre{k}}}{\longrightarrow} q_{k}
+  \end{equation}
+%
+Only paths such that $q_{i} \neq 0$ for $i < k$ are of interest. 
+We will interpret the label $\lab(\pi) = d = d_{0}d_{1} \ldots d_{\pre{k}}$ as a word over the three-letter 
+alphabet $\tsym = \setof{-1,\trtz,\trtp}$.
+For reasons of legibility, we will often write $\trtm$ instead of $-1$ in this context.
+Define the 
+\emph{path polynomial} $\ppol{e}{d}(z) \in \Z[z]$, for any word $d$ over $\tsym$,  
+as follows:
+%
+$\ppol{e}{\eps}(z) = 1$ and  
+%
+\begin{equation} \label{eq:pathpol}
+\ppol{e}{d \delta }(z)  = z \cdot ( \ppol{e}{d}(z) + \delta  )
+\end{equation}
+%
+Then $\ppol{e}{d}(\AA)$ is a linear map from $\Q^{m}$ to $\Q^{m}$  and 
+$\ppol{e}{d}(\AA)(e)$ is the state of $\fA(A,e,e)$ after scanning $d \in \Star{\tsym}$, 
+starting at initial state $e$.
+We write $\ppol{}{d}(\AA)$ for the path polynomial for the principal automaton 
+$\canaut(A)$, in which case the initial state is $\unvo = \AA^{-1}c_{1}$. 
+Note that all coefficients of a path polynomial encode the corresponding path in an 
+entirely straightforward manner. 
+
+The extension $d 0$ is valid if, and only if, $\ppol{e}{d}(A)(e)$ is even;
+otherwise the valid extensions are $d\trtp$ and $d\trtm$. 
+An induction on the length of a path then shows that $\ppol{}{d}$ is defined 
+whenever $\ppol{e}{d}$ is and that $\ppol{}{d}(A) = \ppol{e}{d}(A)$.
+This provides another proof of the claim that the principal automaton  $\fA(\AA)$ is 
+embedded in all complete automata $\cmpaut(\AA,e)$.
+
+
+As we will see shortly, path polynomials define algebraic integers in a natural way. 
+To see why, consider the algebraic number field  $\FF = \Q[z]/\chi(z)$ of degree $m$.  
+We write $\alpha$ for the representative of $1/z$ of the inverse of a root of $\chi(z)$, 
+and $\chis(z)$ for the minimal polynomial of $\alpha$, the reciprocal of $\chi$. 
+We have $\FF = \Q(\alpha)$, but $\alpha$ is an algebraic integer and more 
+useful for our purposes. 
+Now suppose we have two directed paths $\unvo \longrightarrow p$, with corresponding 
+path polynomials $P_1$ and $P_2$. 
+Then $P_{1} = P_{2} \pmod{\chi(z)}$. 
+The see this, observe that $P_{1}(\AA)(\unvo) = P_{2}(\AA)(\unvo)$ implies that 
+$\unvo$ is in the null space of $P = P_{1} - P_{2}$. 
+By Cayley-Hamilton, the remainder operation with respect to $\chi(z)$ 
+does not affect the corresponding linear operators. 
+Hence the null space of $P \pmod{\chi(z)}$ is non-zero. 
+If $P$ is not zero, it has degree less than $m$ and is thus coprime with $\chi(z)$. 
+Hence there are cofactors $Q_1$ and $Q_2$ such that $Q_{1}P + Q_{2}\chi(z) = 1$. 
+But then $Q_1$ is the inverse of $P$, contradiction. 
+By slight abuse of notation, we will refer to $P \bmod{\chi(z)} \in \FF$ also as 
+the path polynomial for $p$. 
+Hence we can label states $p$ in the principal automaton by algebraic integers. 
+Figure \ref{fig:principal-2lat} shows an example of such a labeling. 
+
+Path polynomials suggest a generalization where we label a node $p$ in $\cmpaut(\AA)$ 
+by an algebraic integer $\Phi(p) \in \Z_{\FF}$ subject to the constraint 
+%
+\begin{equation}
+\label{eq:labeling}
+   \trans{p}{d}{q}  \iff  \Phi(p) = \alpha \, \Phi(q)  - d \beta 
+\end{equation}
+%
+where $\beta = e \circ (\alpha^{i})_{i<m}$. 
+An easy induction shows the analogue of equation \eqref{eq:closure}:
+
+\begin{lemma}
+\label{lem:path-label}
+$$
+    \alpha^{k} \Phi(q_{k}) = \Phi(q_{0}) + \beta \, \sum_{i<k} d_{i} \alpha^{i}.
+$$
+\end{lemma}
+
+Considering the self-loop at $0$ it follows that $\Phi(0) = 0$. 
+In particular for $e = \unvo$ we have $\beta = 1$. 
+In this case for source $q_0 = \unvo$ and target $q_k = 0$ we have 
+%
+$$
+    1 + \sum_{i<k} d_{i} \alpha^{i} = 0.
+$$
+%
+Similarly, if there is a cycle of length $k$ at a point $q$ we have 
+%
+$$
+    (\alpha^{k}-1) \, \Phi(q) = \sum_{i<k} d_{i} \alpha^{i}.
+$$
+% 
+The string $d$ is nothing but the reverse base $\alpha$ expansion
+of the algebraic integer $\sum_{i<k} d_{i} \alpha^{i}$ on the right hand side. 
+It is easy to check that 
+%
+$$
+     \ppol{}{d}(z) = z^{k} \biggl( 1 + \sum_{i<k} d_{i} z^{-1} \biggr).
+$$
+%
+Thus, path polynomials and labels are closely connected:
+
+\begin{lemma}
+\label{lem:path-poly-label}
+For any path from $\unvo$ to $q$ labeled $d$: $\ppol{}{d}(1/\alpha) = \Phi(q)$.
+\end{lemma}
+
+The polynomial representation is useful because it allows us to use polynomial 
+arithmetic to search for paths. 
+As an example, consider again the characteristic polynomial $\chi(z) = z^{2} + z + 1/2$ 
+with principal automaton shown in figure \ref{fig:principal-2lat}.
+There is a trivial path from $0$ to $\unvo$ labeled $\trtm$, corresponding to $\rho = -1$. 
+This is obviously the shortest path, but we can try to find others by writing 
+%
+\begin{equation}
+\label{eq:clearing}
+    \rho = \beta \chis + \sigma  \qquad  \sigma = \sum s_{i} \alpha^{i} 
+\end{equation}
+%
+where the digits $s_i$ are again trits.  
+We have $2 + 2 \alpha + \alpha^{2} = 0$ in $\II$. 
+Hence we can rewrite the digits string $-1$ as follows: 
+
+\hspace*{10mm}
+\begin{tabular*}{0.38\linewidth}[h]{cccccccc}
+  \hspace{1mm} $1$ \hspace{1mm}  & \hspace{1mm} $\alpha$ \hspace{1mm}  & \hspace{1mm} $\alpha^2$  \hspace{1mm} %
+               &  \hspace{1mm} $\alpha^3$  \hspace{1mm} &  \hspace{1mm} $\alpha^4$   \\
+\hline 
+  -1 \\
+  2  &  2  &  1 \\
+     &  -2  &  -2  &  -1 \\
+     &       &  2  &  2  &  1 \\
+\hline
+   1 &  0  &   1  &  1  &  1
+\end{tabular*}
+
+Thus $\beta = 1  - \alpha  + \alpha^{2}$ and $\sigma =  1  + \alpha^{2} + \alpha^{3} + \alpha^{4}$. 
+One can easily check in figure \ref{fig:principal-2lat} that this corresponds indeed to the 
+shortest path from $0$ to $\unvo$ that passes through $-\unvo$. 
+This approach is similar in spirit to Gilbert's clearing algorithm 
+\cite{Gilbert81:radix_represantions}.
+
+Now consider a copy chain of the form 
+%
+$$
+    q_{k} \stackrel{0}{\longrightarrow} q_{\pre{k}} \stackrel{0}{\longrightarrow} \ldots %
+    \stackrel{0}{\longrightarrow} q_{1} \stackrel{0}{\longrightarrow} q_{0}
+$$
+%
+where $q_0$ belongs to some subautomaton $\cA$ with state set $Q$, while some or all of the 
+other states in the chain lie outside of $\cA$.
+As we have seen in lemma \ref{lem:extension}, adjoining these states does not change the 
+group generated by $\cA$. 
+In the special case where $q_0 = \unvo$ is the generator of the principal automaton, 
+and there are at least $m-1$ copy states in the chain, we even have equality: 
+$\ZM{q_{\pre{m}},\ldots,q_{0}} = \ZM{Q}$.  
+This follows easily by induction on the length of a path from the generator to a state 
+in the automaton. 
+In this case, the label of $q_i$ is simply $\alpha^{i}$. 
+To generalize lemma \ref{lem:path-poly-label} one needs to admit Laurent polynomials 
+as path polynomials. 
+Since $\AA$ is invertible this causes no difficulties. 
+At any rate, the transduction group generated by $\cA$ can thus be represented by a lattice
+of  algebraic integers. 
+
+\begin{lemma}
+\label{lem:lattice-iso}
+Let $\cA$ be a canonical automaton generating an $m$-lattice $G$. 
+The $G$ is isomorphic to a lattice
+of  algebraic integers of the form $\sum_{i<m} a_{i} \alpha^{i}$, $a_{i} \in \Z$. 
+\end{lemma}
+
+For example, in a cycle-cum-chord automaton the length of the backbone copy chain
+is always larger than the rank of the lattice. 
+Thus the group is generated by the first $m$ states on the chain. 
+
+%---------------------------------------------------------------------------
+\section{Knuth Normal Form}
+\label{sec:knuth-normal-form}
+
+The last lemma suggests that one consider \emph{numeration systems} for 
+the algebraic integers in an algebraic number field, a subject first breached by Knuth in 
+1960  \cite{Knuth60:number_system} in the case of the Gaussian integers $\Z[\ii]$. 
+As it turns out, every Gaussian integer $\rho$ can be written uniquely in the form 
+$\rho = \sum_{i<k} b_{i} \alpha^{i}$ where $\alpha = -1 + \ii$ using only 
+binary digits $0$ and $1$. 
+Since $1/\alpha$ is a root of  $\chi(z) = z^{2} + z + 1/2$, we can translate this result 
+into the world of subautomata as follows \cite{Knuth10:privcomm}.
+Attach an infinite copy chain to the generator $\unvo$ of $\CCC{3}{2}$ and refer to the resulting 
+automaton as $\cA_{+}$, see figure \ref{fig:extension-A-3-2}.
+By slight abuse of notation, let us refer to these states by their labels as 
+$\alpha^{k}$, with $\alpha^{0} = 1$ representing the generator $\unvo$. 
+As we have seen, $\cA_{+}$ still generates the same group. 
+More importantly, every element of the associated $2$-lattice can be written uniquely 
+in \emph{Knuth normal form (KNF)} $\sum_{i<k} b_{i} \alpha^{i}$, where $b_{i} \in \2$, 
+according to \cite{SutnerLewi12:iter_inver_bin_trans,Knuth60:number_system}.  
+
+
+As an example, consider $f = \F{1}^{5}$ in the automaton from figure~\ref{fig:principal-2lat}.
+Written as a bit-vector, the Knuth normal form of $f$ is $100010111$.
+The next table shows the corresponding rewrite process. 
+
+\hspace*{10mm}
+\begin{tabular*}{0.65\linewidth}[h]{ccccccccccccc}
+  \hspace{0.8mm} $1$ \hspace{0.8mm}  & \hspace{0.8mm} $\alpha$ \hspace{0.8mm}  & \hspace{0.8mm} $\alpha^2$  \hspace{0.8mm} %
+& \hspace{0.8mm} $\alpha^4$  \hspace{0.8mm} &  \hspace{0.8mm} $\alpha^4$  \hspace{1ex} & \hspace{0.8mm} $\alpha^5$  \hspace{0.8mm} %
+& \hspace{0.8mm} $\alpha^6$  \hspace{0.8mm} &  \hspace{0.8mm} $\alpha^7$  & \hspace{0.8mm} $\alpha^8$  \hspace{0.8mm}  \\
+\hline 
+  5 \\
+  -4  &  -4  &  -2 \\
+     &    4  &  4  &  2 \\
+     &       &  -2  &  -2  &  -1 \\
+     &   &    &   &  2  &  2  &  1 \\
+     &   &    &  &  &  -2  &  -2  &  -1 \\
+     &   &    &   &  &  &  2  &  2  &  1 \\
+\hline
+   1 &  0  &  0 & 0 & 1  & 0 &  1  &  1 & 1
+\end{tabular*}
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.75]{invtrans-23-sta}
+  \caption{Adding an infinite copy chain to a strongly connected canonical automaton.}
+  \label{fig:extension-A-3-2}
+\end{figure}
+%---------------------------------------------------------------------------
+
+Knuth normal form is extremely helpful in exploring properties of the automorphisms 
+generated by $\cA$, rather than just their group structure. 
+For example, one can show that $\F{1}^{2^{4k}}$ has normal form $\alpha^{8k}$, a 
+map that copies the first $8k$ input bits and then behaves like the odd transduction 
+$\F{1}$ on the remainder of the input. 
+This can be used to show that Knuth normal form for this particular automaton can be 
+computed by a suitable finite state transducer \cite{Sutner13:invertible_coordinates}. 
+Similarly one can show that the group of automorphisms acts transitively on each level 
+set $\2^{k}$ and  a little more work makes it possible to identify the levels where 
+the group acts simply transitively. 
+To construct Schreier graphs like the one in figure~\ref{fig:Schreier} one can use the
+fact that in Knuth normal form the generators look like  $0^{i}10^{j} \in \2^{k}$.
+
+%---------------------------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[scale=0.6]{Schreier-2-4}
+  \caption{A Schreier graph associated with $\CCC{3}{2}$ and the subtree $\2^4$.}
+  \label{fig:Schreier}
+\end{figure}
+%---------------------------------------------------------------------------
+
+Uniqueness of Knuth normal form is not hard to see: assume 
+$\sum_{i<k} b_{i} \alpha^{i} = \sum_{i<k} b'_{i} \alpha^{i}$ for digits $b_{i}, b'_{i} \in \2$. 
+Then $b_{i} = b'_{i}$ for all $i < \ell$, but, say, $0 = b_{\ell} \neq b'_{\ell} = 1$ 
+and we have $\sum_{i>\ell} b_{i} \alpha^{i} = \alpha^{\ell} + \sum_{i>\ell} b'_{i} \alpha^{i}$. 
+But the first automorphism copies at least $\ell$ bits, whereas the second changes the 
+bit in position $\ell$. 
+
+Existence is much harder to deal with. 
+For example, it is known that for $m = 2$ there are only six characteristic polynomials that
+give rise to residuation matrices; all of these are unique up to $\GL{m}$ similarity. 
+The matrices together with the corresponding $\alpha$ values and their minimal 
+polynomials are shown below. 
+The first matrix, which gives rise to the successor automaton, is the only one that 
+produces a real field. 
+The forth matrix is associated with the automaton in figure \ref{fig:exotic-counter-2}.
+As the table shows, only 4 out of the 6 admit a Knuth normal form. 
+
+$$
+\def\arraystretch{1.6}
+\arraycolsep=2mm
+\begin{array}[h]{llll}
+\AA &  \alpha &  \text{min. pol.} & \text{KNF} \\
+\hline
+\begin{klein}
+ 0  &  1 \\
+ 1/2  &  0 \\
+\end{klein}
+  &  -\sqrt{2}  &  -2+z^2 & \text{no} \\
+\begin{klein}
+ 1  &  1 \\
+ -1/2  &  0 \\
+\end{klein}
+  &  1+i  &  2-2 z+z^2 & \text{no} \\
+\begin{klein}
+ 1/2  &  1 \\
+ -1/2  &  0 \\
+\end{klein}
+  &  \left(1+ \ii \sqrt{7}\right)/2  &  2-z+z^2 & \text{yes} \\
+\begin{klein}
+ 0  &  1 \\
+ -1/2  &  0 \\
+\end{klein}
+  &  i \sqrt{2}  &  2+z^2 & \text{yes} \\
+\begin{klein}
+ -1/2  &  1 \\
+ -1/2  &  0 \\
+\end{klein}
+  &  \left(-1+ \ii\sqrt{7}\right)/2  &  2+z+z^2 & \text{yes} \\
+\begin{klein}
+ -1  &  1 \\
+ -1/2  &  0 \\
+\end{klein}
+  &  -1+i  &  2+2 z+z^2 & \text{yes} \\
+\end{array}
+$$
+
+
+In the case where all coefficients of the minimal polynomial of $\alpha$ are nonnegative,
+one can show that the Gilbert-style rewrite process always terminates. 
+More precisely, we can interpret equation~\eqref{eq:chi-chain} 
+as a \emph{cancellation rule} that simplifies some expressions. 
+Applying equation~\eqref{eq:chi-chain} twice we obtain the  \emph{shift rule}
+\begin{align} 
+\label{eq:shift}
+  2 \alpha   & \mapsto (2 - g_{m-1}) \alpha^{2} + (g_{m-1}-g_{m-2}) \alpha^{3} + \ldots + g_{0} \alpha^{m+2} 
+\end{align}
+%
+that can be used to eliminate coefficients other than $0$ and $1$. 
+Given an algebraic integer  $\rho = \sum_{i<k} a_{i} \alpha^{i}$, we may assume that all 
+coefficients are nonnegative.  
+Let us refer to $\sum_{i<k} a_{i}$ as the weight of the integer. 
+Clearly, application of the cancellation rule reduces weight. 
+But note that the sum of exponents in the shift rule is telescoping, so that its 
+application does not affect weight. 
+Now consider a rewrite system that tries to remove all coefficients other than $0$ and $1$
+by first applying the cancellation rule, and then the shift rule. 
+Assume that the rewrite process fails to terminate on some input $\rho$. 
+By deleting an initial segment, we may safely assume that the weight of the expression 
+remains constant throughout the process, i.e., we only apply the shift rule.
+Using the notation from equation \eqref{eq:clearing} we see that 
+after a transient phase, only the last $m+1$  coefficients of $\sigma$ will be non-zero. 
+Since the weight does not change, this block of coefficients must ultimately repeat 
+in some later term $\sigma'$.
+But that means that $\sigma' = \alpha^{k} \sigma$, a contradiction. 
+
+The copy chain extension to the principal automaton is perhaps the most natural way to
+define Knuth normal form, but there are other options. 
+For example, we can use the generator of one of the strongly connected automata in 
+$\cmpaut(A,e)$ that generate the lattice as an anchor for the chain. 
+For $\CCC{3}{2}$ this is indicated in figure~\ref{fig:extension-A-3-2}. 
+The Knuth normal forms of the automorphisms $\F{1}^{k}$ for $0 \leq k < 2^{10}$ are 
+shown in figure \ref{fig:knf-1024}.
+The height of each column indicates the number of terms, and the actual terms 
+are color coded. 
+
+\begin{figure}[ht]
+\hspace*{-12mm} 
+\includegraphics[scale=0.25]{KNF-1024}
+\caption{The Knuth normal forms for some automorphisms defined by a cycle-cum-chord transducer.}
+\label{fig:knf-1024}
+\end{figure}
+
+
+In cases where Knuth normal form fails to exist one can try allow for larger digit 
+sets, and in particular for trits $\setof{-1,0,1}$. 
+Define the \emph{weak Knuth normal form} to be an expansion of the form 
+$\sum_{i<k} d_{i} \alpha^{i}$ where $d_{i} \in \tsym$. 
+This generalization corresponds to the step from \emph{canonical numeration systems} for 
+algebraic number fields, where the digit set is of the form $\setof{0,1,\ldots,\pre{N}}$
+to symmetric canonical number systems where the digits are chosen from 
+$\setof{0,\pm 1,\ldots,\pm \pre{N}}$.
+Here $N$ is typically the absolute value of the absolute norm of the generator $\alpha$ 
+and thus $\pre{N} = 1$ in our case, 
+There is large body of literature on these numeration systems, 
+see \cite{Pethoe09:radix_represenations} and the references therein. 
+Call an algebraic integer \emph{expanding} if all its conjugates have modulus larger than $1$.
+The following result follows from the work in \cite{LagariasWang96:tiles,LagariasWang97:integral_tiles}.
+
+\begin{theorem}[Lagarias, Wang 1997]
+\label{thm:numeration}
+Let $\alpha$ be an expanding algebraic integer of norm 2. 
+Then all algebraic integers $\rho$ in $\FF = \Q(\alpha)$ have an expansion 
+$\rho = \sum_{i<k} d_{i}\alpha^{i}$ where $d \in \setof{-1,0,1}$. 
+\end{theorem}
+
+\begin{corollary}
+All $m$-lattices admit a weak Knuth normal form. 
+\end{corollary}
+
+Of course, we no longer have uniqueness. 
+For example, for the $2$-lattice associated with $\alpha = 1 + \ii$ the 
+non-trivial weak normal forms of $\trtm = -1$ are $1011 \ldots 11\trtm1$. 
+Another possibility is to move to the completion of the group and consider
+infinite normal forms  $\sum_{i} d_{i} \alpha^{i}$: the automorphism
+corresponding to digit $d_k$ leaves the first $k$ input bits unchanged, so this formal infinite 
+sum indeed defines an automorphism of $\SS$  \cite{Nekrashevych05:self_similar_groups}.
+For example, for the successor automaton from figure \ref{fig:successor-2} with characteristic
+polynomial $\chi(z) = z^{2} + 1/2$, the automorphism $\F{1}^{-1}$ produces the infinite 
+digit sequence $(1,0,1,0,1,\ldots)$.
+
+
+%---------------------------------------------------------------------------
+\section{Open Problems}
+\label{sec:conjecture}
+
+It is shown in \cite{Nekrashevych05:self_similar_groups} that the nucleus 
+automaton is a natural finite subautomaton of the complete automaton $\cmpaut(\AA,e)$. 
+Alas, from the perspective of automata theory, the nucleus hides a lot of interesting
+fine structure. 
+As we have seen, there may be smaller subautomata that also generate the same 
+$m$-lattice; the cycle-cum-chord transducer $\CCC{3}{2}$ being a case in point. 
+
+\textbf{Question:}
+Is there a reasonable description of the smallest subautomaton of $\cmpaut(\AA,e)$ 
+that generates the full lattice?  Is its state complexity computable in polynomial time? 
+\vspace{1ex} 
+
+Note that the algorithm to compute the nucleus outlined above is clearly not polynomial 
+in $\AA$. 
+On the other hand, the principal automaton might be computable in polynomial time. 
+
+
+The question arises at to what the essential differences between the principal automaton and 
+strongly connected subautomata of the nucleus might be. 
+Let us call an automorphism $f$ \emph{tame} if there is some word $w$ such that $\resid{w}{f} = I$, 
+and \emph{strongly tame} if all its residuals are tame.
+Thus $f$ is tame if, and only if, the corresponding state $p$ in $\cmpaut(\AA,e)$ is co-reachable from $0$. 
+Similarly,  $f$ is strongly tame if, and only if, every state reachable from the corresponding state $p$ 
+in $\cmpaut(\AA,e)$ is co-reachable from $0$. 
+If a principal automaton $\cA$ has the two component structure just described, then all its 
+basic transductions are obviously strongly tame. 
+But the same holds true for the whole group generated by $\cA$: any composition of basic 
+transductions can be residuated to $I$ by systematic removal of components in the representation
+of $f$. 
+By contrast, all the basic transductions defined by canonical automata of the single component 
+type such as $\CCC{n}{m}$ fail to be tame. 
+Note, though, that this classification depends crucially on the fact that there are final 
+strongly connected components in the principal automaton other than the trivial one. 
+Otherwise, an automorphism defined by a state in such a putative final component 
+obviously fails to be tame. 
+Computational evidence supports the following conjecture. 
+\vspace{1ex} 
+
+\textbf{Conjecture:}
+Every principal automaton $\fA(\AA)$ other than a successor automaton is skew-symmetric 
+and consists of exactly two strongly connected components, one of them being the 
+sink $0$.
+For successor automata, the principal automaton has 3 strongly connected components. 
+\vspace{1ex} 
+
+Note that it suffices to show that in all these principal automata there is a path 
+from $\unvo$ to $-\unvo$: this would suffice to rewrite any improper path polynomial 
+as a proper one.
+Equivalently, one needs to rewrite the trit representation of $\trtm$  to a form 
+$(\trtp,d_2,d_3,\ldots,d_{\ell},\trtp)$.
+In case the conjecture fails in this strong form, one might wish to consider the 
+situation where the underlying residuation matrix has only one similarity type. 
+\vspace{2ex} 
+
+\textbf{Acknowledgments}
+It is a pleasure to acknowledge many helpful conversations with Tsutomo Okano 
+and Tim Becker. 
+
+
+
+%---------------------------------------------------------------------------
+
+% \bibliography{thebib}
+% \bibliographystyle{plain}
+
+
+\begin{thebibliography}{10}
+
+\bibitem{Abramsky05:reversible}
+S.~Abramsky.
+\newblock A structural approach to reversible computation.
+\newblock {\em Theo. Comp. Science}, 347:441--464, 2005.
+
+\bibitem{Bartholdi05:smallest_mealy}
+L.~Bartholdi, I.~I. Reznykov, and V.~I. Sushchansky.
+\newblock The smallest mealy automaton of intermediate growth.
+\newblock {\em J. Algebra}, 295:387--414, 2005.
+
+\bibitem{BartholdiSilva10a:groups_automata}
+L.~Bartholdi and P.~V. Silva.
+\newblock Groups defined by automata.
+\newblock {\em CoRR}, abs/1012.1531, 2010.
+
+\bibitem{Bennett73}
+C.~H. Bennett.
+\newblock Logical reversibility of computation.
+\newblock {\em {IBM} journal of Research and Development}, 17:525--532, 1973.
+
+\bibitem{Bennett82}
+C.~H. Bennett.
+\newblock The thermodynamics of computation---a review.
+\newblock {\em IJTP}, 21(12):905--940, 1982.
+
+\bibitem{Berstel09:transductions_cfl}
+J.~Berstel.
+\newblock Transductions and context-free languages.
+\newblock
+  \url{http://www-igm.univ-mlv.fr/~berstel/LivreTransductions/LivreTransductions.html},
+  2009.
+
+\bibitem{Eilenberg74}
+S.~Eilenberg.
+\newblock {\em Automata, Languages and Machines}, volume~A.
+\newblock Academic Press, 1974.
+
+\bibitem{ElgotMezei65:relations_fa}
+C.~C. Elgot and J.~E. Mezei.
+\newblock On relations defined by generalized finite automata.
+\newblock {\em IBM J. Res. Dev.}, 9:47--68, January 1965.
+
+\bibitem{Gilbert81:radix_represantions}
+W.~J. Gilbert.
+\newblock Radix representations of quadratic fields.
+\newblock {\em J. Math. Anal. Appl.}, pages 264--274, 1981.
+
+\bibitem{GrigorchukNS00:automata_groups}
+R.~R. Grigorchuk, V.~V. Nekrashevich, and V.~I. Sushchanski.
+\newblock Automata, dynamical systems and groups.
+\newblock {\em Proc. Steklov Institute of Math.}, 231:128--203, 2000.
+
+\bibitem{HopcroftUllman}
+J.~E. Hopcroft and J.~D. Ullman.
+\newblock {\em Introduction to Automata Theory, Languages and Computation}.
+\newblock Addison-Wesley, 1979.
+
+\bibitem{Knuth10:privcomm}
+D.~Knuth.
+\newblock Private communication, 2010.
+
+\bibitem{Knuth60:number_system}
+D.~E. Knuth.
+\newblock An imaginary number system.
+\newblock {\em Comm. ACM}, 3:245--247, 1960.
+
+\bibitem{LagariasWang96:tiles}
+J.~C. Lagarias and Y.~Wang.
+\newblock Self-affine tiles in {$\R^n$}.
+\newblock {\em Adv. Math.}, 121:21--49, 1996.
+
+\bibitem{LagariasWang97:integral_tiles}
+J.~C. Lagarias and Y.~Wang.
+\newblock Integral self-affine tiles in {$\R^n$} ii. lattice tilings.
+\newblock {\em J. Fourier Anal. Appl.}, 3(1):83--102, 1997.
+
+\bibitem{Landauer96:physical_nature}
+R.~Landauer.
+\newblock The physical nature of information.
+\newblock {\em Phy. Lett. A}, 217:188--193, 1996.
+
+\bibitem{Lecerf63:machine_turing}
+Y.~Lecerf.
+\newblock Machine de {T}uring r{\'e}versible. {I}nsolubilit{\'e} r{\'e}cursive
+  en {$n \in N$} de l'{\'e}quation $u = \theta^nu$, o{\`u} $\theta$ est un
+  ``isomorphisme de codes''.
+\newblock {\em C. R. Acad. Sci. Paris}, 257:2597--2600, 1963.
+
+\bibitem{Morita92:univ_rever_oneway_ca}
+K.~Morita.
+\newblock Computation universality of one-dimensional reversible cellular
+  automata.
+\newblock {\em Information Processing Letters}, 42:325--329, 1992.
+
+\bibitem{Morita94:rever_ca}
+K.~Morita.
+\newblock Reversible cellular automata.
+\newblock {\em J. Information Processing Society of Japan}, 35:315--321, 1994.
+
+\bibitem{Morita08:ecss}
+K.~Morita.
+\newblock {\em Encyclopedia of Complexity and System Science}, chapter
+  Reversible Cellular Automata.
+\newblock Springer, Berlin, 2009.
+
+\bibitem{MoritaHarao89:univ_rever_ca}
+K.~Morita and M.~Harao.
+\newblock Computation universality of 1 dimensional reversible (injective)
+  cellular automata.
+\newblock {\em Transactions Institute of Electronics, Information and
+  Communication Engineers, E}, 72:758--762, 1989.
+
+\bibitem{Nekrashevych05:self_similar_groups}
+V.~Nekrashevych.
+\newblock {\em Self-Similar Groups}, volume 117 of {\em Math. Surveys and
+  Monographs}.
+\newblock AMS, 2005.
+
+\bibitem{NekrashevychSidki04:automorphisms}
+V.~Nekrashevych and S.~Sidki.
+\newblock {\em Automorphisms of the binary tree: state-closed subgroups and
+  dynamics of 1/2-endomorphisms}.
+\newblock Cambridge University Press, 2004.
+
+\bibitem{Okano15:thesis}
+T.~Okano.
+\newblock Invertible binary transducers and automorphisms of the binary tree.
+\newblock MS Thesis, CMU, May 2015.
+
+\bibitem{Pethoe09:radix_represenations}
+A.~Peth{\"o}.
+\newblock Connections between power integral bases and radix representations in
+  algebraic number fields.
+\newblock
+  \url{https://arato.inf.unideb.hu/petho.attila/cikkek/cnsnagoya_paper_110.pdf},
+  2009.
+
+\bibitem{Raney58:sequential_functions}
+G.~N. Raney.
+\newblock Sequential functions.
+\newblock {\em J. Assoc. Comp. Mach.}, 5(2):177--180, 1958.
+
+\bibitem{Sakarovitch09:automata_theory}
+J.~Sakarovitch.
+\newblock {\em Elements of Automata Theory}.
+\newblock Cambridge University Press, 2009.
+
+\bibitem{Serre77:arbres_amalgames}
+J.-P. Serre.
+\newblock {\em Arbres, Amalgames, $\mathit{SL}_{2}$}.
+\newblock Number~46 in Ast\'erisque. Soci\'et\'e Math\'ematique de France,
+  Paris, 1977.
+
+\bibitem{Sidki00:one_rooted_trees}
+S.~Sidki.
+\newblock Automorphisms of one-rooted trees: Growth, circuit structure, and
+  acyclicity.
+\newblock {\em J. Math. Sciences}, 100(1):1925--1943, 2000.
+
+\bibitem{Sutner13:invertible_iteration}
+K.~Sutner.
+\newblock Invertible transducers and iteration.
+\newblock In H.~Juergensen and R.~Reis, editors, {\em Descriptional Complexity
+  of Formal Systems}, volume 8031 of {\em Lecture Notes in Computer Science},
+  pages 18--29. Springer Berlin, 2013.
+
+\bibitem{Sutner13:invertible_coordinates}
+K.~Sutner.
+\newblock Invertible transducers, iteration and coordinates.
+\newblock In S.~Konstantinidis, editor, {\em CIAA}, volume 7982 of {\em LNCS},
+  pages 306--318. Springer Berlin, 2013.
+
+\bibitem{Sutner13:iteration_ijfcs}
+K.~Sutner.
+\newblock Iteration of invertible transductions.
+\newblock Submitted, 2013.
+
+\bibitem{SutnerLewi12:ibiv_jalc}
+K.~Sutner and K.~Lewi.
+\newblock Iterating invertible binary transducers.
+\newblock {\em JALC}, 17(2-4):293--213, 2012.
+
+\bibitem{SutnerLewi12:iter_inver_bin_trans}
+K.~Sutner and K.~Lewi.
+\newblock Iterating invertible binary transducers.
+\newblock In M.~Kutrib, N.~Moreira, and R.~Reis, editors, {\em Descriptional
+  Complexity of Formal Systems}, volume 7386 of {\em Lecture Notes in Computer
+  Science}, pages 294--306. Springer Berlin, 2012.
+
+\end{thebibliography}
+
+
+%---------------------------------------------------------------------------
+\end{document}
+
+%  LocalWords:  Sutner CMU Serre Raney CCC SCC 1960s Grigorchuk Milnor Nekrashevych
+%  LocalWords:  Sidki Okano EPP EPPs PPs cccccccc ccccccccccccc Tsutomo 1960s pre
+%  LocalWords:  denotable Lagarias Eilenberg thebib 1960s Girard's KNF Abramsky Dev
+%  LocalWords:  Theo Reznykov Sushchansky CoRR IJTP Berstel Appl Nekrashevich Proc
+%  LocalWords:  Sushchanski Steklov Ullman ACM Phy Lett Lecerf de uring 'e versible
+%  LocalWords:  nsolubilit l' quation un isomorphisme Acad Springer Harao AMS Peth
+%  LocalWords:  endomorphisms Sakarovitch Arbres Amalgames Ast 'erisque Soci 'et
+%  LocalWords:  'ematique acyclicity Juergensen Reis Konstantinidis CIAA LNCS Lewi
+%  LocalWords:  JALC Kutrib Moreira
