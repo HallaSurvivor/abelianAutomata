@@ -121,7 +121,7 @@ $\del_i \underline{s} = \underline{\delta(s,i)}$.
 
 It is a theorem by Sutner that $\G(\A)$ is abelian iff for 
 even states $\del_0 f - \del_1 f = I$ and for odd states
-$\del_0 f - \del_1 f = \gamma$, where $\gamma$ is independent
+$\del_1 f - \del_0 f = \gamma$, where $\gamma$ is independent
 of $f$. Here we write $I$ for the identity element of our group,
 and we use additive notation since our groups are abelian.
 
@@ -184,18 +184,151 @@ though there is a longstanding conjecture that in most cases this is
 the same machine as
 $\A_{\e_1} \subseteq \mathfrak{C}(\Am, \e_1)$.
 
-$\P$ is minimal in the following sense: $\G(\P) \leq \G(\A)$ for every
-$\A$ sharing a matrix with $\P$. 
-TODO: Should I prove this? I suppose I could discuss the difference technique
-to get a direct proof\ldots
+Let us now collect a few facts about the principal automaton.
 
-Further, let $\delta$ denote the generator for $\P$, namely if $\e$
-is the residuation vector, $\delta$ is located at $\e$.
+Let $\delta = \e_1 \in \mathfrak{C}(\Am, \e_1)$ 
+denote the generator for $\P$. We will show soon
+that $\P$ is located at $\e \in \mathfrak{C}(\Am, \e)$ for all odd $\e$,
+and so calling it $\delta$ will remove ambiguity in the future.
+
+Further, notice that $\del_0 \delta = \Am(\e_1 - \e_1) = \bar{0}$, 
+the identity function. 
+Then $\gamma = \del_1 \delta - \del_0 \delta = \del_1 \delta$.
+
+Additionally, $\P$ is minimal in the following sense: 
+$\G(\P) \leq \G(\A)$ for every $\A$ sharing a matrix with $\P$. 
+While there are proofs of this claim which rely heavily on the
+ambient linear algebraic structure, we present here a construction
+which uses only the given automaton $\A$ to construct $\P$.
 
 In fact, it is easy to see that $\P$ will be located at $\e$ in
 $\mathfrak{C}(\Am, \e)$ for all $\e$. A proof has been
 omitted, as we will prove a much more general version of this claim
 in the next section.
+
+\begin{proof}
+  Let $\A$ be an abelian automaton with at least one odd state.
+  Note that if $\A$ has no odd states, its group is trivial, 
+  and therefore any principal machine can be associated to it.
+
+  Put $\gamma = \del_1 f - \del_0 f$ for $f \in \A$ odd, and construct
+  a new automaton by closing $\gamma$ under residuation.
+
+  Note that this can be done using only information contained in $\A$,
+  since it is well known that:
+  \[
+    \del_0(f + g) = \begin{cases} \del_0 f + \del_1 g & \text{both odd}\\
+                                  \del_0 f + \del_0 g & \text{otherwise}
+                    \end{cases}
+  \]
+  \[
+    \del_1(f + g) = \begin{cases} \del_1 f + \del_0 g & \text{both odd}\\
+                                  \del_1 f + \del_1 g & \text{otherwise}
+                    \end{cases}
+  \]
+  \[
+    \del_0 (-f) = - \del_1 f
+  \]
+  \[
+    \del_1 (-f) = - \del_0 f
+  \]
+
+  Thus using the characterization by Sutner that a state is odd iff it has 
+  distinct residuals, we can close $\gamma$ under residuation by looking
+  only at $\A$.
+
+  Now, if necessary, we can join this automaton with its negation, and
+  possibly add states $\delta$ and $-\delta$ residuating into $I$
+  (an even self loop) and $\pm \gamma$
+\end{proof}
+
+\subsection{An Example}
+Consider the following machine, which will show up again in section ??.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (26.6,-12.1) circle (3);
+\draw (26.6,-12.1) node {$f$};
+\draw [black] (17.4,-25.6) circle (3);
+\draw (17.4,-25.6) node {$f_1$};
+\draw [black] (35.7,-25) circle (3);
+\draw (35.7,-25) node {$f_0$};
+\draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+\fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+\draw (17.67,-14.97) node [left] {$1/0$};
+\draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+\fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+\draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+\fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+\draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+\fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+\draw (27.31,-22.21) node [left] {$0/1$};
+\end{tikzpicture}
+\end{center}
+
+Here the unlabeled transitions both copy the input bit, however these
+have been omitted for cleanliness.
+
+Then we can construct the principal machine as follows:
+
+\begin{center}
+\begin{tikzpicture}[scale=0.2]
+\tikzstyle{every node}+=[inner sep=0pt]
+\draw [black] (36.4,-15.9) circle (3);
+\draw (36.4,-15.9) node {\tiny $I$};
+\draw [black] (55.3,-21) circle (3);
+\draw (55.3,-21) node {\tiny $f_1-f$};
+\draw [black] (64,-36.8) circle (3);
+\draw (64,-36.8) node {\tiny $f_0-f_1$};
+\draw [black] (46.9,-36.8) circle (3);
+\draw (46.9,-36.8) node {\tiny $f-f_0$};
+\draw [black] (28,-36.8) circle (3);
+\draw (28,-36.8) node {\tiny $f_0-f$};
+\draw [black] (11.8,-36.8) circle (3);
+\draw (11.8,-36.8) node {\tiny $f_1-f_0$};
+\draw [black] (19.6,-21) circle (3);
+\draw (19.6,-21) node {\tiny $f-f_1$};
+\draw [black] (22.47,-20.13) -- (33.53,-16.77);
+\fill [black] (33.53,-16.77) -- (32.62,-16.53) -- (32.91,-17.48);
+\draw (29.5,-19.03) node [below] {\tiny $0/1$};
+\draw [black] (18.27,-23.69) -- (13.13,-34.11);
+\fill [black] (13.13,-34.11) -- (13.93,-33.61) -- (13.03,-33.17);
+\draw (15,-27.81) node [left] {\tiny $1/0$};
+\draw [black] (14.8,-36.8) -- (25,-36.8);
+\fill [black] (25,-36.8) -- (24.2,-36.3) -- (24.2,-37.3);
+\draw [black] (26.59,-34.15) -- (21.01,-23.65);
+\fill [black] (21.01,-23.65) -- (20.94,-24.59) -- (21.83,-24.12);
+\draw (24.48,-27.74) node [right] {\tiny $0/1$};
+\draw [black] (30.345,-34.939) arc (122.03013:57.96987:13.397);
+\fill [black] (44.56,-34.94) -- (44.14,-34.09) -- (43.61,-34.94);
+\draw (37.45,-32.4) node [above] {\tiny $1/0$};
+\draw [black] (52.4,-20.22) -- (39.3,-16.68);
+\fill [black] (39.3,-16.68) -- (39.94,-17.37) -- (40.2,-16.41);
+\draw (47.22,-17.84) node [above] {\tiny $1/0$};
+\draw [black] (56.75,-23.63) -- (62.55,-34.17);
+\fill [black] (62.55,-34.17) -- (62.61,-33.23) -- (61.73,-33.71);
+\draw (58.98,-30.09) node [left] {\tiny $0/1$};
+\draw [black] (61,-36.8) -- (49.9,-36.8);
+\fill [black] (49.9,-36.8) -- (50.7,-37.3) -- (50.7,-36.3);
+\draw [black] (48.31,-34.15) -- (53.89,-23.65);
+\fill [black] (53.89,-23.65) -- (53.07,-24.12) -- (53.96,-24.59);
+\draw (51.78,-30.06) node [right] {\tiny $1/0$};
+\draw [black] (44.711,-38.841) arc (-53.966:-126.034:12.343);
+\fill [black] (30.19,-38.84) -- (30.54,-39.72) -- (31.13,-38.91);
+\draw (37.45,-41.7) node [below] {\tiny $0/1$};
+\end{tikzpicture}
+\end{center}
+
+It is easy to check that this is the principal machine for
+$\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$,
+and further that $\A$ as above is located at 
+$\e_1 \in \mathfrak{C}\left ( \Am, \begin{pmatrix} 3 \\ 2 \end{pmatrix} \right )$
+
+Notice that in this case we did not need to explicitly add the 
+inverse machine, or indeed $\pm \delta$. The Strongly Connected Component
+Conjecture states that for almost all abelian automata, this will be the case.
+However, this conjecture is yet unproven.
 
 \section{Group Extensions}
 Going forward, $\G$ will denote $\G(\P)$ for some principal machine $\P$.
@@ -334,12 +467,24 @@ be even or odd. In either case, $2 \frac{1}{2} \delta$ does not flip the
 first bit, a contradiction.
 
 \section{Characterizing Automata}
-Every strongly connected automaton $\A$ lives in some $p \cdot \G$.
-Further, $\A$ can always be anchored with an odd state at $\e_1$. 
-Thus, the study of Group Extensions is sufficient to study all abelian automata.
+It is well known that every automaton $\A$ is a subautomaton of some
+complete $\mathfrak{C}(\Am, \e)$.
+Equaivalently every $\A$ is a subautomaton of some $p_e \cdot \G$.
+
+Further, we now understand that the various choices of $\e$ correspond to
+levels of fractional elements of $\P$, so there should be a minimal $\e$
+(up to multiplication by units) which still has $\A$ as a subautomaton. 
+
+Notice that if we locate $\A$ at $\e_1 \in p \cdot \G$, 
+then there can be no smaller polynomial $q$ (in the division ordering)
+which also places $\A$ at an integral position, because, by the above
+theorems:\\ 
+$\e_1 \in p \cdot \G$ is located at $p^{-1}q \cdot \e_1 \in q \cdot \G$, 
+and $p^{-1}q \cdot \e_1$ is fractional.
+
 
 \begin{thm}
-  Every strongly connected abelian automaton $\A$ can be 
+  Every nontrivial abelian automaton $\A$ can be 
   located at $\e_1$ in $p \cdot \G$ for some $p$.
 \end{thm}
 
@@ -347,25 +492,48 @@ Thus, the study of Group Extensions is sufficient to study all abelian automata.
   An algorithm for computing the matrix $\Am$ associated to $\A$ is
   described by Becker, and has been omitted.
 
-  Let $f$ be an odd state in $\A$. Then $\del_0 f$ and $\del_1 f$ are distinct
-  and both have paths to $f$ by strongly connectedness. Thus we have two
-  distinct cycles $c_0$ and $c_1$ from $f$ to $f$ in $\A$.
-  Each of these cycles gives rise to a matrix equation 
-  $\v_f = g_0(\v_f,\e) = g_1(\v_f,\e)$ corresponding to following
-  the path in $\Z^m$ (with unknown residuation vector $\e$). 
-  Then $(g_0 - g_1)(\v_f, \e) = \bar{0}$ and we can solve for 
-  $\e$ in terms of $\v_f$.
+  It is a theorem by Sutner that every abelian automaton residuates into
+  a strongly connected component, and further that this component generates
+  the same group as the entire machine. So we may, with no loss of generality,
+  assume our machine is strongly connected.
 
-  Choosing $\v_f = \e_1$ gives a value for the residuation vector $e$,
+  Let $f$ be an odd state in $\A$. Then at least one of $\del_0 f$ and 
+  $\del_1 f$ is not equal to $f$. Then there is some nontrivial cycle
+  from $f$ to itself, which we can represent by a matrix equation 
+  relating $\v_f$, and $\e$. (Here $\v_f$ is where $f$ will be located, 
+  and $\e$ will be the eventual residuation vector). 
+  We can then rearrange this equation to obtain 
+  $p_1(\Am)\v_f = p_2(\Am)\e$.
+
+  However, $p_1, p_2 \in \Z[x]$ but $\Am$ has irreducible character over $\Z$.
+  It is well known that the eigenvalues of $p(\Am)$ are precisely $p(\lambda)$
+  where $\lambda$ is an eigenvalue of $\Am$, so $\Am$'s invertibility implies
+  the invertibility of both $p_1$ and $p_2$. Thus
+
+  \[ \e = p_2(\Am)^{-1}p_1(\Am)\v_f \]
+
+  Choosing $\v_f = \e_1$ gives a value for the residuation vector $\e$,
   which (by cyclicity) gives a polynomial $p_e$ 
-  such that $p_e \cdot \e_1 = e$. Then, by construction, $\A$ is 
+  such that $p_e \cdot \e_1 = \e$. Then, by construction, $\A$ is 
   a subautomaton of $p_e \cdot \G$, and is anchored with $f$ at $\e_1$.
   As desired.
 \end{proof}
 
+Then for any automaton $\A$, we can now completely characterize in
+which complete machines it can be located, and at what vectors.
+Simply locate $\A$ at $\e_1 \in p \cdot \G$, and then to locate it at
+any odd vector $\v$, scale both sides by $p_{\v}$ to see $\A$ located at
+$\v \in p_{\v} p \cdot \G$.
+
+Further, given some polynomial $q$, $\A$ is located somewhere in $q$ 
+if and only if $p \vert q$. Further, it will be located at 
+$p^{-1}q \cdot e_1$.
+
 \subsection{An Example}
 
 Consider the following abelian automaton $\A$:
+
+TODO: Should I Show this again? Or reference it earlier in the paper?
 
 \begin{center}
 \begin{tikzpicture}[scale=0.2]
@@ -376,39 +544,32 @@ Consider the following abelian automaton $\A$:
 \draw [black] (35.7,-25) circle (3);
 \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
 \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
-\draw (17.67,-14.97) node [left] {$0/1$};
+\draw (17.67,-14.97) node [left] {$1/0$};
 \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
 \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
 \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
 \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
 \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
 \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
-\draw (27.31,-22.21) node [left] {$1/0$};
+\draw (27.31,-22.21) node [left] {$0/1$};
 \end{tikzpicture}
 \end{center}
 
-Here the unlabeled transitions both copy the input bit, however these
-have been omitted for cleanliness. Using the algorithm described by 
-Becker gives $\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$.
+Say we want to find $\v$ and $\e$ such that $\A$ is located at 
+$\v \in \mathfrak{C}(\Am, \e)$.
 
-Then notice 
-\[ \del_0 \del_0 \del_0 f = f \] 
-and 
-\[ \del_1 \del_1 f = f \]
+Using the algorithm described by Becker gives 
+$\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$.
 
-This yields
-\[ \Am^3 (f - e) = f = \Am^2 (f + e) \]
+Then notice $\del_0 \del_0 f = f$.
+So $\Am^2 (\v_f - \e) = \v_f$, and
+$\Am^2 \v_f - \v_f = \Am^2 \e$. Thus
 
-then 
-\[ \Am (f - e) = (f + e) \]
+\[ \e = \Am^{-2} (\Am^2 - I) \v_f \]
 
-and 
+Choosing $\v_f = \e_1$ gives $\e = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$.
 
-\[ (\Am + \textbf{I})^{-1} (\Am - \textbf{I}) f =  e \]
-
-Choosing $f = \e_1$ gives $e = \begin{pmatrix} -3 \\ -2 \end{pmatrix}$.
-
-Then $f = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \in (-3-2x) \cdot \G$
+Then $f = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \in (3+2x) \cdot \G$
 
 \section{Characterizing Orbits}
 
