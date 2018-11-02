@@ -24,6 +24,17 @@
 \begin{document}
 \maketitle
 
+\begin{abstract}
+  A longstanding problem in understanding abelian automata groups
+  comes from a seemingly unnecessary parameter in the classification
+  given by Nekrashevich and Sidki. In this paper, we show that
+  this parameter corresponds to the inclusion of certain fractional group
+  elements. Further, we show the existence of a computable universal object 
+  which removes the need for this parameter. Finally, using this machinery, 
+  we fully characterize the orbits of the natural action of these groups on 
+  $\2^\omega$.
+\end{abstract}
+
 \section{Background}
 
 \subsection{Mealy Automata}
@@ -38,7 +49,7 @@ where $S$ is the \textbf{State Set}, $\Sigma$ is the \textbf{Alphabet},
 and $\delta~:~S \times \Sigma \to S \times \Sigma$ is the
 \textbf{transition function}.
 
-Given a state $s \in S$, we can treat it is a function 
+Given a state $s \in S$, we can treat it as a function 
 $\underline{s} : \Sigma^* \to \Sigma^*$ by 
 
 \begin{align*}
@@ -62,31 +73,31 @@ As an example, consider the automaton (shown below)\\
 $\A = (\{ \alpha, \tau \}, \2, \delta)$
 with 
 \begin{align*}
-  \delta(\alpha,0) &= (\alpha,1)\\
-  \delta(\alpha,1) &= (\tau,0)\\
-  \delta(\tau,0)   &= (\alpha,0)\\
-  \delta(\tau,1)   &= (\tau,1)
+  \delta(\tau,0)   &= (\alpha,1)\\
+  \delta(\tau,1)   &= (\tau,0)\\
+  \delta(\alpha,0) &= (\alpha,0)\\
+  \delta(\alpha,1) &= (\tau,1)\\
 \end{align*}
 
 \begin{center}
 \begin{tikzpicture}[scale=0.2]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (15.8,-29.2) circle (3);
-\draw (15.8,-29.2) node {$\alpha$};
+\draw (15.8,-29.2) node {$\tau$};
 \draw [black] (35.3,-29.2) circle (3);
-\draw (35.3,-29.2) node {$\tau$};
+\draw (35.3,-29.2) node {$\alpha$};
 \draw [black] (13.12,-30.523) arc (-36:-324:2.25);
-\draw (8.55,-29.2) node [left] {$0/1$};
+\draw (8.55,-29.2) node [left] {$1/0$};
 \fill [black] (13.12,-27.88) -- (12.77,-27) -- (12.18,-27.81);
 \draw [black] (17.918,-27.085) arc (128.02449:51.97551:12.39);
 \fill [black] (33.18,-27.09) -- (32.86,-26.2) -- (32.24,-26.99);
-\draw (25.55,-23.96) node [above] {$1/0$};
+\draw (25.55,-23.96) node [above] {$0/1$};
 \draw [black] (37.98,-27.877) arc (144:-144:2.25);
-\draw (42.55,-29.2) node [right] {$1/1$};
+\draw (42.55,-29.2) node [right] {$0/0$};
 \fill [black] (37.98,-30.52) -- (38.33,-31.4) -- (38.92,-30.59);
 \draw [black] (32.957,-31.065) arc (-57.68311:-122.31689:13.856);
 \fill [black] (18.14,-31.06) -- (18.55,-31.91) -- (19.09,-31.07);
-\draw (25.55,-33.71) node [below] {$0/0$};
+\draw (25.55,-33.71) node [below] {$1/1$};
 \end{tikzpicture}
 \end{center}
 

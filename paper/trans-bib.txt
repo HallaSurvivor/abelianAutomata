@@ -1,0 +1,208 @@
+
+--------------------------------------------------------------------------------
+General automata/transducers
+
+\bibitem{Berstel09:transductions_cfl}
+J.~Berstel.
+\newblock Transductions and context-free languages.
+\newblock
+  \url{http://www-igm.univ-mlv.fr/~berstel/LivreTransductions/LivreTransductions.html},
+  2009.
+
+\bibitem{ElgotMezei65:relations_fa}
+C.~C. Elgot and J.~E. Mezei.
+\newblock On relations defined by generalized finite automata.
+\newblock {\em IBM J. Res. Dev.}, 9:47--68, January 1965.
+
+\bibitem{Eilenberg74}
+S.~Eilenberg.
+\newblock {\em Automata, Languages and Machines}, volume~A.
+\newblock Academic Press, 1974.
+
+\bibitem{Gluskov61:theory_automata}
+V.~M. Glu\v{s}kov.
+\newblock Abstract theory of automata.
+\newblock {\em Uspehi Mat. Nauk}, 16(5(101)):3--62, 1961.
+
+\bibitem{Raney58:sequential_functions}
+G.~N. Raney.
+\newblock Sequential functions.
+\newblock {\em J. Assoc. Comp. Mach.}, 5(2):177--180, 1958.
+
+\bibitem{Sakarovitch09:automata_theory}
+J.~Sakarovitch.
+\newblock {\em Elements of Automata Theory}.
+\newblock Cambridge University Press, 2009.
+
+
+--------------------------------------------------------------------------------
+Miscellany transducers
+
+\bibitem{DamsLakhnechSteffen02:iterating_transducers}
+D.~Dams, Y.~Lakhnech, and M.~Steffen.
+\newblock Iterating transducers.
+\newblock {\em J. Log. Algebr. Program.}, 52-53:109--127, 2002.
+
+\bibitem{LatteuxSimplotTerlutte98:length_preserving_transducers}
+M.~Latteux, D.~Simplot, and A.~Terlutte.
+\newblock Iterated length-preserving rational transductions.
+\newblock In {\em Proc. 23rd Symposium on Mathematical Foundations of Computer
+  Science}, pages 286--295. Springer-Verlag, 1998.
+
+\bibitem{AngrandSakarovitch10:radix_enumeration}
+P.-Y. Angrand and J.~Sakarovitch.
+\newblock Radix enumeration of rational languages.
+\newblock {\em RAIRO-Theor. Inf. Appl.}, 44(1):19--36, 2010.
+
+\bibitem{Brzozowski64:derivatives_regex}
+J.~A. Brzozowski.
+\newblock Derivatives of regular expressions.
+\newblock {\em Journal Assoc. for Comp. Machinery}, 11, 1964.
+
+\bibitem{EpsteinCannonEtAl92:word_proc_groups}
+D.~B.~A. Epstein, J.~W. Cannon, D.~F. Holt, S.~V.~F. Levy, M.~S. Patterson, and
+  W.~P. Thurston.
+\newblock {\em Word Processing in Groups}.
+\newblock Jones and Bartlett, Burlington, 1992.
+
+\bibitem{Johnson86:rational_equiv}
+J.~Howard Johnson.
+\newblock Rational equivalence relations.
+\newblock {\em Theoretical Computer Science}, 47:167--176, 1986.
+
+\bibitem{FortnowGrochow11:equivalence_problems}
+L.~Fortnow and J.~A. Grochow.
+\newblock Complexity classes of equivalence problems revisited.
+\newblock {\em Inf. Comput.}, 209(4):748--763, April 2011.
+
+\bibitem{Khoussainov95:automatic_presentations}
+B.~Khoussainov and A.~Nerode.
+\newblock Automatic presentations of structures.
+\newblock In {\em LCC '94: Int. Workshop on Logical and Computational
+  Complexity}, pages 367--392, London, UK, 1995. Springer-Verlag.
+
+\bibitem{KhoussainovNerode01:automata_theory}
+B.~Khoussainov and A.~Nerode.
+\newblock {\em Automata Theory and its Applications}.
+\newblock Birkh{\"a}user, 2001.
+
+\bibitem{Khoussainov03:automatic_structures}
+B.~Khoussainov and S.~Rubin.
+\newblock Automatic structures: overview and future directions.
+\newblock {\em J. Autom. Lang. Comb.}, 8(2):287--301, 2003.
+
+
+--------------------------------------------------------------------------------
+Automata groups
+
+\bibitem{Serre77:arbres_amalgames}
+J.-P. Serre.
+\newblock {\em Arbres, Amalgames, $\mathit{SL}_{2}$}.
+\newblock Number~46 in Ast\'erisque. Soci\'et\'e Math\'ematique de France,
+  Paris, 1977.
+
+\bibitem{BartholdiSilva10a:groups_automata}
+L.~Bartholdi and P.~V. Silva.
+\newblock Groups defined by automata.
+\newblock {\em CoRR}, abs/1012.1531, 2010.
+
+\bibitem{GrigorchukSunic07:self_similarity}
+R.~Grigorchuk and Z.~\v{S}uni\'{c}.
+\newblock {\em Groups St. Andrews 2005}, volume 339 of {\em London Math. Soc.
+  Lec. Notes}, chapter Self-Similarity and Branching in Group Theory.
+\newblock Cambridge University Press, 2007.
+
+\bibitem{GrigorchukNS00:automata_groups}
+R.~R. Grigorchuk, V.~V. Nekrashevich, and V.~I. Sushchanski.
+\newblock Automata, dynamical systems and groups.
+\newblock {\em Proc. Steklov Institute of Math.}, 231:128--203, 2000.
+
+\bibitem{Nekrashevych05:self_similar_groups}
+V.~Nekrashevych.
+\newblock {\em Self-Similar Groups}, volume 117 of {\em Math. Surveys and
+  Monographs}.
+\newblock AMS, 2005.
+
+\bibitem{NekrashevychSidki04:automorphisms}
+V.~Nekrashevych and S.~Sidki.
+\newblock {\em Automorphisms of the binary tree: state-closed subgroups and
+  dynamics of 1/2-endomorphisms}.
+\newblock Cambridge University Press, 2004.
+
+\bibitem{Sidki00:one_rooted_trees}
+S.~Sidki.
+\newblock Automorphisms of one-rooted trees: Growth, circuit structure, and
+  acyclicity.
+\newblock {\em J. Math. Sciences}, 100(1):1925--1943, 2000.
+
+\bibitem{Gillibert13:finiteness}
+P.~Gillibert.
+\newblock The finiteness problem for automaton semigroups is undecidable.
+\newblock {\em ArXiv e-prints}, 2013.
+
+\bibitem{KlimannPicantin13:finite_groups}
+I.~Klimann and M.~Picantin.
+\newblock A characterization of those automata that structurally generate
+  finite groups.
+\newblock {\em ArXiv e-prints}, 2013.
+
+
+--------------------------------------------------------------------------------
+Miscellany
+
+\bibitem{Gouvea97:padic_numbers}
+F.~Q. Gouv{\^e}a.
+\newblock {\em $p$-Adic {N}umbers: {A}n {I}ntroduction}.
+\newblock Springer Verlag, 2nd edition, 1997.
+
+\bibitem{Vuillemin94:circuits}
+J.~Vuillemin.
+\newblock On circuits and numbers.
+\newblock {\em IEEE Transactions on Computers}, 43:868--879, 1994.
+
+\bibitem{Knuth60:number_system}
+D.~E. Knuth.
+\newblock An imaginary number system.
+\newblock {\em Comm. ACM}, 3:245--247, 1960.
+
+\bibitem{LagariasWang96:tiles}
+J.~C. Lagarias and Y.~Wang.
+\newblock Self-affine tiles in {$\R^n$}.
+\newblock {\em Adv. Math.}, 121:21--49, 1996.
+
+\bibitem{LagariasWang97:integral_tiles}
+J.~C. Lagarias and Y.~Wang.
+\newblock Integral self-affine tiles in {$\R^n$} ii. lattice tilings.
+\newblock {\em J. Fourier Anal. Appl.}, 3(1):83--102, 1997.
+
+
+
+--------------------------------------------------------------------------------
+
+
+\bibitem{Sutner13:invertible_iteration}
+K.~Sutner.
+\newblock Invertible transducers and iteration.
+\newblock In H.~Juergensen and R.~Reis, editors, {\em Descriptional Complexity
+  of Formal Systems}, volume 8031 of {\em Lecture Notes in Computer Science},
+  pages 18--29. Springer Berlin, 2013.
+
+\bibitem{Sutner13:invertible_coordinates}
+K.~Sutner.
+\newblock Invertible transducers, iteration and coordinates.
+\newblock In S.~Konstantinidis, editor, {\em CIAA}, volume 7982 of {\em LNCS},
+  pages 306--318. Springer Berlin, 2013.
+
+\bibitem{SutnerLewi12:ibiv_jalc}
+K.~Sutner and K.~Lewi.
+\newblock Iterating invertible binary transducers.
+\newblock {\em JALC}, 17(2-4):293--213, 2012.
+
+\bibitem{SutnerLewi12:iter_inver_bin_trans}
+K.~Sutner and K.~Lewi.
+\newblock Iterating invertible binary transducers.
+\newblock In M.~Kutrib, N.~Moreira, and R.~Reis, editors, {\em Descriptional
+  Complexity of Formal Systems}, volume 7386 of {\em Lecture Notes in Computer
+  Science}, pages 294--306. Springer Berlin, 2012.
+
+
