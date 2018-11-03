@@ -704,12 +704,14 @@ We will first prove the result in the finite case.
   $\langle w \rangle = tf + \langle u \rangle$ and the theorem follows.
 \end{proof}
 
-Note that this argument works in the infinite case as well, provided 
-we have a suitable definition of $\langle u \rangle$ for $u \in \2^\omega$.
-For cardinality reasons, we clearly cannot send $0^\omega$ to any $u$ without
-working in the topological closure $\widehat{\G}$, where we lose finiteness
-of our automata in general. Below we will characterize exactly those $u$ 
-for which $\langle u \rangle$ exists in some finite automaton.
+Note that this argument works in the infinite case as well 
+(it arguably works better, since Stab($0^\omega$) is trivial), though
+the obvious extension $\langle u \rangle = \sum_{i=0}^{\infty} u_i x^i \delta$ 
+for $u \in \2^\omega$ cannot be effective in general for cardinality reasons. 
+We clearly cannot send $0^\omega$ to any $u$ without working in the 
+topological closure $\widehat{\G}$, where we may lose finiteness of our 
+automata. Below we will characterize exactly those $u$ for which 
+$\langle u \rangle$ exists in some finite automaton.
 
 \begin{thm}
   For $u \in \2^\omega$, $\langle u \rangle$ exists in some group extension
@@ -722,8 +724,8 @@ for which $\langle u \rangle$ exists in some finite automaton.
   every such $f$.
 
   Further, if we have an ultimately periodic string $u = tv^*$, then
-  $\sum_{i=0}^{\infty} u_i x^i \delta$ works if it exists. Further,
-  it exists, since:
+  $\sum_{i=0}^{\infty} u_i x^i \delta$ works if it exists in some group 
+  extension. It does, since:
 
   \begin{align*}
     \sum_{i=0}^{\infty} u_i x^i \delta 
@@ -745,7 +747,6 @@ for which $\langle u \rangle$ exists in some finite automaton.
         {1 - x^{|v|}}
        \cdot \delta\\
   \end{align*}
-   
 
   This last sum is of the form $\frac{q}{1 - x^{|v|}} \cdot \delta$, 
   and is convergent in the cantor topology, since (by construction)
