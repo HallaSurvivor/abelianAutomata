@@ -28,7 +28,7 @@
   A longstanding problem in understanding abelian automata groups
   comes from a seemingly unnecessary parameter in the classification
   given by Nekrashevich and Sidki. In this paper, we show that
-  this parameter corresponds to the inclusion of certain fractional group
+  this parameter corresponds to the presence of certain fractional group
   elements. Further, we show the existence of a computable universal object 
   which removes the need for this parameter. Finally, using this machinery, 
   we fully characterize the orbits of the natural action of these groups on 
@@ -135,16 +135,18 @@ even states $\del_0 f - \del_1 f = I$ and for odd states
 $\del_1 f - \del_0 f = \gamma$, where $\gamma$ is independent
 of $f$. Here we write $I$ for the identity element of our group,
 and we use additive notation since our groups are abelian.
-
-Further, the case $\gamma = I$ corresponds precisely to the $\G(\A)$
+Moreover, the case $\gamma = I$ corresponds precisely to the $\G(\A)$
 being boolean.
 
 We now restrict ourselves further to the case where $\G(\A)$ is 
 free abelian, that is to say $\G(\A) \cong \Z^m$ for some $m$,
 and $\gamma \not = I$.
-If $\varphi$ witnesses this isomorphism, then $\varphi(f)$ has odd
-first component iff $f$ is odd. To that end, we call a vector $\v$ odd
-if its first component is odd, and even otherwise.
+It was shown by Nekrashevich and Sidka that if $\varphi$ witnesses this 
+isomorphism (note we require isomorphisms preserve the residuation structure
+in addition to the group structure), then without loss of generality, 
+$\varphi(f)$ has odd first component iff $f$ is odd. 
+To that end, we call a vector $\v$ odd if its first component is odd, 
+and even otherwise.
 
 A theorem by Nekrashevich and Sidki tells us that
 
@@ -173,8 +175,9 @@ To that end, we can define the \textbf{Complete Automaton}
 $\mathfrak{C}(\Am, \e)$ as the Mealy machine whose state set is all of
 $\Z^m$, and whose transitions are given by the above formulas.
 Going forward, we will abuse notation, and conflate our abstract groups
-with these integer lattices. This is justified since (as we will show)
-every automaton is a subautomaton of some $\mathfrak{C}(\Am, \e)$.
+with these integer lattices. This is justified since we can treat
+$\G(\A) \cong \Z^m$ as our state set, and view $\A$ as a subautomaton. 
+In this way, every automaton is a subautomaton of some $\mathfrak{C}(\Am, \e)$.
 
 Notice that we can take any state $\v \in \mathfrak{C}(\Am, \e)$, 
 and close $\{ \v \}$ under residuation.
@@ -266,7 +269,7 @@ which uses only the given automaton $\A$ to construct $\P$.
 \end{proof}
 
 \subsection{An Example}
-Consider the following machine, $\A^3_2$.
+Consider the following machine, $\A^3_2$:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.2]
@@ -374,7 +377,7 @@ Now for some $p \in \text{End}_{\G}$ we write
 $p \cdot \G$ in place of $\G(\mathfrak{C}(\Am,p \cdot \e_1))$.
 
 That is to say, $p \cdot \G$ has as its states $\Z^m$ and as its 
-residuations
+odd residuations
 $\del_0 \v = \Am (\v - p \cdot \e_1)$, and 
 $\del_1 \v = \Am (\v + p \cdot \e_1)$
 
@@ -392,9 +395,7 @@ homomorphism $\v \mapsto p \cdot \v$.
 Further, we recognize that if $p$ is not a unit in $\text{End}_{\G}$, 
 this homomorphism is \emph{not} surjective. 
 That is to say $\G$ is a proper subgroup of $p \cdot \G$.
-\textbf{Note:} It \emph{is} the case that $\G \cong \Z^m \cong p \cdot \G$. 
-
-Every function $f \in \G$ is also an element of $p \cdot \G$. 
+Moreover, every function $f \in \G$ is also an element of $p \cdot \G$. 
 If $f \in \G$ is located at $\v$, then $f \in p \cdot \G$ is located
 at $p \cdot \v$. In fact, this is true in a more general sense:
 
@@ -424,15 +425,15 @@ at $p \cdot \v$. In fact, this is true in a more general sense:
 \end{proof}
 
 \section{Fractional Elements}
-So for $p \cdot \G$ we know exactly how vectors of the form $p \cdot \v$
-behave as functions: They are exactly the functions present in $\G$.
-However there are plenty of vectors which do not have the above form. 
-How do they behave? We call such vectors (and their corresponding functions)
-\textbf{Fractional}, due to the following observation.
+So for a vector $p \cdot \v$ in $p \cdot \G$, we are working with exactly
+the functions already present in $\G$. However, most vectors cannot be written
+as $p \cdot \v$. What do they do as functions?
+We call such vectors (and their corresponding functions)
+\textbf{Fractional}, due to the following observation and theorem.
 
-Consider $3 \cdot \G$. What does $\e_1$ do as a function?
-Well, $3\e_1$ is the same function as $\delta$, and so
-$\e_1$ should behave like ``$\frac{1}{3}\delta$'', and in fact it does.
+Consider $\e_1 \in 3 \cdot \G$. By the above theorem, $3\e_1 = \delta$,
+and so we should expect $\e_1$ to behave like ``$\frac{1}{3}\delta$'', 
+and in fact it does.
 
 In general, $\v \in p \cdot \G$ behaves like $p^{-1} \cdot \v \in \G$,
 (where $p^{-1}$ comes from $\Q[x]$ and so $p^{-1} \cdot \v \in \Q^m$)
@@ -442,7 +443,6 @@ our base group $\G$.
 \begin{thm}
   For $p \in Z[x]$ with odd constant term, 
   $p^{-1} \cdot \Z^m \cong p \cdot \G$.
-  Further, this isomorphism respects $\del_0$ and $\del_1$.
 \end{thm}
 
 \begin{proof}
@@ -495,12 +495,8 @@ be even or odd. In either case, $2 \frac{1}{2} \delta$ does not flip the
 first bit, a contradiction.
 
 \section{Characterizing Automata}
-It is well known that every automaton $\A$ is a subautomaton of some
-complete $\mathfrak{C}(\Am, \e)$.
-Equaivalently every $\A$ is a subautomaton of some $p_e \cdot \G$.
-
-Further, we now understand that the various choices of $\e$ correspond to
-levels of fractional elements of $\P$, so there should be a minimal $\e$
+Since each automaton $\A$ is a subautomaton of some $\mathfrak{C}(\Am,\e)$,
+equivalently some $p \cdot \G$, there should be a minimal $\e$ 
 (up to multiplication by units) which still has $\A$ as a subautomaton. 
 
 Notice that if we locate $\A$ at $\e_1 \in p \cdot \G$, 
@@ -604,6 +600,7 @@ it is reasonable to consider the subgroup of $\Q^m$
 \[ 
   \widetilde{\G} = \bigcup_p p^{-1} \cdot \Z^m 
 \]
+(Recall we only include polynomials with odd constant term in this union)
 
 Notice that this group is universal, in the sense that it contains as
 subgroups each $p \cdot \G$. Further, it concretely shows the relationships
@@ -617,27 +614,15 @@ group extensions, and why the division ordering of polynomials is the
 characterizing factor. $p \cdot \G$ is precisely $p \cdot \widetilde{\G}$, 
 where residuation is necessarily scaled up, and we look at only integer
 vectors.
-
-Further, if we look at the category $\mathcal{C}$ of all group extensions of 
-$\G$ with arrows given by the canonical embeddings, we recognize that
-$\mathcal{C}$ is countable, and each $p \cdot \G$ is finitely generated
-(since $\A_{\e_1} \subseteq p \cdot \G$ is finite and generates it).
-Further $\mathcal{C}$ is hereditary, has an initial object ($\G$), and
-satisfies the amalgamation property since the following diagram 
-clearly commutes:
-
-\[
-  \begin{tikzcd}
-    p   \cdot \G \arrow{r}{q \cdot -} \arrow[swap]{d}{r \cdot -} 
-  & pq  \cdot \G \arrow{d}{r \cdot -} \\
-    pr  \cdot \G \arrow{r}{q \cdot -} 
-  & pqr \cdot \G
-  \end{tikzcd}
-\]
-
-Thus $\mathcal{C}$ admits a Fra\"iss\'e limit, and since $\mathcal{C}$ 
-is clearly the category of finitely generated substructures of 
-$\widetilde{\G}$, these objects coincide.
+\footnote
+{%
+  There is extra structure to $\widetilde{\G}$ which does not seem to
+  have any practical use, but nonetheless bears mentioning.
+  Notice the category of all group extensions of $\G$ with arrows given by the 
+  canonical embeddings, is hereditary, has an initial object ($\G$), 
+  and satisfies the amalgamation property. As such, this category admits a 
+  Fra\"iss\'e Limit, which, by uniqueness, coincides with $\widetilde{\G}$.
+}
 
 \section{Characterizing Orbits}
 
@@ -671,7 +656,7 @@ We will first prove the result in the finite case.
 
 \begin{thm}
   For every word $u \in \2^n$, there exists a unique function
-  (mod $Stab(0^n)$) $f$ such that $f 0^n = u$.
+  (mod $Stab(0^n)$) $\langle u \rangle$ such that $\langle u \rangle(0^n) = u$.
 \end{thm}
 
 \begin{proof}
@@ -679,8 +664,6 @@ We will first prove the result in the finite case.
   and is given by $\sum_{i=0}^{n-1} u_i x^i \delta$.
   Uniqueness mod $Stab(0^n)$ is immediate.
 \end{proof}
-
-Denote this function by $\langle u \rangle$. 
 
 \begin{thm}
   The orbit of $f$ at $u$ is given by the line $\Z f + \langle u \rangle$
@@ -694,9 +677,10 @@ Denote this function by $\langle u \rangle$.
 
 Note that this argument works in the infinite case as well, provided 
 we have a suitable definition of $\langle u \rangle$ for $u \in \2^\omega$.
-For cardinality reasons, we clearly cannot send $0^\omega$ to any $u$.
-Below we will characterize exactly those $u$ for which a $\langle u \rangle$
-exists.
+For cardinality reasons, we clearly cannot send $0^\omega$ to any $u$ without
+working in the topological closure $\widehat{\G}$, where we lose finiteness
+of our automata in general. Below we will characterize exactly those $u$ 
+for which $\langle u \rangle$ exists in some finite automaton.
 
 \begin{thm}
   For $u \in \2^\omega$, $\langle u \rangle$ exists in some group extension
@@ -738,10 +722,11 @@ exists.
   and is convergent in the cantor topology, since (by construction)
   for each $N \geq 0$, for all $n \geq N$, the $nth$ partial sums 
   agree on the first $N$ bits of the string.
-
-  Thus, this sum is equal to $q \cdot \delta \in 1 - x^{|v|} \cdot \G$.
+  Thus, this sum is equal to $q \cdot \delta \in (1 - x^{|v|}) \cdot \G$.
+  (Or, equivalently, $\frac{q}{1 - x^{|v|}} \cdot \delta \in \widetilde{\G}$)
 \end{proof}
 
-For ultimately periodic strings $u \in \2^\omega$, $f$ orbits
-of $u$ correspond to lines $\Z f + \langle u \rangle$.
+\section{Conclusion}
+
+
 \end{document}
