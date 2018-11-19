@@ -129,7 +129,6 @@ claims, see
      ,Okano15:thesis%
      ,Sutner18:abelian_automata%
      }.
-     TODO: Tim's paper
 
 It is well known that in an Invertible Transducer, each $\delta(s,-)$
 is a permutation of $\Sigma$. Since our automata will be over the alphabet
@@ -170,13 +169,20 @@ and even otherwise.
 
 Formally, the relevant theorem is as follows:
 \begin{thm}[Nekrashevich and Sidki]
-  There is a matrix $\Am$ associated to each automaton 
+  There is a matrix $\Am$ associated to each automaton,
   (though multiple automata may share a matrix, as we will soon see)
-  such that for some odd vector $\e$ 
+  and an isomorphism of groups $\varphi : \G(\A) \to \Z^m$ such that
+  the residuation structure is additionally preserved in the following way:
+
+  For some odd vector $\e$,
+
+  If $f$ is odd:
   \[ \varphi (\del_0 f) = \Am (\varphi(f) - \e) \] and
   \[ \varphi (\del_1 f) = \Am (\varphi(f) + \e) \]
-  For even vectors, 
+
+  If $f$ is even:
   \[ \varphi (\del_0 f) = \varphi (\del_1 f) = \Am (\varphi(f)) \]
+
   Further, $\Am$ is a contraction (all its complex eigenvalues have norm $<1$),
   and $\Am$ has irreducible characteristic polynomial 
   $\chi(x) = x^m + \frac{1}{2}g(x)$, 
@@ -202,6 +208,7 @@ Going forward, we will abuse notation, and conflate our abstract groups
 with these integer lattices. This is justified since we can treat
 $\G(\A) \cong \Z^m$ as our state set, and view $\A$ as a natural subautomaton. 
 In this way, every automaton is a subautomaton of some $\C$.
+
 Notice that we can take any state $\v \in \C$, 
 and close $\{ \v \}$ under residuation.
 Since $\Am$ is a contraction, the resulting closure will be finite.
@@ -247,7 +254,7 @@ we present here a difference construction which uses only the given
 automaton $\A$ to construct $\P$.
 
 \begin{thm}
-  For each nontrivial $\A$ with associated matrix $\Am$, 
+  For each nontrivial $\A$ with associated matrix $\Am$,\\
   $\G(\P(\Am)) \leq \G(\A)$.
 \end{thm}
 
@@ -260,7 +267,7 @@ automaton $\A$ to construct $\P$.
   a new automaton by closing $\gamma$ under residuation.
 
   Note that this can be done using only information contained in $\A$,
-  since it is well known that:
+  since it is easy to check that:
   \[
     \del_0(f + g) = \begin{cases} \del_0 f + \del_1 g & \text{both odd}\\
                                   \del_0 f + \del_0 g & \text{otherwise}
@@ -540,7 +547,7 @@ and $p^{-1}q \cdot \e_1$ is fractional.
 
 \begin{proof}
   An algorithm for computing the matrix $\Am$ associated to $\A$ is
-  described by Becker TODO: Tim's paper, and has been omitted.
+  described by Becker, and has been omitted.
 
   It is a theorem by Sutner \cite{Sutner18:abelian_automata} that every 
   abelian automaton residuates into a strongly connected component, 
@@ -607,7 +614,7 @@ Recall the abelian automaton $\A^3_2$ from earlier in the paper:
 Say we want to find $\v$ and $\e$ such that $\A^3_2$ is located at 
 $\v \in \C$.
 
-Using the algorithm described by Becker TODO: cite Tim gives 
+Using the algorithm described by Becker gives 
 $\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$.
 
 Then notice $\del_0 \del_0 f = f$.
