@@ -1,5 +1,3 @@
-load("tim/graph_loop.sage")
-
 #{{{ matrix definitions
 matrices2 = \
 [ companion_matrix([-(1/2) , 0      , 1], format='left')
@@ -317,7 +315,7 @@ and residuation vector:
 
         getClosure(f)
 
-        D = DiGraph(edges)
+        D = DiGraph(edges, loops=True)
         if plot:
             vertex_colormap = {"red": [tuple(f)]}
             edge_colormap = {"0|0": "grey", "0|1":"green", "1|0":"blue"}
@@ -331,7 +329,8 @@ and residuation vector:
                               ,color_by_label=edge_colormap
                               ,vertex_colors=vertex_colormap
                               ,vertex_color='white'
-                              ,figsize=[size, size]
+                              ,vertex_size=10
+                              ,figsize=[2*size,2*size]
                               ).plot()
         else:
             return D
