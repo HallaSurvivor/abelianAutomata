@@ -24,7 +24,7 @@
 \author{Chris Grossack\orcidID{0000-0001-7520-9747}}
 
 \institute%
-{%
+%
   Carnegie Mellon University, Pittsburgh, USA\\
   \email{cgrossac@andrew.cmu.edu}
 }
@@ -39,9 +39,10 @@
   this parameter corresponds to the presence of certain fractional group
   elements. Further, we show the existence of a computable universal object 
   which removes the need for this parameter entirely.
+
+  \keywords{Abelian Automata \and Transducer \and Module Theory}
 \end{abstract}
 
-\keywords{TODO}
 
 \section{Background}
 Finite State Automata are combinatorial objects which encode relations 
@@ -202,7 +203,7 @@ as states, and defining $\tau(f,i) = \del_i f$. $\A$ is a natural subautomaton
 of $\G(\A)$ by identifying $s \in \A$ with $\underline{s} \in \G(\A)$.
 Nekrashevich and Sidki's theorem give us a purely linear algebraic method
 of discussing these automaton groups, since a restatement of their theorem 
-says that every torision free abelian automaton group $\G(\A)$ is isomorphic 
+says that every torsion free abelian automaton group $\G(\A)$ is isomorphic 
 to $\C$ for some $\Am$ and $\e$, and therefore every abelian automaton $\A$
 is a subautomaton of some $\C$. $\Am$ is easily seen to be unique up to 
 GL($\Q$) similarity, and so we call it the \textbf{Associated Matrix} of $\A$.
@@ -644,14 +645,14 @@ show up in multiple group extensions, and why the division ordering of
 polynomials is the characterizing factor. $p \cdot \G$ is an approximation
 of $\widetilde{\G}$, where we scale up by a factor of $p$ and take only
 the integral vectors (residuation is necessarily scaled up to match). 
-In this structure, then, there is no unnecssary duplication of the location
+In this structure, then, there is no unnecessary duplication of the location
 of automata, and there is no extra parameter $\e$.
 
 \section{Conclusion}
 We have shown that the residuation vector $\e$ corresponds to how fine an
 approximation of $\widetilde{\G}$ one wants. This is because each $\C$ 
 corresponds to $p_{\e} \cdot \G$, with progressively larger $\e$ 
-corresponding to progressivly more complicated fractional elements, which
+corresponding to progressively more complicated fractional elements, which
 approximate $\widetilde{\G}$. Thus, the parameter really provides a way of
 interacting with these elements living in $\Q^m$ as though they were in $\Z^m$,
 and so by computing in $\widetilde{\G}$ (or a suitably large approximation) 
@@ -679,7 +680,7 @@ asserts that principal machines $\P$ have only one strongly connected component
 characteristic polynomial that is \emph{not} of the form $x^n + \frac{1}{2}$.
 The new way of looking at residuation vectors allows us to rewrite the 
 residual functions as $\del_i \vv = \Am (\vv - (-1)^i \delta)$ for $\vv$ odd.
-It is easy to see, then, that the following polynomials correpond to paths
+It is easy to see, then, that the following polynomials correspond to paths
 ending in $\delta$, since they undo residuation:
 
 \begin{align*}
@@ -701,10 +702,15 @@ well defined.
 
 The existence of a path polynomial $p$ which is congruent to $-1$ mod $\chi^*$
 then shows the existence of a path from $-\delta$ to $\delta$.
-Then to prove the SCC conjecture, it suffices to prove that whenver $\Am$ 
+Then to prove the SCC conjecture, it suffices to prove that whenever $\Am$ 
 does not have characteristic $x^n + \frac{1}{2}$ there is a polynomial 
 $p \in \{-1,0,1\}[x]$ which is congruent to $-1$ mod $\chi^*$. 
 Efforts are underway to use this method to actually prove the conjecture.
+
+\textbf{Acknowledgements}
+This paper would not exist without the advice of my advisor Klaus Sutner.
+There aren't enough thanks for the hours of conversation I was lucky enough
+to enjoy.
 
 \newpage
 
