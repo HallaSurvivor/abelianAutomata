@@ -150,7 +150,7 @@ functions. To that end, for the duration of this paper,
 homomorphisms and isomorphisms are all restricted to those 
 which preserve the residuation structure in addition to the group structure.
 It is a theorem by Sutner \cite{Sutner18:abelian_automata} 
-that $\G(\A)$ is abelian iff for even states $\del_0 f - \del_1 f = I$ 
+that $\G(\A)$ is abelian iff for even states $\del_1 f - \del_0 f = I$ 
 and for odd states $\del_1 f - \del_0 f = \gamma$, where $\gamma$ is 
 independent of $f$. Moreover, the case $\gamma = I$ corresponds 
 precisely to the case where $\G(\A)$ is boolean.
@@ -201,7 +201,7 @@ Following Sutner \cite{Sutner18:abelian_automata}, we call this
 Each $\G(\A)$ can also be viewed as an automaton, by taking $\G(\A)$ 
 as states, and defining $\tau(f,i) = \del_i f$. $\A$ is a natural subautomaton
 of $\G(\A)$ by identifying $s \in \A$ with $\underline{s} \in \G(\A)$.
-Nekrashevich and Sidki's theorem give us a purely linear algebraic method
+Nekrashevich and Sidki's theorem gives us a purely linear algebraic method
 of discussing these automaton groups, since a restatement of their theorem 
 says that every torsion free abelian automaton group $\G(\A)$ is isomorphic 
 to $\C$ for some $\Am$ and $\e$, and therefore every abelian automaton $\A$
@@ -404,7 +404,7 @@ has multiples of $\frac{1}{2}$ in general, $\Am^{-1}$ sends $\Z^m$ to
 $2\Z \oplus \Z^{m-1}$, and so has only integer entries).
 
 Now for $p \in \Z[x]$ with odd constant term, we write
-$p \cdot \G$ in place of $\G(\mathfrak{C}(\Am,p \cdot \e_1))$.
+$p \cdot \G$ in place of\\ $\G(\mathfrak{C}(\Am,p \cdot \e_1))$.
 That is to say, $p \cdot \G$ has as its states $\Z^m$ and as its 
 odd residuations
 $\del_0 \vv = \Am (\vv - p \cdot \e_1)$, and 
@@ -586,8 +586,9 @@ In the above proof, the choice of $\vv_f = \e_1$ was arbitrary, and we can
 directly locate $\A$ at a different odd vector $\vv'$ by setting 
 $\vv_f = \vv'$. This will give the same result as locating it at $\e_1$ and 
 then multiplying by $p_{\vv'}$, again, by cyclicity.
-The same observation shows that, given some polynomial $q$, 
-$\A$ is located somewhere in $q$ if and only if $p \mid q$. 
+The same observation shows that, given some polynomial $q$ 
+(equivalently some vector $q \cdot \e_1$) $\A$ is located somewhere in 
+$q \cdot \G = \mathfrak{C}(\Am,q \cdot \e_1)$ if and only if $p \mid q$. 
 Further, it will be located at exactly $p^{-1}q \cdot e_1$.
 
 \subsection{An Example}
@@ -659,9 +660,9 @@ and so by computing in $\widetilde{\G}$ (or a suitably large approximation)
 directly, we can remove the need for this parameter.
 
 Further, the existence of the universal object $\widetilde{\G}$ 
-sheds new light on the connection between affine tiles%
+sheds new light on the connection between affine tiles
 \cite{LagariasWang96:tiles,LagariasWang97:integral_tiles}
-and abelian automata noted by Sutner%
+and abelian automata noted by Sutner
 \cite{Sutner18:abelian_automata}. 
 Indeed it is easy to see that in 
 $\widetilde{\G}$ every strongly connected component 
@@ -693,12 +694,13 @@ ending in $\delta$, since they undo residuation:
 Sutner made a similar observation, and described Path Polynomials 
 \cite{Sutner18:abelian_automata} which
 allow us to reason about the existence of directed paths between states 
-in an automaton by purely algebraic means. However, these polynomials were
-clunky and not always defined, since they correspond to paths which 
-\emph{start} at $\delta$, and so $P_{w0} \cdot \delta$ is only well defined if 
-$P_w \cdot \delta$ is even. Since the above path polynomials move
-\emph{backwards} along transitions instead of forwards, they are always 
-well defined.
+in an automaton by purely algebraic means. However, these polynomials are
+clunky and not always defined, since they correspond to paths
+\emph{starting} at $\delta$, and so $P'_{w0} \cdot \delta$ is only well 
+defined if $P'_w \cdot \delta$ is even (and $P'_{w1}$ and $P'_{w\bar{1}}$ 
+are only well defined if $P_w \cdot \delta$ is odd). Since the polynomials 
+defined above move \emph{backwards} along transitions instead of forwards, 
+they are always well defined.
 
 The existence of a path polynomial $p$ which is congruent to $-1$ mod $\chi^*$
 then shows the existence of a path from $-\delta$ to $\delta$.
