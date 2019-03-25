@@ -143,6 +143,18 @@ def binLen(n):
         recur = binLen(n-1)
         return map(lambda xs: "1"+xs, recur) + map(lambda xs: "0"+xs, recur)
 
+def triLen(n):
+    """
+    All trit strings of length n
+    """
+    if n == 0:
+        return [[]]
+    else:
+        recur = triLen(n-1)
+        return map(lambda xs: [ 1]+xs, recur) + \
+               map(lambda xs: [ 0]+xs, recur) + \
+               map(lambda xs: [-1]+xs, recur)
+
 def randVect(n=2,s=100):
     """
     A random integer vector of size n
@@ -459,5 +471,25 @@ def tile(aut, n=None, save=None):
         g.save(save)
     else:
         g.show()
+
+def mahler(p):
+    """
+    Returns the mahler measure of the polynomial @p
+
+    A polynomial with coefficients in {-1,0,1} with a root alpha
+    exists if the ``mahler measure'' of alpha is < 2
+    (Sufficient, not necessary).
+    We take in the minimal polynomial of alpha @p.
+
+    Interestingly, it seems many of our matrices have mahler measure = 2:
+    The following are the fractions of mahler measure = 2 for each dimension:
+
+    6/6, 14/14, 13/36, 37/58
+    """
+    return reduce(lambda x,y: x*y
+                 ,map(lambda x: max(abs(x[0]), 1)
+                     , p.roots(CC)
+                     )
+                 )
 
 #}}}
