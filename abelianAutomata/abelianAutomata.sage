@@ -491,5 +491,4 @@ def mahler(p):
                      , p.roots(CC)
                      )
                  )
-
 #}}}
