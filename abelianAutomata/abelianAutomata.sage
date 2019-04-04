@@ -175,6 +175,22 @@ def expandTransPeriod(self,u,v):
     while v != "":
         yield v[i % len(v)]
         i += 1
+
+def borwein(n):
+    """
+    Return (ns,ps), where ns is a list of borwein polynomials of degree @n
+    and ps is a list of borwein polynomials of degree < @n.
+
+    Recall borwein polynomials are those polynomials in {-1,0,1}[x]
+    """
+    if n == 0:
+        return ([1], [])
+    else:
+        (ns,ps) = borwein(n-1)
+        ns2 = map(lambda p: x*p  , ns) + \
+              map(lambda p: x*p+1, ns) + \
+              map(lambda p: x*p-1, ns)
+        return (ns2, ns+ps)
 # }}}
 
 #{{{ the automaton group class
@@ -481,14 +497,32 @@ def mahler(p):
     (Sufficient, not necessary).
     We take in the minimal polynomial of alpha @p.
 
-    Interestingly, it seems many of our matrices have mahler measure = 2:
-    The following are the fractions of mahler measure = 2 for each dimension:
-
-    6/6, 14/14, 13/36, 37/58
+    Interestingly, it seems all of our matrices have mahler measure = 2
     """
     return reduce(lambda x,y: x*y
                  ,map(lambda x: max(abs(x[0]), 1)
                      , p.roots(CC)
                      )
                  )
+
+def plotBorwein(n, c=0):
+    """
+    Plot the solutions of b(x) = @c for all borwein polys b of degree <= @n
+    """
+    (deg_n, deg_lt_n) = borwein(n)
+    polys = deg_n + deg_lt_n[:-1] # remove the constant 1 polynomial
+    roots = [r[0] for rs in [(p-c).roots(CC) for p in polys] for r in rs]
+    return points([CDF(r) for r in roots], aspect_ratio=1, transparent=True)
+
+def plotMatrixRoots():
+    """
+    Plot the roots of chii for our matrices in red, except for x^m - 2 in orange
+    """ 
+    polys = [m.inverse().charpoly() for m in matrices2+matrices3+matrices4+matrices5]
+    roots = [r[0] for rs in [p.roots(CC) for p in polys] for r in rs]
+    
+    badPolys = [x^n - 2 for n in range(2,6)]
+    badRoots = [r[0] for rs in [p.roots(CC) for p in badPolys] for r in rs]
+    return points([CDF(r) for r in roots], aspect_ratio=1, color='red', transparent=True) +\
+           points([CDF(r) for r in badRoots], aspect_ratio=1, color='yellow', transparent=True)
 #}}}
