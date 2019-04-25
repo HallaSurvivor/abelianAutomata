@@ -321,6 +321,7 @@ and residuation vector:
         """
         B = borwein(n)
         B = B[0] + B[1]
+        B.reverse() # WHY IS THIS IN PLACE (put low degrees first)
         for b in B:
             if self.endo(b) == 1 and b != 1:
                 return b
@@ -332,6 +333,7 @@ and residuation vector:
         """
         B = borwein(n)
         B = B[0] + B[1]
+        B.reverse() # WHY IS THIS IN PLACE (put low degrees first)
         for b in B:
             if self.endo(b) == -1 and b != -1:
                 return b
