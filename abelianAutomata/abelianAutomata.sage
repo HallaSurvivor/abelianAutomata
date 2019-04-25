@@ -315,6 +315,28 @@ and residuation vector:
             yield y
             y = self.run(f,y)
 
+    def shortestPosPath(self,n=10):
+        """
+        Returns the shortest path from delta to delta of length <= @n
+        """
+        B = borwein(n)
+        B = B[0] + B[1]
+        for b in B:
+            if self.endo(b) == 1 and b != 1:
+                return b
+        print "n was not large enough"
+
+    def shortestNegPath(self,n=10):
+        """
+        Returns the shortest path from delta to -delta of length <= @n
+        """
+        B = borwein(n)
+        B = B[0] + B[1]
+        for b in B:
+            if self.endo(b) == -1 and b != -1:
+                return b
+        print "n was not large enough"
+
     def plot(self, f=None, plot=True):
         """
         Plots a graph representing the automaton anchored at @f
