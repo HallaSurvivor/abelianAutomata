@@ -218,8 +218,6 @@ class CompleteAutomaton(object):
         self.endo  = RZ.quo(self.chii)
         self.endo2 = ZZ.extension(self.chii,'a')
 
-        self.principal_vectors = self.plot(self.e, False).vertices()
-
     def __repr__(self):
         return \
 """
@@ -525,4 +523,90 @@ def plotMatrixRoots():
     badRoots = [r[0] for rs in [p.roots(CC) for p in badPolys] for r in rs]
     return points([CDF(r) for r in roots], aspect_ratio=1, color='red', transparent=True) +\
            points([CDF(r) for r in badRoots], aspect_ratio=1, color='yellow', transparent=True)
+
+def getRootsOfPathPoly():
+    """
+    Save the roots of each borwein polynomial b of degree <= 10 which are
+    1 mod poly. Also save the roots of b-1 for comparison
+    """
+    for m in matrices2+matrices3+matrices4+matrices5:
+        f = open("roots","a+")
+        p = m.inverse().charpoly()
+        aut = CompleteAutomaton(m)
+        f.write("===============\n{0}\n===============\n\n".format(p))
+        for b in B:
+            if aut.endo(b) == 1 and b != 1:
+                f.write("{0}\n".format(b))
+                for x in b.roots(CC):
+                    f.write("{0}\n".format(x[0]))
+                f.write("\n{0}\n".format(b-1))
+                for x in (b-1).roots(CC):
+                    f.write("{0}\n".format(x[0]))
+                f.write("\n\n")
+        f.close()
+
+def howCloseAreTheRootsExactly(m, n=10, plot=False):
+    """
+    Given a matrix @m, find the biggest distance between roots of
+    b and b-1 with b = 1 mod m borwein of degree <= @n
+
+    If @plot, then plot the roots of the maxDiff polynomial.
+    Blue is b, Red is b-1
+    """
+    aut = CompleteAutomaton(m)
+    maxDiff = 0
+    maxPoly = None
+    B = borwein(n)
+    for b in B[0] + B[1]:
+        if aut.endo(b) == 1 and b != 1:
+            roots1 = [x[0] for x in b.roots(CC)]
+            roots2 = [x[0] for x in (b-1).roots(CC)]
+            if len(roots1) != len(roots2):
+                print b
+                print "Different number of roots!\n"
+            else:
+                diffs = [abs(r1 - r2) for r1 in roots1 for r2 in roots2]
+                if maxDiff < max(diffs):
+                    maxDiff = max(diffs)
+                    maxPoly = b
+
+    if plot:
+        print maxDiff
+        print maxPoly
+        return points([CDF(r[0]) for r in maxPoly.roots(CC)], aspect_ratio=1, color='blue') +\
+               points([CDF(r[0]) for r in (maxPoly-1).roots(CC)], aspect_ratio=1, color='red')
+
+    else:
+        return maxDiff, maxPoly
+
+def howCloseCanTheRootsBe(m, n=10, plot=False):
+    """
+    Same as above, but look for the minimum of the maximums
+    """
+    aut = CompleteAutomaton(m)
+    minDiff = 1000
+    minPoly = None
+    B = borwein(n)
+    for b in B[0] + B[1]:
+        if aut.endo(b) == 1 and b != 1:
+            roots1 = [x[0] for x in b.roots(CC)]
+            roots2 = [x[0] for x in (b-1).roots(CC)]
+            if len(roots1) != len(roots2):
+                print ""
+                print b
+                print "Different number of roots!\n"
+            else:
+                diffs = [abs(r1 - r2) for r1 in roots1 for r2 in roots2]
+                if minDiff > max(diffs):
+                    minDiff = max(diffs)
+                    minPoly = b
+
+    if plot:
+        print minDiff
+        print minPoly
+        return points([CDF(r[0]) for r in minPoly.roots(CC)], aspect_ratio=1, color='blue') +\
+               points([CDF(r[0]) for r in (minPoly-1).roots(CC)], aspect_ratio=1, color='red')
+
+    else:
+        return minDiff, minPoly
 #}}}
