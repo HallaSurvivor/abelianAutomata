@@ -370,8 +370,6 @@ and residuation vector:
             vertex_colormap = {"red": [tuple(f)]}
             edge_colormap = {"0|0": "grey", "0|1":"green", "1|0":"blue"}
 
-            size = max((D.order() + 1)/2, 10)
-
             return D.graphplot(layout='spring'
                               ,iterations=1000
                               ,dpi=200
@@ -380,7 +378,7 @@ and residuation vector:
                               ,vertex_colors=vertex_colormap
                               ,vertex_color='white'
                               ,vertex_size=10
-                              ,figsize=[2*size,2*size]
+                              ,figsize=[2^8, 2^8] # max allowed by sage
                               ).plot()
         else:
             return D
@@ -633,4 +631,46 @@ def howCloseCanTheRootsBe(m, n=10, plot=False):
 
     else:
         return minDiff, minPoly
+
+def tryToGetBorweinEqualToId(m):
+    """
+    Do the naive approach of writing 1 as a nontrivial 
+    borwein power series, and see if it terminates.
+    """
+    aut = CompleteAutomaton(m)
+    sgn = aut.chii(0)/abs(aut.chii(0))
+    ply = 1 - (sgn * aut.chii)
+
+    print list(ply)
+    while max([abs(a) for a in list(ply)]) != 1:
+        flag = False
+        for (i,a) in enumerate(list(ply)):
+            if abs(a) > 1 and not flag:
+                ply = ply - z^i * sgn * (a / abs(a)) * aut.chii
+                flag = True
+        print list(ply)
+    return ply
+
+def tryToGetBorweinEqualToNegId(m):
+    """
+    Do the naive approach of writing -1 as a nontrivial 
+    borwein power series, and see if it terminates.
+    """
+    aut = CompleteAutomaton(m)
+    if aut.chii == z^(m.dimensions()[0]) - 2:
+        print "Sausage!"
+        return None
+
+    sgn = aut.chii(0)/abs(aut.chii(0))
+    ply = -1 + (sgn * aut.chii)
+
+    print ply
+    while max([abs(a) for a in list(ply)]) != 1:
+        flag = False
+        for (i,a) in enumerate(list(ply)):
+            if abs(a) > 1 and not flag:
+                ply = ply - z^i * sgn * (a / abs(a)) * aut.chii
+                flag = True
+        print ply
+    return ply
 #}}}
