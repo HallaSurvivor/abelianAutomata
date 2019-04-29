@@ -191,6 +191,12 @@ def borwein(n):
               map(lambda p: x*p+1, ns) + \
               map(lambda p: x*p-1, ns)
         return (ns2, ns+ps)
+
+def isBorwein(p):
+    """
+    True iff @p is a borwein polynomial with leading coeff 1
+    """
+    return max([abs(coeff) for coeff in list(p)]) <= 1 and list(p)[-1] == 1
 # }}}
 
 #{{{ the automaton group class
@@ -228,6 +234,12 @@ and residuation vector:
 {}
 ===============================
 """.format(self.A,self.e)
+
+    def isSausage(self):
+        """
+        True iff a sausage automaton
+        """
+        return self.chii == z^(self.m) - 2
 
     def scaleByPoly(self, p):
         """
@@ -378,7 +390,7 @@ and residuation vector:
                               ,vertex_colors=vertex_colormap
                               ,vertex_color='white'
                               ,vertex_size=10
-                              ,figsize=[2^8, 2^8] # max allowed by sage
+                              ,figsize=[10,10] 
                               ).plot()
         else:
             return D
@@ -632,45 +644,114 @@ def howCloseCanTheRootsBe(m, n=10, plot=False):
     else:
         return minDiff, minPoly
 
-def tryToGetBorweinEqualToId(m):
+def tryToGetBorwein(m,v=None,showTrace=False,numSteps=False):
     """
-    Do the naive approach of writing 1 as a nontrivial 
-    borwein power series, and see if it terminates.
+    Do the naive approach of writing @v (defaults to 1) as a nontrivial 
+    borwein power series in the machine associated to @m, 
+    and see if it terminates.
+
+    Return a polynomial representing a path v -> delta if one exists
+
+    if @showTrace, then print the polynomials along the way
+    if @numSteps, then return the number of steps alongside the polynomial
     """
+
+    if v == None:
+        v = [1]
+
     aut = CompleteAutomaton(m)
     sgn = aut.chii(0)/abs(aut.chii(0))
-    ply = 1 - (sgn * aut.chii)
 
-    print list(ply)
-    while max([abs(a) for a in list(ply)]) != 1:
-        flag = False
-        for (i,a) in enumerate(list(ply)):
-            if abs(a) > 1 and not flag:
-                ply = ply - z^i * sgn * (a / abs(a)) * aut.chii
-                flag = True
-        print list(ply)
-    return ply
-
-def tryToGetBorweinEqualToNegId(m):
-    """
-    Do the naive approach of writing -1 as a nontrivial 
-    borwein power series, and see if it terminates.
-    """
-    aut = CompleteAutomaton(m)
-    if aut.chii == z^(m.dimensions()[0]) - 2:
-        print "Sausage!"
+    if aut.endo(v) == 0:
+        print "No path from 0 to delta!"
         return None
 
-    sgn = aut.chii(0)/abs(aut.chii(0))
-    ply = -1 + (sgn * aut.chii)
+    if aut.isSausage() and vector(v) == -aut.e:
+        print "No path -delta to delta in sausage!"
+        return None
 
-    print ply
-    while max([abs(a) for a in list(ply)]) != 1:
+    if aut.endo(v) == 1: # make the starting point nontrivial for 1
+        p = RZ(list(v)) - (sgn * aut.chii) 
+    else:
+        p = RZ(list(v))
+
+    n = 1
+    while not isBorwein(p):
+        n += 1
+        if showTrace: print list(p)
         flag = False
-        for (i,a) in enumerate(list(ply)):
+        for (i,a) in enumerate(list(p)):
             if abs(a) > 1 and not flag:
-                ply = ply - z^i * sgn * (a / abs(a)) * aut.chii
+                p = p - z^i * sgn * (a / abs(a)) * aut.chii
                 flag = True
-        print ply
-    return ply
+
+        if not flag: # Borwein with leading coeff -1
+            p = p + (z^(len(list(p))-1) * sgn * aut.chii)
+
+        if len(list(p)) >= 100: # infinite loop prevention
+            print "Infinite loop detected!"
+            return None
+
+    if numSteps:
+        return n, p 
+    else:
+        return p
+
+def avgNumSteps():
+    """
+    Get the average number of steps to compute a 
+    path delta to delta using tryToGetBorwein.
+
+    """
+
+    steps2 = []
+    steps3 = []
+    steps4 = []
+    steps5 = []
+    steps  = []
+
+    for m in matrices2:
+        (n,p) = tryToGetBorwein(m,[1], False, True)
+        steps2 += [n]
+        steps += [n]
+
+    for m in matrices3:
+        (n,p) = tryToGetBorwein(m,[1], False, True)
+        steps3 += [n]
+        steps += [n]
+
+    for m in matrices4:
+        (n,p) = tryToGetBorwein(m,[1], False, True)
+        steps4 += [n]
+        steps += [n]
+
+    for m in matrices5:
+        (n,p) = tryToGetBorwein(m,[1], False, True)
+        steps5 += [n]
+        steps += [n]
+
+    print "2"
+    print steps2
+    print (sum(steps2)/len(steps2)).n()
+    print ""
+
+    print "3"
+    print steps3
+    print (sum(steps3)/len(steps3)).n()
+    print ""
+
+    print "4"
+    print steps4
+    print (sum(steps4)/len(steps4)).n()
+    print ""
+    
+    print "5"
+    print steps5
+    print (sum(steps5)/len(steps5)).n()
+    print ""
+    
+    print "total"
+    print steps
+    print (sum(steps)/len(steps)).n()
+    print ""
 #}}}
