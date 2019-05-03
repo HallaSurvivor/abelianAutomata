@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{amsmath,amsthm,amssymb}
+\usepackage{listings}
 \usepackage{tikz, tikz-cd}
 
 \newcommand{\A}{\mathcal{A}}
@@ -791,6 +792,103 @@ the integral vectors (residuation is necessarily scaled up to match).
 In this structure, then, there is no unnecessary duplication of the location
 of automata, and there is no extra parameter $\e$.
 
+
+\section{Characterizing Orbits}
+
+Recall an \textbf{Orbit} of $f \in \G(\A)$ at $u \in \2^{\omega}$
+is $\{ f^t u~|~t \in \Z \}$, or, additively, $\{ tf u~|~t \in \Z \}$.
+It is a reasonable question to wonder what these orbits look like
+for an arbitrary function $f$. We will soon see they look like lines
+with slope $f$ and ``intercept'' given by $\langle u \rangle$, which sends
+$0^{|u|}$ to $u$.
+
+We begin with a useful lemma: we can flip just the ith bit.
+
+\begin{thm}
+  $(x^n \cdot \delta) (u0v) = u1v$ 
+  (when $|u| = n$, and $v \in \2^*$ or $\2^\omega$)
+\end{thm}
+
+\begin{proof}
+  If $n=0$ the theorem is clear, since 
+  $\delta 0v = 1 (\del_0 \delta v) = 1 (I v) = 1v$
+
+  Further, $\Am^{-1}f$ is always even 
+  (since $\Am^{-1}:2\Z \oplus \Z^{m-1}$), 
+  and so copies the first bit, then applies $f$. 
+  The claim follows by induction.
+
+\end{proof}
+
+We will first prove the result in the finite case.
+
+\begin{thm}
+  For every word $u \in \2^n$, there exists a unique function
+  (mod $Stab(0^n)$) sending $0^n$ to $u$. Following Sutner and Lewi
+  \cite{SutnerLewi12:iter_inver_bin_trans}, we call this function
+  $\langle u \rangle$.
+\end{thm}
+
+\begin{proof}
+  The existance of such a function is a direct consequence of the lemma,
+  and is given by $\sum_{i=0}^{n-1} u_i x^i \delta$.
+  Uniqueness mod $Stab(0^n)$ is immediate.
+\end{proof}
+
+\begin{thm}
+  The orbit of $f$ at $u$ is given by the line $\Z f + \langle u \rangle$
+\end{thm}
+
+\begin{proof}
+  Let $w = tf u$ be in the orbit of $u$. Then $\langle w \rangle$ sends 
+  $0^n$ to $w$, but so does $tf + \langle u \rangle$. By uniqueness, then,
+  $\langle w \rangle = tf + \langle u \rangle$ and the theorem follows.
+\end{proof}
+
+Note that this argument works in the infinite case as well 
+(it arguably works better, since Stab($0^\omega$) is trivial), though
+the obvious extension $\langle u \rangle = \sum_{i=0}^{\infty} u_i x^i \delta$ 
+for $u \in \2^\omega$ cannot be effective in general for cardinality reasons. 
+We clearly cannot send $0^\omega$ to any $u$ without working in the 
+topological closure $\widehat{\G}$, where we may lose finiteness of our 
+automata. Further, since every $f$ residuates into a strongly connected 
+component, every $f$ sends $0^\omega$ to an ultimately periodic string.
+This is the only obstruction.
+
+\begin{thm}
+  For $u \in \2^\omega$, $\langle u \rangle$ exists in some group extension
+  iff $u$ is ultimately periodic.
+\end{thm}
+
+\begin{proof}
+  Since every function $f \in p \cdot \G$ eventualy residuates into a finite
+  strongly connected component, $f 0^\omega$ is ultimately periodic for
+  every such $f$.
+
+  Further, if we have an ultimately periodic string $u = tv^{\omega}$, then
+  $\sum_{i=0}^{\infty} u_i x^i \delta$ works if it exists in some group 
+  extension. It does, since:
+
+  \begin{align*}
+    \sum_{i=0}^{\infty} u_i x^i \delta 
+    &= \left ( 
+        \sum_{i=0}^{|t|} t_i x^i
+        + x^{|t|} \frac{\sum_{i=0}^{|v|} v_i x^i}{1 - x^{|v|}}
+       \right ) \cdot \delta\\
+    &= \frac%
+        {%
+          \left ( 1 - x^{|v|} \right ) \sum_{i=0}^{|t|} t_i x^i + 
+          x^{|t|} \sum_{i=0}^{|v|} v_i x^i
+        }
+        {1 - x^{|v|}}
+       \cdot \delta\\
+  \end{align*}
+
+  This last sum is of the form $\frac{q}{1 - x^{|v|}} \cdot \delta$, 
+  Thus, this sum is equal to $q \cdot \delta \in (1 - x^{|v|}) \cdot \G$.
+  (Or, equivalently, $\frac{q}{1 - x^{|v|}} \cdot \delta \in \widetilde{\G}$)
+\end{proof}
+
 \section{Conclusion}
 We have shown that the residuation vector $\e$ corresponds to how fine an
 approximation of $\widetilde{\G}$ one wants. This is because each $\C$ 
@@ -849,11 +947,63 @@ then shows the existence of a path from $-\delta$ to $\delta$.
 Then to prove the SCC conjecture, it suffices to prove that whenever $\Am$ 
 does not have characteristic $x^n + \frac{1}{2}$ there is a polynomial 
 $p \in \{-1,0,1\}[x]$ which is congruent to $-1$ mod $\chi^*$. 
-Efforts are underway to use this method to actually prove the conjecture.
+
+In fact, the set $\{-1,0,1\}[x]$ is sometimes called $\mathcal{B}$, the
+set of $\texbf{Borwein Polynomials}$ 
+(after \cite{Borwein97:restricted-coefficients}). 
+These polynomials are related to multiple open problems in number theory, 
+most notably in a conjecture regarding the existance a minimal non-trivial 
+mahler measure \cite{Mossinghoff:thesis}. This strengthens the ties to 
+number theory which Becker noted in his thesis, and gives new ties to 
+extremely diverse branches of math, including extremely recent results of 
+the dynamics of binary substitution systems \cite{Baake17:substitutions}.
+
+These substitution systems give rise to similar tilings to the ones 
+mentioned above from \cite{LagariasWang96:tiles,LagariasWang97:integral_tiles}.
+Indeed, there are deep ties between Borwein Polynomials, the iterated
+function system given by residuation, and Complex Analysis. One exploration
+of these connections comes in the form of generalized mandelbrot sets
+\cite{Calegari2017:schottky-semigroups}.
+
+These path polynomials seem like the correct approach to solving the SCC
+Conjecture, as the naive algorithm for finding a path from $-\delta$ to
+$\delta$ seemes to always work. By ``the naive algorithm'', we mean the 
+following (in pseudo-python):
+
+\begin{lstlisting}
+def tryToGetPathPoly(A):
+    aut = PrincipalAutomaton(A)
+
+    if aut.isSausage(): # charpoly = z^m - 2
+        print "No path -delta to delta in sausage!"
+        return None
+
+    sgn = aut.chi(0)/abs(aut.chi(0)) # sign of constant term of charpoly
+
+    p = -1
+    while not isPathPoly(p):
+        flag = False # only add one multiple of chi per iteration
+        for a_i in coeffs(p):
+            if abs(a_i) > 1 and not flag:
+                p = p - z^i * sgn * (a / abs(a)) * aut.chi
+                flag = True
+
+        if not flag: # p must be Borwein with leading coeff -1
+            p = p + (z^(len(list(p))-1) * sgn * aut.chii)
+
+    return p
+\end{lstlisting}
+
+This algorithm halts on all of the abelian automata we have access to, and
+efforts are underway to prove the SCC Conjecture using this approach.
 
 \section*{Acknowledgements}
-This paper would not exist without the advice of my advisor Klaus Sutner.
-There aren't enough thanks for the hours of conversation I enjoyed.
+This paper would not exist without the advice of my advisor 
+Dr Klaus Sutner. There aren't enough thanks for the hours of 
+conversation I enjoyed. I would also like to thank 
+Dr Clinton Conley and Dr Kate Thompson, both of whom were a wealth of
+knowledge. Their patience and kindness in the face of my constant 
+pestering is an inspiration to the kind of professor I hope to one day be.
 
 \newpage
 
