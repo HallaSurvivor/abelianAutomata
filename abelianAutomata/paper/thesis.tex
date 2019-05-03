@@ -285,6 +285,50 @@ location exists or not, will depend on the choice of $\e$. For a more detailed
 discussion of these linear algebraic methods and their origins, see
 \cite{Nekrashevych05:self_similar_groups,NekrashevychSidki04:automorphisms}
 
+\begin{defn}
+  The \textbf{Copy Chain} at a state $s \in \A$ is a chain of even states
+  $s_i$ such that $s_0 = s$ and $\del_0 s_{i+1} = \del_1 s_{i+1} = s_i$.
+\end{defn}
+
+Such a chain always exists, as if we consider $\A$ as a subset of $\C$,
+then for any $s \in \A$, $\Am^{-i} \varphi(s)$ forms a copy chain.
+This is because $\Am : 2 \Z \oplus \Z^{m-1} \to \Z^m$, so 
+$\Am^{-1} : \Z^m \to 2 \Z \oplus \Z^{m-1}$, and always gives an even vector.
+Then residuating $\Am^{-(i+1)}\vv$ is $\Am \Am^{-(i+1)}\vv = \Am^{-1}\vv$.
+
+\begin{defn}
+  If $x \in \2^*$, then $\del_x f$ is defined inductively as follows:
+  \begin{align*}
+    \del_\epsilon f &= f\\
+    \del_{wa} f     &= \del_a (\del_w f)
+  \end{align*}
+\end{defn}
+
+\begin{thm}[Sutner]
+  Let $\A \subseteq \C$ be a nontrivial automaton, and for $f \in \C$ with
+  $\del_x f \in \A$ for some $x \in \2^*$, let $\A_+$ be the smallest
+  subautomaton of $\C$ containing $\A$ and $f$. Then $\G(\A) = \G(\A_+)$.
+\end{thm}
+
+\begin{proof}
+  Fix $q \in \A \subseteq \C$ with $\del_x f = q$. 
+
+  First, let $f$ be even. Consider the copy chain $q_i = \Am^{-i}q$ with 
+  $q_0 = q$. Then by Cayley-Hamilton, $\Am^{-1}$ satisfies its own 
+  characteristic polynomial $\chi^*$. Thus $\chi^*(\Am^-1)q = I$, and
+  so we see some $\Z-$linear combination of the $q_i$ sum to the identity.
+  By repeatedly residuating both sides of this equation, we obtain 
+  $f \in \G(\A)$.
+
+  If instead $f$ is odd, then without loss of generality $\del_0 f \in \A$.
+  The $\del_1$ case is clearly symmetric, and if the path from $f$ to $\A$ 
+  is of length $>1$, then we can induct on the length of the path to get the
+  desired result. A similar residuation argument works to show $f \in \G(\A)$, 
+  however since $f$ is odd, we also need to know that $\del_1 f \in \G(\A)$. 
+  Thankfully, $\A$ is nontrivial, and so $\gamma \in \G(\A)$. But
+  $\del_1 f = \gamma + \del_0 f = \gamma + q \in \G(\A)$. The claim follows.
+\end{proof}
+
 \subsection{Principal Automata}
 To each abelian automaton we can associate a matrix as above, however each
 matrix can be associated to infinitely many automata.
@@ -354,10 +398,9 @@ $\G(\A)$, and the subgroup relation follows.
   Since $\gamma \in \G(\A)$ and $\G(\A)$ is residuation closed, 
   this entire closure is a subset of $\G(\A)$. 
 
-  Another theorem by Sutner \cite{Sutner18:abelian_automata} says that 
-  adding a state which residuates into an existing automaton does not 
-  change the group. To that end, the above closure generates the same group
-  as the above closure with an additional state $\delta$ residuating into 
+  But we know that adding a state which residuates into an existing automaton 
+  does not change the group. To that end, the above closure generates the same 
+  group as the above closure with an additional state $\delta$ residuating into 
   $\gamma$ and a self loop $I$. This new machine is exactly 
   $\A_{\e_1} \subseteq \mathfrak{C}(\Am,\e_1)$. Any state in $\A_{\-e_1}$ is
   the negation of a state in $\A_{e_1}$, and so 
@@ -531,6 +574,7 @@ $\gamma$ compute the same function. This is a manifestation of the fact
 that $\delta$ is located at different positions in the two machines, and
 $\gamma = 2 \Am \delta$.
 
+\newpage
 \section{Group Extensions}
 Going forward, $\G = \Z^m$ will denote $\G(\P)$ for some principal machine $\P$.
 
@@ -791,6 +835,7 @@ the integral vectors (residuation is necessarily scaled up to match).
 In this structure, then, there is no unnecessary duplication of the location
 of automata, and there is no extra parameter $\e$.
 
+\newpage
 \section{Characterizing Orbits}
 
 Recall an \textbf{Orbit} of $f \in \G(\A)$ at $u \in \2^{\omega}$
@@ -893,6 +938,7 @@ This is the only obstruction.
   (Or, equivalently, $\frac{q}{1 - x^{|v|}} \cdot \delta \in \widetilde{\G}$)
 \end{proof}
 
+\newpage
 \section{Conclusion}
 We have shown that the residuation vector $\e$ corresponds to how fine an
 approximation of $\widetilde{\G}$ one wants. This is because each $\C$ 
@@ -946,6 +992,16 @@ are only well defined if $P_w \cdot \delta$ is odd). Since the polynomials
 defined above move \emph{backwards} along transitions instead of forwards, 
 they are always well defined.
 
+These path polynomials are certainly useful, as at the very least they give
+a lower bound on the size of the principal machine. We know that any nontrivial
+path polynomial connecting $\delta$ to $\delta$ must be 1 mod $\chi^*$,
+and cannot be 1. Thus it has degree at least that of $\chi^*$, which is $m$.
+With this, we gain a (weak) lower bound on the size of the principal machine
+of roughly $2m$, as there is also a path of length $m$ from $-\delta$ to 
+$-\delta$ by linearity. This bound is approximate, because it is a priori 
+possible for these two paths to intersect. However, path polynomials seem to
+be much more useful than this wimpy bound would lead us to believe.
+
 The existence of a path polynomial $p$ which is congruent to $-1$ mod $\chi^*$
 then shows the existence of a path from $-\delta$ to $\delta$.
 Then to prove the SCC conjecture, it suffices to prove that whenever $\Am$ 
@@ -954,7 +1010,7 @@ $p \in \{-1,0,1\}[x]$ which is congruent to $-1$ mod $\chi^*$.
 
 In fact, the set $\{-1,0,1\}[x]$ is sometimes called $\mathcal{B}$, the
 set of $\textbf{Borwein Polynomials}$ 
-(after \cite{Borwein97:restricted-coefficients}). 
+(named after \cite{Borwein97:restricted-coefficients}). 
 These polynomials are related to multiple open problems in number theory, 
 most notably in a conjecture regarding the existance a minimal non-trivial 
 mahler measure \cite{Mossinghoff:thesis}. This strengthens the ties to 
