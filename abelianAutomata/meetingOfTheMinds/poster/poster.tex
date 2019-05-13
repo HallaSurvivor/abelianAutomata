@@ -1,4 +1,4 @@
-\documentclass[landscape, 25pt]{tikzposter}
+\documentclass[landscape, 20pt, blockverticalspace=0.5cm]{tikzposter}
 \usetikzlibrary{arrows.meta}
 
 
@@ -17,12 +17,12 @@
 %------------------------------------------
 % Poster options & visual elements
 %------------------------------------------
-\geometry{paperwidth=36in,paperheight=48in}
+\geometry{paperwidth=30in,paperheight=42in}
 \usetheme{Autumn}
 \usecolorstyle{Denmark}
 \useblockstyle{Default}
 \useinnerblockstyle{Default}
-\setlength{\textwidth}{48in}
+\setlength{\textwidth}{42in}
 \let\oldblock\block
 \renewcommand{\block}[2]{\oldblock{\huge #1}{\Large #2}}
 
@@ -68,19 +68,18 @@
 
 \author{Chris Grossack\\ (Advisor: Klaus Sutner)}
 
-\vspace{10in}
-
-
 %------------------------------------------
 % Begin Document
 %------------------------------------------
 \begin{document}
 \maketitle[titlegraphictotitledistance=-1cm] % rescale title in class file b/c option for it doesn't work
+\hspace{2in}
+\vspace*{5in}
 \begin{columns}
 %------------------------------------------
 % First column
 %------------------------------------------
-    \column{0.3}
+    \column{0.28}
     
     \block{Background}
     {
@@ -120,8 +119,16 @@
 
     \block{An Automaton: $\A^3_2$}
     {
+      Taking $\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$,
+      and $\e = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$ gives the following
+      machine, called $\A^3_2$. Here $f = \begin{pmatrix} 1 \\ 0 \end{pmatrix}$,
+      $f_0 = \begin{pmatrix} 0 \\ 1 \end{pmatrix}$, and 
+      $f_1 = \begin{pmatrix} -2 \\ -2 \end{pmatrix}$:
+
+      \bigskip
+
       \begin{center}
-      \begin{tikzpicture}[scale=1]
+      \begin{tikzpicture}[scale=0.5]
       \tikzstyle{every node}+=[inner sep=0pt]
       \draw [black] (26.6,-12.1) circle (3);
       \draw (26.6,-12.1) node {\huge $f$};
@@ -154,7 +161,7 @@
 %------------------------------------------
 % Second column
 %------------------------------------------
-    \column{0.4}
+    \column{0.35}
     
     
     \block{Main Theorems}
@@ -217,49 +224,49 @@
 \begin{tikzpicture}[scale=0.5]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (36.4,-15.9) circle (3);
-\draw (36.4,-15.9) node {\tiny $I$};
+\draw (36.4,-15.9) node {$I$};
 \draw [black] (37.8,-18.6) arc (60.34019:-227.65981:2.25);
 \fill [black] (35.17,-18.7) -- (34.34,-19.15) -- (35.21,-19.64);
 \draw [black] (55.3,-21) circle (3);
-\draw (55.3,-21) node {\tiny $f_1-f$};
+\draw (55.3,-21) node {$f_1-f$};
 \draw [black] (64,-36.8) circle (3);
-\draw (64,-36.8) node {\tiny $f_0-f_1$};
+\draw (64,-36.8) node {$f_0-f_1$};
 \draw [black] (46.9,-36.8) circle (3);
-\draw (46.9,-36.8) node {\tiny $f-f_0$};
+\draw (46.9,-36.8) node {$f-f_0$};
 \draw [black] (28,-36.8) circle (3);
-\draw (28,-36.8) node {\tiny $f_0-f$};
+\draw (28,-36.8) node {$f_0-f$};
 \draw [black] (11.8,-36.8) circle (3);
-\draw (11.8,-36.8) node {\tiny $f_1-f_0$};
+\draw (11.8,-36.8) node {$f_1-f_0$};
 \draw [black] (19.6,-21) circle (3);
-\draw (19.6,-21) node {\tiny $f-f_1$};
+\draw (19.6,-21) node {$f-f_1$};
 \draw [black] (22.47,-20.13) -- (33.53,-16.77);
 \fill [black] (33.53,-16.77) -- (32.62,-16.53) -- (32.91,-17.48);
-\draw (29.5,-19.03) node [below] {\tiny $0/1$};
+\draw (29.5,-19.03) node [below] {$0/1$};
 \draw [black] (18.27,-23.69) -- (13.13,-34.11);
 \fill [black] (13.13,-34.11) -- (13.93,-33.61) -- (13.03,-33.17);
-\draw (15,-27.81) node [left] {\tiny $1/0$};
+\draw (15,-27.81) node [left] {$1/0$};
 \draw [black] (14.8,-36.8) -- (25,-36.8);
 \fill [black] (25,-36.8) -- (24.2,-36.3) -- (24.2,-37.3);
 \draw [black] (26.59,-34.15) -- (21.01,-23.65);
 \fill [black] (21.01,-23.65) -- (20.94,-24.59) -- (21.83,-24.12);
-\draw (24.48,-27.74) node [right] {\tiny $0/1$};
+\draw (24.48,-27.74) node [right] {$0/1$};
 \draw [black] (30.345,-34.939) arc (122.03013:57.96987:13.397);
 \fill [black] (44.56,-34.94) -- (44.14,-34.09) -- (43.61,-34.94);
-\draw (37.45,-32.4) node [above] {\tiny $1/0$};
+\draw (37.45,-32.4) node [above] {$1/0$};
 \draw [black] (52.4,-20.22) -- (39.3,-16.68);
 \fill [black] (39.3,-16.68) -- (39.94,-17.37) -- (40.2,-16.41);
-\draw (47.22,-17.84) node [above] {\tiny $1/0$};
+\draw (47.22,-17.84) node [above] {$1/0$};
 \draw [black] (56.75,-23.63) -- (62.55,-34.17);
 \fill [black] (62.55,-34.17) -- (62.61,-33.23) -- (61.73,-33.71);
-\draw (58.98,-30.09) node [left] {\tiny $0/1$};
+\draw (58.98,-30.09) node [left] {$0/1$};
 \draw [black] (61,-36.8) -- (49.9,-36.8);
 \fill [black] (49.9,-36.8) -- (50.7,-37.3) -- (50.7,-36.3);
 \draw [black] (48.31,-34.15) -- (53.89,-23.65);
 \fill [black] (53.89,-23.65) -- (53.07,-24.12) -- (53.96,-24.59);
-\draw (51.78,-30.06) node [right] {\tiny $1/0$};
+\draw (51.78,-30.06) node [right] {$1/0$};
 \draw [black] (44.711,-38.841) arc (-53.966:-126.034:12.343);
 \fill [black] (30.19,-38.84) -- (30.54,-39.72) -- (31.13,-38.91);
-\draw (37.45,-41.7) node [below] {\tiny $0/1$};
+\draw (37.45,-41.7) node [below] {$0/1$};
 \end{tikzpicture}
 \end{center}
     }
@@ -268,7 +275,7 @@
 % Third column
 %----------------------------------------------
  
-    \column{0.3}
+    \column{0.28}
     
     \block{Complete Automaton}
     {
