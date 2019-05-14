@@ -802,6 +802,8 @@ def runFailingBorweinTests(n,q,f=None,verbose=False):
     if @f != None, redirect output to a file called @f
     """
 
+    ms = matrices2 + matrices3 + matrices4 + matrices5
+
     total = 0
     total_irred = 0
     total_half_int = 0
@@ -819,13 +821,15 @@ def runFailingBorweinTests(n,q,f=None,verbose=False):
         old_stdout = sys.stdout
         sys.stdout = open(f, 'w')
 
-    for p in (RZ([a,b,c,e,f]) for a in range(-n,n) \
-                              for b in range(-n,n) \
-                              for c in range(-n,n) \
-                              for d in range(-n,n) \
-                              for e in range(-n,n) \
-                              for f in range(-n,n) ):
-
+    for p in (RZ([a,b,c,e,f,g,h]) for a in range(-n,n) \
+                                  for b in range(-n,n) \
+                                  for c in range(-n,n) \
+                                  for d in range(-n,n) \
+                                  for e in range(-n,n) \
+                                  for f in range(-n,n) \
+                                  for g in range(-n,n) \
+                                  for h in range(-n,n) ):
+    
         if p(0) == 0: # ignore polys with constant term 0
             continue
 
