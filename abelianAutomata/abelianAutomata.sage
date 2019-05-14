@@ -754,4 +754,121 @@ def avgNumSteps():
     print steps
     print (sum(steps)/len(steps)).n()
     print ""
+
+def tryToGetBorweinShouldFail(p,q,verbose=False):
+    """
+    Try to get a borwein poly congruent to q mod p. 
+    We're going to try this on polynomials which don't satisfy
+    the assumptions of our characteristic polynomials 
+    (i.e. not irreducible, half-integral, constant term +/- 1)
+
+    Ideally, these will fail somehow, and that will give us
+    insight into which hypotheses are necessary for proving
+    the borwein conjectures we have for our polynomials
+    """
+    sgn = p(0) / abs(p(0))
+
+    if q == 1 or q == -1:
+        q = q + z * p
+
+    n = 1
+    while not isBorwein(q):
+        if verbose: print q
+
+        n += 1
+        flag = False
+        for (i,a) in enumerate(list(q)):
+            if abs(a) > 1 and not flag:
+                q = q - z^i * sgn * (a / abs(a)) * p
+                flag = True
+
+        if not flag: # Borwein with leading coeff -1
+            q = q + (z^(len(list(q))-1) * sgn * p)
+
+        if len(list(q)) >= 100: # infinite loop prevention
+            print "Infinite loop detected!"
+            return None
+
+        if abs(q.leading_coefficient()) > 20:
+            print "Confusing infinite loop detected!"
+            return None
+
+    return q
+
+def runFailingBorweinTests(n,q,f=None,verbose=False):
+    """
+    Run the tests on every polynomial with coeffs bounded by @n 
+    and degree bounded by 4, checking for congruence to @q,
+    if @f != None, redirect output to a file called @f
+    """
+
+    total = 0
+    total_irred = 0
+    total_half_int = 0
+    total_both = 0
+
+    success = 0
+    success_irred = 0
+    success_half_int = 0
+    success_both = 0
+
+    successes = []
+
+    import sys
+    if f:
+        old_stdout = sys.stdout
+        sys.stdout = open(f, 'w')
+
+    for p in (RZ([a,b,c,e,f]) for a in range(-n,n) \
+                              for b in range(-n,n) \
+                              for c in range(-n,n) \
+                              for d in range(-n,n) \
+                              for e in range(-n,n) \
+                              for f in range(-n,n) ):
+
+        if p(0) == 0: # ignore polys with constant term 0
+            continue
+
+        irred = p.is_irreducible()
+        half_int = abs(p.leading_coefficient()) == 2 and \
+                   len([c for c in list(p) if (c % 2) == 1]) != 0
+
+        print p
+        print "irreducible: ", irred
+        print "half-integral: ", half_int
+        b = tryToGetBorweinShouldFail(p,q,verbose)
+        print ""
+
+        total += 1
+        if b: success += 1
+
+        if irred: 
+            total_irred += 1
+            if b: success_irred += 1
+
+        if half_int: 
+            total_half_int += 1
+            if b: success_half_int += 1
+
+        if irred and half_int: 
+            total_both += 1
+            if b: success_both += 1
+
+        if b: successes.append((p,b))
+    
+    print ""
+    print "======================================"
+    print "success rate (total): ", success, total
+    print "success rate (irred): ", success_irred, total_irred
+    print "success rate (half_int): ", success_half_int, total_half_int
+    print "success rate (both): ", success_both, total_both
+    print "======================================"
+    print ""
+
+    if f:
+        for x in successes:
+            print x
+        sys.stdout.close()
+        sys.stdout = old_stdout
+    return successes
 #}}}
