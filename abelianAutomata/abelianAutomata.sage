@@ -644,60 +644,46 @@ def howCloseCanTheRootsBe(m, n=10, plot=False):
     else:
         return minDiff, minPoly
 
-def tryToGetBorwein(m,v=None,showTrace=False,numSteps=False):
+
+def findBorwein(p, v=1, n=100, showTrace=False, numSteps=False):
     """
-    Do the naive approach of writing @v (defaults to 1) as a nontrivial 
-    borwein power series in the machine associated to @m, 
-    and see if it terminates.
+    Find a borwein polynomial congruent to @v mod @p of degree at most @n
+    (infinite loop protection)
 
-    Return a polynomial representing a path v -> delta if one exists
-
-    if @showTrace, then print the polynomials along the way
-    if @numSteps, then return the number of steps alongside the polynomial
+    by default, @v = 1
     """
+    v = RZ(v)
+    p = p * sgn(p.constant_coefficient())
 
-    if v == None:
-        v = [1]
+    if v.is_constant(): v = v - p  # Technically we're making a choice here...
 
-    aut = CompleteAutomaton(m)
-    sgn = aut.chii(0)/abs(aut.chii(0))
+    steps = 1
+    while not isBorwein(v):
+        steps += 1
+        if showTrace: print v
 
-    if aut.endo(v) == 0:
-        print "No path from 0 to delta!"
-        return None
-
-    if aut.isSausage() and vector(v) == -aut.e:
-        print "No path -delta to delta in sausage!"
-        return None
-
-    if aut.endo(v) == 1: # make the starting point nontrivial for 1
-        p = RZ(list(v)) - (sgn * aut.chii) 
-    else:
-        p = RZ(list(v))
-
-    n = 1
-    while not isBorwein(p):
-        n += 1
-        if showTrace: print list(p)
         flag = False
-        for (i,a) in enumerate(list(p)):
+        for (i,a) in enumerate(list(v)):
             if abs(a) > 1 and not flag:
-                p = p - z^i * sgn * (a / abs(a)) * aut.chii
+                v -= sgn(a) * z^i * p
                 flag = True
+        if not flag: # v is Borwein with leading coeff -1
+            v += z^(v.degree()) * p
 
-        if not flag: # Borwein with leading coeff -1
-            p = p + (z^(len(list(p))-1) * sgn * aut.chii)
-
-        if len(list(p)) >= 100: # infinite loop prevention
-            print "Infinite loop detected!"
+        if v.degree() >= n:
+            if showTrace: print "infinite loop detected! (degree)"
             return None
 
-    if numSteps:
-        return n, p 
+        if abs(v.leading_coefficient()) > 20:
+            if showTrace: print "infinite loop detected! (coefficient)"
+            return None
+    
+    if numSteps: 
+        return steps, v
     else:
-        return p
+        return v
 
-def avgNumSteps():
+def avgNumStepsToBorwein():
     """
     Get the average number of steps to compute a 
     path delta to delta using tryToGetBorwein.
@@ -711,22 +697,22 @@ def avgNumSteps():
     steps  = []
 
     for m in matrices2:
-        (n,p) = tryToGetBorwein(m,[1], False, True)
+        (n,p) = findBorwein(m.inverse().charpoly())
         steps2 += [n]
         steps += [n]
 
     for m in matrices3:
-        (n,p) = tryToGetBorwein(m,[1], False, True)
+        (n,p) = findBorwein(m.inverse().charpoly())
         steps3 += [n]
         steps += [n]
 
     for m in matrices4:
-        (n,p) = tryToGetBorwein(m,[1], False, True)
+        (n,p) = findBorwein(m.inverse().charpoly())
         steps4 += [n]
         steps += [n]
 
     for m in matrices5:
-        (n,p) = tryToGetBorwein(m,[1], False, True)
+        (n,p) = findBorwein(m.inverse().charpoly())
         steps5 += [n]
         steps += [n]
 
@@ -755,124 +741,26 @@ def avgNumSteps():
     print (sum(steps)/len(steps)).n()
     print ""
 
-def tryToGetBorweinShouldFail(p,q,verbose=False):
+
+def tryRandomBorwein(n=1000, deg=10, filterIrred=False, filterContract=False):
     """
-    Try to get a borwein poly congruent to q mod p. 
-    We're going to try this on polynomials which don't satisfy
-    the assumptions of our characteristic polynomials 
-    (i.e. not irreducible, half-integral, constant term +/- 1)
-
-    Ideally, these will fail somehow, and that will give us
-    insight into which hypotheses are necessary for proving
-    the borwein conjectures we have for our polynomials
+    Randomly try @n many contracting, half-integral polynomials of degree @deg
     """
-    sgn = p(0) / abs(p(0))
-
-    if q == 1 or q == -1:
-        q = q + z * p
-
-    n = 1
-    while not isBorwein(q):
-        if verbose: print q
-
-        n += 1
-        flag = False
-        for (i,a) in enumerate(list(q)):
-            if abs(a) > 1 and not flag:
-                q = q - z^i * sgn * (a / abs(a)) * p
-                flag = True
-
-        if not flag: # Borwein with leading coeff -1
-            q = q + (z^(len(list(q))-1) * sgn * p)
-
-        if len(list(q)) >= 100: # infinite loop prevention
-            print "Infinite loop detected!"
-            return None
-
-        if abs(q.leading_coefficient()) > 20:
-            print "Confusing infinite loop detected!"
-            return None
-
-    return q
-
-def runFailingBorweinTests(n,q,f=None,verbose=False):
-    """
-    Run the tests on every polynomial with coeffs bounded by @n 
-    and degree bounded by 4, checking for congruence to @q,
-    if @f != None, redirect output to a file called @f
-    """
-
-    ms = matrices2 + matrices3 + matrices4 + matrices5
 
     total = 0
-    total_irred = 0
-    total_half_int = 0
-    total_both = 0
-
     success = 0
-    success_irred = 0
-    success_half_int = 0
-    success_both = 0
+    coeffs = [range(-2*binomial(deg,i), 2*binomial(deg,i)) for i in range(deg)]
 
-    successes = []
+    while total < n:
+        p = RZ([choice(coeff) for coeff in coeffs]) + 2*z^deg
+        p_recip = RZ(list(reversed(list(p))))
+        if not filterIrred or p.is_irreducible():
+            if not filterContract or max([abs(r[0]) for r in p.roots(CC)]) < 1:
+                print total
+                if total % 100 == 0: print p
+                total += 1
+                if findBorwein(p_recip):
+                    success += 1
 
-    import sys
-    if f:
-        old_stdout = sys.stdout
-        sys.stdout = open(f, 'w')
-
-    for p in (RZ([a,b,c,e,f,g,h]) for a in range(-n,n) \
-                                  for b in range(-n,n) \
-                                  for c in range(-n,n) \
-                                  for d in range(-n,n) \
-                                  for e in range(-n,n) \
-                                  for f in range(-n,n) \
-                                  for g in range(-n,n) \
-                                  for h in range(-n,n) ):
-    
-        if p(0) == 0: # ignore polys with constant term 0
-            continue
-
-        irred = p.is_irreducible()
-        half_int = abs(p.leading_coefficient()) == 2 and \
-                   len([c for c in list(p) if (c % 2) == 1]) != 0
-
-        print p
-        print "irreducible: ", irred
-        print "half-integral: ", half_int
-        b = tryToGetBorweinShouldFail(p,q,verbose)
-        print ""
-
-        total += 1
-        if b: success += 1
-
-        if irred: 
-            total_irred += 1
-            if b: success_irred += 1
-
-        if half_int: 
-            total_half_int += 1
-            if b: success_half_int += 1
-
-        if irred and half_int: 
-            total_both += 1
-            if b: success_both += 1
-
-        if b: successes.append((p,b))
-    
-    print ""
-    print "======================================"
-    print "success rate (total): ", success, total
-    print "success rate (irred): ", success_irred, total_irred
-    print "success rate (half_int): ", success_half_int, total_half_int
-    print "success rate (both): ", success_both, total_both
-    print "======================================"
-    print ""
-
-    if f:
-        for x in successes:
-            print x
-        sys.stdout.close()
-        sys.stdout = old_stdout
-    return successes
+    print "{0} of {1} admit a borwein poly congruent to 1".format(success,total)
 #}}}
