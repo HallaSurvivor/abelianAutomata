@@ -197,6 +197,29 @@ def isBorwein(p):
     True iff @p is a borwein polynomial with leading coeff 1
     """
     return max([abs(coeff) for coeff in list(p)]) <= 1 and list(p)[-1] == 1
+
+def mahler(p):
+    """
+    Returns the mahler measure of the polynomial @p
+
+    mahler(p) = exp(integral_0^1 log |p(exp(e pi i t))| dt)
+
+    if p = a_0 + a_1 z + a_2 z^2 + ... + a_n z^n = a_n * product(z - alpha_i),
+    mahler(p) = |an| product(max(|alpha_i|, 1))
+
+    cf. Smyth "The Mahler Measure of Algebraic Numbers: A Survey"
+
+    A polynomial with coefficients in {-1,0,1} with a root alpha
+    exists if the ``mahler measure'' of alpha is < 2
+    (Sufficient, not necessary).
+    We take in the minimal polynomial of alpha @p.
+
+    Interestingly, it seems 
+    all of our matrices' charpolys have mahler measure = 1, 
+    and all of our inverse matrices' charpolys have mahler measure = 2
+    """
+    rootNorms = [max(abs(r[0]),1) for r in p.roots(CC)]
+    return p.leading_coefficient() * reduce(lambda x,y: x*y, rootNorms, 1)
 # }}}
 
 #{{{ the automaton group class
@@ -520,23 +543,6 @@ def tile(aut, n=None, save=None):
     else:
         g.show()
 
-def mahler(p):
-    """
-    Returns the mahler measure of the polynomial @p
-
-    A polynomial with coefficients in {-1,0,1} with a root alpha
-    exists if the ``mahler measure'' of alpha is < 2
-    (Sufficient, not necessary).
-    We take in the minimal polynomial of alpha @p.
-
-    Interestingly, it seems all of our matrices have mahler measure = 2
-    """
-    return reduce(lambda x,y: x*y
-                 ,map(lambda x: max(abs(x[0]), 1)
-                     , p.roots(CC)
-                     )
-                 )
-
 def plotBorwein(n, c=0):
     """
     Plot the solutions of b(x) = @c for all borwein polys b of degree <= @n
@@ -763,4 +769,190 @@ def tryRandomBorwein(n=1000, deg=10, filterIrred=False, filterContract=False):
                     success += 1
 
     print "{0} of {1} admit a borwein poly congruent to 1".format(success,total)
+
+# Here we have all contractions of degree 5
+# We generated this by looking at polynomials with coefficients
+# in (-10, 10) which should be big enough to guarantee we got all of them
+#
+# There are 175 polynomials in this list
+# 81 of them halt on the findBorwein algorithm
+# all 58 of the matrices5 charpolys are here
+degFiveContractions =                    \
+[2*z^5 + 2*z^4 + z^3 - z^2 - 2*z - 1     \
+,2*z^5 + 3*z^4 + 2*z^3 - z^2 - 2*z - 1   \
+,2*z^5 + 2*z^4 - z^2 - z - 1             \
+,2*z^5 + z^4 + z^3 - z^2 - z - 1         \
+,2*z^5 + 2*z^4 + z^3 - z^2 - z - 1       \
+,2*z^5 + 2*z^4 + 2*z^3 - z^2 - z - 1     \
+,2*z^5 + z^4 - z - 1                     \
+,2*z^5 + 2*z^4 + z^3 - z - 1             \
+,2*z^5 + 3*z^4 + 2*z^3 - z - 1           \
+,2*z^5 + 3*z^4 + 3*z^3 - z - 1           \
+,2*z^5 + 4*z^4 + 4*z^3 + z^2 - z - 1     \
+,2*z^5 + z^3 - z^2 - 1                   \
+,2*z^5 + z^4 + 2*z^3 - z^2 - 1           \
+,2*z^5 + z^4 - z^3 - 1                   \
+,2*z^5 - 1                               \
+,2*z^5 + z^4 - 1                         \
+,2*z^5 + z^3 - 1                         \
+,2*z^5 + z^4 + z^3 - 1                   \
+,2*z^5 + 2*z^4 + 3*z^3 - 1               \
+,2*z^5 - z^3 + z^2 - 1                   \
+,2*z^5 - z^4 + z^2 - 1                   \
+,2*z^5 + z^2 - 1                         \
+,2*z^5 + z^4 + z^2 - 1                   \
+,2*z^5 + 2*z^4 + z^3 + z^2 - 1           \
+,2*z^5 + 3*z^4 + 4*z^3 + z^2 - 1         \
+,2*z^5 - z^4 + 2*z^3 - 2*z^2 + z - 1     \
+,2*z^5 - z^4 + z^3 - z^2 + z - 1         \
+,2*z^5 - 2*z^4 + 2*z^3 - z^2 + z - 1     \
+,2*z^5 - z^4 + 2*z^3 - z^2 + z - 1       \
+,2*z^5 + 2*z^3 - z^2 + z - 1             \
+,2*z^5 - z^4 + z - 1                     \
+,2*z^5 + z - 1                           \
+,2*z^5 - z^4 + z^3 + z - 1               \
+,2*z^5 + z^3 + z - 1                     \
+,2*z^5 - 2*z^3 + z^2 + z - 1             \
+,2*z^5 - z^4 - z^3 + z^2 + z - 1         \
+,2*z^5 - z^3 + z^2 + z - 1               \
+,2*z^5 + z^2 + z - 1                     \
+,2*z^5 - z^4 - 2*z^3 + 2*z^2 + z - 1     \
+,2*z^5 - 3*z^4 + 4*z^3 - 3*z^2 + 2*z - 1 \
+,2*z^5 - 2*z^4 + 2*z^3 - 2*z^2 + 2*z - 1 \
+,2*z^5 - 2*z^4 + 3*z^3 - 2*z^2 + 2*z - 1 \
+,2*z^5 - 2*z^4 + z^3 - z^2 + 2*z - 1     \
+,2*z^5 - z^4 + 2*z^3 - z^2 + 2*z - 1     \
+,2*z^5 - z^4 - 2*z^3 + z^2 + 2*z - 1     \
+,2*z^5 - 4*z^4 + 6*z^3 - 5*z^2 + 3*z - 1 \
+,2*z^5 - 5*z^4 + 8*z^3 - 7*z^2 + 4*z - 1 \
+,2*z^5 + 2*z^4 - 2*z^2 - z               \
+,2*z^5 + z^4 - z^2 - z                   \
+,2*z^5 + 2*z^4 + z^3 - z^2 - z           \
+,2*z^5 - z                               \
+,2*z^5 - z^4 + z^3 - z                   \
+,2*z^5 + z^4 + z^3 - z                   \
+,2*z^5 - z^4 + z^2 - z                   \
+,2*z^5 - 2*z^4 + z^3 + z^2 - z           \
+,2*z^5 - 2*z^4 + 2*z^2 - z               \
+,2*z^5 + z^4 - z^3 - z^2                 \
+,2*z^5 - z^2                             \
+,2*z^5 + z^4 - z^2                       \
+,2*z^5 + 2*z^4 - z^2                     \
+,2*z^5 - z^4 + z^3 - z^2                 \
+,2*z^5 + z^3 - z^2                       \
+,2*z^5 + z^4 + z^3 - z^2                 \
+,2*z^5 - 2*z^4 + 2*z^3 - z^2             \
+,2*z^5 - 3*z^4 + 3*z^3 - z^2             \
+,2*z^5 - z^3                             \
+,2*z^5 - z^4                             \
+,2*z^5                                   \
+,2*z^5 + z^4                             \
+,2*z^5 - 2*z^4 + z^3                     \
+,2*z^5 - z^4 + z^3                       \
+,2*z^5 + z^3                             \
+,2*z^5 + z^4 + z^3                       \
+,2*z^5 + 2*z^4 + z^3                     \
+,2*z^5 - 2*z^4 + 2*z^3                   \
+,2*z^5 + 2*z^4 + 2*z^3                   \
+,2*z^5 - z^4 - z^3 + z^2                 \
+,2*z^5 - 2*z^4 + z^2                     \
+,2*z^5 - z^4 + z^2                       \
+,2*z^5 + z^2                             \
+,2*z^5 - z^4 + z^3 + z^2                 \
+,2*z^5 + z^3 + z^2                       \
+,2*z^5 + z^4 + z^3 + z^2                 \
+,2*z^5 + 2*z^4 + 2*z^3 + z^2             \
+,2*z^5 + 3*z^4 + 3*z^3 + z^2             \
+,2*z^5 - 4*z^4 + 5*z^3 - 3*z^2 + z       \
+,2*z^5 - 2*z^4 + 2*z^3 - 2*z^2 + z       \
+,2*z^5 - 3*z^4 + 3*z^3 - 2*z^2 + z       \
+,2*z^5 - 3*z^4 + 4*z^3 - 2*z^2 + z       \
+,2*z^5 - z^3 - z^2 + z                   \
+,2*z^5 - z^4 - z^2 + z                   \
+,2*z^5 - z^2 + z                         \
+,2*z^5 - 2*z^4 + z^3 - z^2 + z           \
+,2*z^5 - z^4 + z^3 - z^2 + z             \
+,2*z^5 + z^3 - z^2 + z                   \
+,2*z^5 - 2*z^4 + 2*z^3 - z^2 + z         \
+,2*z^5 - z^4 + 2*z^3 - z^2 + z           \
+,2*z^5 - 2*z^4 + 3*z^3 - z^2 + z         \
+,2*z^5 - 2*z^3 + z                       \
+,2*z^5 - z^4 - z^3 + z                   \
+,2*z^5 - z^3 + z                         \
+,2*z^5 + z^4 - z^3 + z                   \
+,2*z^5 - z^4 + z                         \
+,2*z^5 + z                               \
+,2*z^5 + z^4 + z                         \
+,2*z^5 - z^4 + z^3 + z                   \
+,2*z^5 + z^3 + z                         \
+,2*z^5 + z^4 + z^3 + z                   \
+,2*z^5 - z^4 + 2*z^3 + z                 \
+,2*z^5 + 2*z^3 + z                       \
+,2*z^5 + z^4 + 2*z^3 + z                 \
+,2*z^5 - z^3 + z^2 + z                   \
+,2*z^5 + z^2 + z                         \
+,2*z^5 + z^4 + z^2 + z                   \
+,2*z^5 + z^3 + z^2 + z                   \
+,2*z^5 + z^4 + z^3 + z^2 + z             \
+,2*z^5 + 2*z^4 + z^3 + z^2 + z           \
+,2*z^5 + z^4 + 2*z^3 + z^2 + z           \
+,2*z^5 + 2*z^4 + 2*z^3 + z^2 + z         \
+,2*z^5 + 2*z^4 + 3*z^3 + z^2 + z         \
+,2*z^5 + 2*z^4 + 2*z^3 + 2*z^2 + z       \
+,2*z^5 + 3*z^4 + 3*z^3 + 2*z^2 + z       \
+,2*z^5 + 3*z^4 + 4*z^3 + 2*z^2 + z       \
+,2*z^5 + 4*z^4 + 5*z^3 + 3*z^2 + z       \
+,2*z^5 - 4*z^4 + 6*z^3 - 4*z^2 + 2*z     \
+,2*z^5 - 2*z^3 + 2*z                     \
+,2*z^5 + 2*z^3 + 2*z                     \
+,2*z^5 + 4*z^4 + 6*z^3 + 4*z^2 + 2*z     \
+,2*z^5 - 2*z^4 + z^3 + z^2 - 2*z + 1     \
+,2*z^5 - 3*z^4 + 2*z^3 + z^2 - 2*z + 1   \
+,2*z^5 - 4*z^4 + 4*z^3 - z^2 - z + 1     \
+,2*z^5 - z^4 - z + 1                     \
+,2*z^5 - 2*z^4 + z^3 - z + 1             \
+,2*z^5 - 3*z^4 + 2*z^3 - z + 1           \
+,2*z^5 - 3*z^4 + 3*z^3 - z + 1           \
+,2*z^5 - 2*z^4 + z^2 - z + 1             \
+,2*z^5 - 2*z^4 + z^3 + z^2 - z + 1       \
+,2*z^5 - z^4 + z^3 + z^2 - z + 1         \
+,2*z^5 - 2*z^4 + 2*z^3 + z^2 - z + 1     \
+,2*z^5 - z^3 - z^2 + 1                   \
+,2*z^5 - z^4 - z^2 + 1                   \
+,2*z^5 - z^2 + 1                         \
+,2*z^5 + z^4 - z^2 + 1                   \
+,2*z^5 - 2*z^4 + z^3 - z^2 + 1           \
+,2*z^5 - 3*z^4 + 4*z^3 - z^2 + 1         \
+,2*z^5 - z^4 - z^3 + 1                   \
+,2*z^5 - z^4 + 1                         \
+,2*z^5 + 1                               \
+,2*z^5 - z^4 + z^3 + 1                   \
+,2*z^5 + z^3 + 1                         \
+,2*z^5 - 2*z^4 + 3*z^3 + 1               \
+,2*z^5 + z^3 + z^2 + 1                   \
+,2*z^5 - z^4 + 2*z^3 + z^2 + 1           \
+,2*z^5 + z^4 - 2*z^3 - 2*z^2 + z + 1     \
+,2*z^5 - 2*z^3 - z^2 + z + 1             \
+,2*z^5 - z^3 - z^2 + z + 1               \
+,2*z^5 + z^4 - z^3 - z^2 + z + 1         \
+,2*z^5 - z^2 + z + 1                     \
+,2*z^5 + z + 1                           \
+,2*z^5 + z^4 + z + 1                     \
+,2*z^5 + z^3 + z + 1                     \
+,2*z^5 + z^4 + z^3 + z + 1               \
+,2*z^5 + z^4 + z^3 + z^2 + z + 1         \
+,2*z^5 + 2*z^3 + z^2 + z + 1             \
+,2*z^5 + z^4 + 2*z^3 + z^2 + z + 1       \
+,2*z^5 + 2*z^4 + 2*z^3 + z^2 + z + 1     \
+,2*z^5 + z^4 + 2*z^3 + 2*z^2 + z + 1     \
+,2*z^5 + z^4 - 2*z^3 - z^2 + 2*z + 1     \
+,2*z^5 + 2*z^4 + z^3 + z^2 + 2*z + 1     \
+,2*z^5 + z^4 + 2*z^3 + z^2 + 2*z + 1     \
+,2*z^5 + 2*z^4 + 2*z^3 + 2*z^2 + 2*z + 1 \
+,2*z^5 + 2*z^4 + 3*z^3 + 2*z^2 + 2*z + 1 \
+,2*z^5 + 3*z^4 + 4*z^3 + 3*z^2 + 2*z + 1 \
+,2*z^5 + 4*z^4 + 6*z^3 + 5*z^2 + 3*z + 1 \
+,2*z^5 + 5*z^4 + 8*z^3 + 7*z^2 + 4*z + 1 \
+]
+
 #}}}
