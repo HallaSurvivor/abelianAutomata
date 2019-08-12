@@ -20,7 +20,7 @@ ks := IsomorphicSubgroups(G,K);
 for phi in ks do
   H := Image(phi);
   if IsNormal(G,H) then
-    if StructureDescription(FactorGroup(G,H)) = StructureDescription(Q) then
+    if IdGroup(FactorGroup(G,H)) = IdGroup(Q) then
       return true;
     fi;
   fi;
@@ -42,6 +42,7 @@ g := Size(K) * Size(Q);
 n := NumberSmallGroups(g);
 ret := [];
 for i in [1 .. n] do
+  Print(i); Print("/"); Print(n); Print("\n");
   G := SmallGroup(g, i);
   if CheckExn(K,G,Q) then Add(ret, (g,i)); fi;
 od;
