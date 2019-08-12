@@ -6,6 +6,7 @@
 # SymmetricGroup(n);
 # DihedralGroup(n); (group of size n)
 
+
 ######################################################
 # CheckExn(K,G,Q)                                    #
 #                                                    #
@@ -13,19 +14,19 @@
 ######################################################
 
 CheckExn := function(K,G,Q)
-local ks, phi, H;
+  local ks, phi, H;
 
-# all (conjugacy classes of) injections K to G
-ks := IsomorphicSubgroups(G,K); 
-for phi in ks do
-  H := Image(phi);
-  if IsNormal(G,H) then
-    if IdGroup(FactorGroup(G,H)) = IdGroup(Q) then
-      return true;
+  # all (conjugacy classes of) injections K to G
+  ks := IsomorphicSubgroups(G,K); 
+  for phi in ks do
+    H := Image(phi);
+    if IsNormal(G,H) then
+      if IdGroup(FactorGroup(G,H)) = IdGroup(Q) then
+        return true;
+      fi;
     fi;
-  fi;
-od;
-return false;
+  od;
+  return false;
 end;
 
 
@@ -36,15 +37,33 @@ end;
 ##########################################################
 
 DoesExnExist := function(K,Q)
-local g, n, ret, i, G;
+  local g, n, ret, i, G;
 
-g := Size(K) * Size(Q);
-n := NumberSmallGroups(g);
-ret := [];
-for i in [1 .. n] do
-  Print(i); Print("/"); Print(n); Print("\n");
-  G := SmallGroup(g, i);
-  if CheckExn(K,G,Q) then Add(ret, (g,i)); fi;
-od;
-return ret;
+  g := Size(K) * Size(Q);
+  n := NumberSmallGroups(g);
+  ret := [];
+  for i in [1 .. n] do
+    Print(i); Print("/"); Print(n); Print("\n");
+    G := SmallGroup(g, i);
+    if CheckExn(K,G,Q) then Add(ret, (g,i)); fi;
+  od;
+  return ret;
+end;
+
+
+#############################################################
+# Simplify(G)                                               #
+#                                                           #
+# Print the generators/relations of a group isomorphic to G #
+# Return the new group                                      #
+#############################################################
+
+Simplify := function(G)
+  local G2;
+  G2 := SimplifiedFpGroup(Image(IsomorphismFpGroup(G)));
+  Print(G2);
+  Print("\n");
+  Print(RelatorsOfFpGroup(G2));
+  Print("\n");
+  return G2;
 end;
