@@ -1,0 +1,425 @@
+\documentclass[24pt]{tikzposter}
+
+\geometry{paperwidth=48in, paperheight=36in}
+\makeatletter
+\setlength{\TP@visibletextwidth}{\textwidth-2\TP@innermargin}
+\setlength{\TP@visibletextheight}{\textheight-2\TP@innermargin}
+\makeatother
+
+%{{{ Preamble
+
+%%%%%%%%{{{ Packages
+%%%%%%%%%%%%%%%%%%%%
+
+% we aren't animals - we might use more than ASCII
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% obligatory math environments, symbols, and theorems
+\usepackage{amsmath, amssymb, amsthm}
+
+% moar symbols
+\usepackage{stmaryrd}
+
+% obligatory citation library
+\usepackage{natbib}
+
+% sometimes you gotta draw stuff, like _c_ommutative _d_iagrams.
+\usepackage{tikz, tikz-cd}
+
+% sometimes you gotta put in pretty pictures
+\usepackage{graphicx}
+
+% sometimes you gotta write code
+\usepackage{listings}
+
+% proof trees are useful
+\usepackage{proof}
+
+% use \mathbbm for bb-numerals, use \bm for bold math symbols.
+\usepackage{bbm, bm}
+
+% I like clickable links in pdfs
+\usepackage{hyperref}
+
+% Convenient todo-notes and missing figure boxes
+\usepackage{todonotes}
+
+% remove paragraph indentation
+\usepackage{parskip}
+
+%}}}
+
+%%%%%%%%{{{ Formatting
+%%%%%%%%%%%%%%%%%%%%%%
+
+% prevent orphans/widows
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+% never break words across lines -- hyphens are stupid
+\hyphenpenalty 10000
+\exhyphenpenalty 10000
+
+%}}}
+
+%%%%%%%%{{{ Environments
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{thm}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+%}}}
+
+%%{{{ Aliases and Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%{{{ blackboard letters
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+%}}}
+
+%{{{ categories
+\newcommand*{\catFont}[1]{\mathsf{#1}} 
+\newcommand*{\catVarFont}[1]{\mathcal{#1}}
+
+\newcommand{\Set}{\catFont{Set}}
+\newcommand{\Top}{\catFont{Top}}
+\newcommand{\Cat}{\catFont{Cat}}
+\newcommand{\Grp}{\catFont{Grp}}
+\newcommand{\Mod}{\catFont{Mod}}
+\newcommand{\Sub}{\catFont{Sub}}
+\newcommand{\FP}{\catFont{FP}}
+\newcommand{\Pos}{\catFont{Pos}}
+\newcommand{\FinSet}{\catFont{FinSet}}
+
+\newcommand{\cata}{\catVarFont{A}}
+\newcommand{\catb}{\catVarFont{B}}
+\newcommand{\catc}{\catVarFont{C}}
+\newcommand{\catd}{\catVarFont{D}}
+\newcommand{\catx}{\catVarFont{X}}
+\newcommand{\caty}{\catVarFont{Y}}
+\newcommand{\catZ}{\catVarFont{Z}}
+%}}}
+
+%{{{ "operators" (words in math mode)
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+%}}}
+
+%{{{ arrows
+\newcommand{\hookr}{\hookrightarrow}
+\newcommand{\hookl}{\hookleftarrow}
+\newcommand{\monor}{\rightarrowtail}
+\newcommand{\monol}{\leftarrowtail}
+\newcommand{\epir}{\twoheadrightarrow}
+\newcommand{\epil}{\twoheadleftarrow}
+\newcommand{\regepir}{\rightarrowtriangle}
+\newcommand{\regepil}{\leftarrowtriangle}
+%}}}
+
+%{{{ categorical limits
+\newcommand{\limr}{\varinjlim}
+\newcommand{\liml}{\varprojlim}
+%}}}
+
+%{{{ analysis
+\DeclareMathOperator{\dif}{d \!}
+\DeclareMathOperator{\Dif}{D \!}
+\newcommand{\del}{\partial}
+\newcommand*{\abs}[1]{\left \lvert #1 \right \rvert}
+\newcommand*{\norm}[1]{\left \lVert #1 \right \rVert}
+\newcommand*{\eval}[1]{\left . #1 \right \rvert}
+
+% partial derivative command (taken from commath package)
+% usage: \pd[n]{f}{x}
+\newcommand*{\pd}[3][]{\ensuremath{
+\ifinner
+\tfrac{\partial{^{#1}}#2}{ \partial{#3^{#1}} }
+\else
+\dfrac{\partial{^{#1}}#2}{ \partial{#3^{#1}} }
+\fi
+}}
+
+% ordinary derivative command (taken from commath package)
+% usage: \od[n]{f}{x}
+\newcommand*{\od}[3][]{\ensuremath{
+\ifinner
+\tfrac{\dif{^{#1}}#2}{ \dif{#3^{#1}} }
+\else
+\dfrac{\dif{^{#1}}#2}{ \dif{#3^{#1}} }
+\fi
+}}
+
+%}}}
+
+%{{{ algebra
+\newcommand{\meet}{\wedge}
+\newcommand{\join}{\vee}
+\newcommand{\id}{\mathrm{id}}
+%}}}
+
+%{{{ topology
+\newcommand*{\interior}[1]{ {\kern0pt#1}^{\mathrm{o}} }
+%}}}
+
+%{{{ logic
+\renewcommand{\diamond}{\lozenge}
+\newcommand*{\denote}[1]{\llbracket #1 \rrbracket}
+%}}}
+
+%{{{ misc symbols
+\newcommand{\teq}{\triangleq}
+\newcommand{\fin}{ \subseteq_{\text{fin}} }
+\newcommand{\lleft}{\llbracket}
+\newcommand{\rright}{\rrbracket}
+
+% define a "danger" symbol for use when something surprising might occur
+% https://tex.stackexchange.com/questions/159669/
+% 	how-to-print-a-warning-sign-triangle-with-exclamation-point
+% use outside of math mode!
+
+\newcommand*{\TakeFourierOrnament}[1]{{%
+\fontencoding{U}\fontfamily{futs}\selectfont\char#1}}
+\newcommand*{\danger}{\TakeFourierOrnament{66}}
+%}}}
+
+%}}}
+
+%% project specific aliases (if they exist)
+\IfFileExists{../preamble.tex}{\input{../preamble.tex}}{}
+
+%}}}
+
+%% Heading
+\author{Chris Grossack}
+\title{Extensions of Abelian Automata Groups}
+\author{Chris Grossack (advised by Klaus Sutner)}
+\institute{Carnegie Mellon University}
+
+\begin{document}
+\maketitle
+
+\begin{columns}
+%% The left side {{{
+  \column{0.25}
+  \block{Mealy Automata}
+  {
+    A \textbf{Mealy Automaton} $\mathcal{A}$ is a finite state 
+    machine which encodes a family of continuous functions from 
+    Cantor Space to itself. For us, these continuous functions 
+    will always be homeomorphisms, and thus we may associate
+    to a machine $\mathcal{A}$ a subgroup $\mathcal{G}(\mathcal{A})$
+    of the automorphisms of Cantor Space.
+
+    \bigskip
+
+    Classifying all groups generated by even 3-state machines is still
+    and open problem, so we will focus attention on those which generate
+    abelain groups.
+  }
+
+  \block{An Important Example: $\mathcal{A}^3_2$}
+  {
+    \begin{center}
+    \begin{tikzpicture}[scale=0.5]
+    \tikzstyle{every node}+=[inner sep=0pt]
+    \draw [black] (26.6,-12.1) circle (3);
+    \draw (26.6,-12.1) node {$f$};
+    \draw [black] (17.4,-25.6) circle (3);
+    \draw (17.4,-25.6) node {$f_1$};
+    \draw [black] (35.7,-25) circle (3);
+    \draw (35.7,-25) node {$f_0$};
+    \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+    \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+    \draw (17.67,-14.97) node [left] {$1/0$};
+    \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+    \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+    \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+    \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+    \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+    \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+    \draw (27.31,-22.21) node [left] {$0/1$};
+    \end{tikzpicture}
+    \end{center}
+
+    \begin{center}
+    (Unlabeled edges correspond to both $0/0$ and $1/1$ edges)
+    \end{center}
+  }
+
+  \block{Computing $f(0110\ldots)$}
+  {
+    \begin{center}
+      \begin{minipage}[c]{7in}
+        \begin{tikzpicture}[scale=0.25]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black, fill=blue!30] (26.6,-12.1) circle (3);
+        \draw (26.6,-12.1) node {$f$};
+        \draw [black] (17.4,-25.6) circle (3);
+        \draw (17.4,-25.6) node {$f_1$};
+        \draw [black] (35.7,-25) circle (3);
+        \draw (35.7,-25) node {$f_0$};
+        \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+        \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+        \draw (17.67,-14.97) node [left] {$1/0$};
+        \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+        \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+        \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+        \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+          \draw (27.31,-22.21) node [left] {$\textcolor{red}{0}/1$};
+        \end{tikzpicture}
+      \end{minipage}%
+      \begin{minipage}[c]{\textwidth-7in}
+        $f(\textcolor{red}0110\ldots)$
+      \end{minipage}
+    \end{center}
+
+    \bigskip
+    \bigskip
+
+    \begin{center}
+      \begin{minipage}[c]{7in}
+        \begin{tikzpicture}[scale=0.25]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black] (26.6,-12.1) circle (3);
+        \draw (26.6,-12.1) node {$f$};
+        \draw [black] (17.4,-25.6) circle (3);
+        \draw (17.4,-25.6) node {$f_1$};
+        \draw [black, fill=blue!30] (35.7,-25) circle (3);
+        \draw (35.7,-25) node {$f_0$};
+        \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+        \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+        \draw (17.67,-14.97) node [left] {$1/0$};
+        \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+        \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+        \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+        \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+          \draw (27.31,-22.21) node [left] {$0/\textcolor{red}{1}$};
+        \end{tikzpicture}
+      \end{minipage}%
+      \begin{minipage}[c]{\textwidth-7in}
+        \textcolor{red}{1}$f_0(110\ldots)$
+      \end{minipage}
+    \end{center}
+
+    \bigskip
+    \bigskip
+
+    \begin{center}
+      \begin{minipage}[c]{7in}
+        \begin{tikzpicture}[scale=0.25]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black] (26.6,-12.1) circle (3);
+        \draw (26.6,-12.1) node {$f$};
+        \draw [black] (17.4,-25.6) circle (3);
+        \draw (17.4,-25.6) node {$f_1$};
+        \draw [black, fill=blue!30] (35.7,-25) circle (3);
+        \draw (35.7,-25) node {$f_0$};
+        \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+        \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+        \draw (17.67,-14.97) node [left] {$1/0$};
+        \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+        \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+        \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+        \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+        \draw (27.31,-22.21) node [left] {$0/1$};
+        \end{tikzpicture}
+      \end{minipage}%
+      \begin{minipage}[c]{\textwidth-7in}
+        $1 f_0(110\ldots)$
+      \end{minipage}
+    \end{center}
+
+    \bigskip
+    \bigskip
+
+    \begin{center}
+      \begin{minipage}[c]{7in}
+        \begin{tikzpicture}[scale=0.25]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black, fill=blue!30] (26.6,-12.1) circle (3);
+        \draw (26.6,-12.1) node {$f$};
+        \draw [black] (17.4,-25.6) circle (3);
+        \draw (17.4,-25.6) node {$f_1$};
+        \draw [black] (35.7,-25) circle (3);
+        \draw (35.7,-25) node {$f_0$};
+        \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+        \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+        \draw (17.67,-14.97) node [left] {$1/0$};
+        \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+        \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+        \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+        \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+        \draw (27.31,-22.21) node [left] {$0/1$};
+        \end{tikzpicture}
+      \end{minipage}%
+      \begin{minipage}[c]{\textwidth-7in}
+        $11 f(10\ldots)$
+      \end{minipage}
+    \end{center}
+
+    \bigskip
+    \bigskip
+
+    \begin{center}
+      \begin{minipage}[c]{7in}
+        \begin{tikzpicture}[scale=0.25]
+        \tikzstyle{every node}+=[inner sep=0pt]
+        \draw [black] (26.6,-12.1) circle (3);
+        \draw (26.6,-12.1) node {$f$};
+        \draw [black, fill=blue!30] (17.4,-25.6) circle (3);
+        \draw (17.4,-25.6) node {$f_1$};
+        \draw [black] (35.7,-25) circle (3);
+        \draw (35.7,-25) node {$f_0$};
+        \draw [black] (16.648,-22.708) arc (-174.31762:-254.2298:9.658);
+        \fill [black] (16.65,-22.71) -- (17.07,-21.86) -- (16.07,-21.96);
+        \draw (17.67,-14.97) node [left] {$1/0$};
+        \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
+        \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
+        \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
+        \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
+        \draw (27.31,-22.21) node [left] {$0/1$};
+        \end{tikzpicture}
+      \end{minipage}%
+      \begin{minipage}[c]{\textwidth-7in}
+        $110 f_1(0\ldots)$
+      \end{minipage}
+    \end{center}
+  }
+
+%%}}}
+
+%% The center {{{
+  \column{0.5}
+  \block{The Center}
+  {lorem ipsum}
+%%}}}
+
+%% The right side {{{
+  \column{0.25}
+  \block{The Right Side}
+  {lorem ipsum}
+%%}}}
+\end{columns}
+
+
+\end{document}
