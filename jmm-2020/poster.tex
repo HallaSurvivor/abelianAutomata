@@ -388,14 +388,53 @@
     $p \cdot \mathcal{G} \hookrightarrow r \cdot \mathcal{G}$ by the
     canonical inclusion $\overline{v} \mapsto q \cdot \overline{v}$, which
     preserves both the group structure and the residuation structure.
+
+    \bigskip
+
   }
 
   \block{The Answers}
   {
-    By using a cycle in $\mathcal{A}$, we can write an equation $p = q$
-    in two variables $\overline{v}$ and $\overline{e}$. Thus we can solve
-    for $\overline{e}$ in terms of $\overline{v}$, answering some of our 
-    questions.
+    From a given automaton $\mathcal{A}$ with an odd state $\alpha$, 
+    one can recover an equation in $\overline{v}$ and $\overline{e}$. 
+    This lets us solve for $\overline{e}$ in terms of $\overline{v}$, 
+    and we see that, for any odd $\overline{v}$, we can find an $\overline{e}$
+    so $\mathcal{A}$ appears as a subautomaton of 
+    $\mathfrak{C}(\mathbf{A},\overline{e})$ with $\alpha$ positioned at 
+    $\overline{v}$.
+
+    \bigskip
+
+    Coupled with the module theory above, we see that 
+    $3 \alpha = 3 e_1$ in $\overline{e} = 3 e_1$ should 
+    compute the same function as $\delta = e_1$ in $\overline{e} = e_1$. 
+    That is, $\alpha \circ \alpha \circ \alpha = \delta$, and informally,
+    $\alpha = \frac{1}{3}\delta$. Thus, large values of $\overline{e}$ 
+    correspond to the presence of many ``fractional elements'' of 
+    $\mathcal{G}(\mathfrak{A})$. Scaling up our group by a polynomial $p$ has 
+    the effect of making elements $p^{-1} \cdot \overline{v}$ integral, which
+    is why new automata appear. 
+
+    \bigskip
+
+    To each automaton $\mathcal{A}$, we can associate a unique polynomial $p$
+    (up to units) which is minimal and renders $\mathcal{A}$ integral
+    (by taking $\overline{v} = e_1$ in the above construction). Then 
+    $\mathcal{G}(\mathcal{A}) \cong \mathfrak{C}(\mathbf{A},p \cdot e_1)$
+    as groups and as automata.
+    We also see $\mathcal{G}(\mathcal{A}) \leq \mathcal{G}(\mathcal{B})$ 
+    if and only if $p_\mathcal{A} \mid p_\mathcal{B}$.
+
+    \bigskip
+
+    Finally, we can remove this parameter $\overline{e}$ entirely by 
+    working in a universal ``limit automaton''. Indeed, we have a category
+    with objects $\mathfrak{C}(\mathbf{A},\overline{e})$ varying over 
+    $\overline{e}$ and morphisms $\overline{v} \mapsto p \cdot \overline{v}$.
+    It is easy to see that this category admits a Fra{\"i}ss{\'e} limit,
+    in which every automaton with matrix $\mathbf{A}$ shows up exactly once
+    (One could also take the direct limit along the poset of polynomials
+    ordered by division to recover the same limiting structure).
   }
 
 %%}}}
@@ -600,15 +639,18 @@
 
   \block{An Embedding}
   {
-      For $\overline{e} = (-3,-2)$:
+    Say $\varphi(f) = \overline{v}$. Then, 
+    \[ \mathbf{A} (\mathbf{A}(\overline{v} - \overline{e})) = \overline{v} .\]
+    Thus 
+    \[ \overline{e} = \mathbf{A}^{-1}(\mathbf{A}^2 - I) \overline{v} .\]
 
-      \bigskip
+    Substituting, say $\overline{v}=e_1=(1,0)$ gives $\overline{e} = (-3,-2)$.
 
-      $f = (1,0)$ 
+    \bigskip
 
-      $f_0 = (0,1)$ 
-
-      $f_1 = (-2,-2)$
+    One can check that $f = (1,0)$, $f_0 = (0,1)$, $f_1 = (-2,-2)$ 
+    actually witnesses $\mathcal{A}^3_2$ as a subautomaton of 
+    $\mathfrak{C}(\mathbf{A}, (-3,-2))$.
   }
 %%}}}
 \end{columns}
