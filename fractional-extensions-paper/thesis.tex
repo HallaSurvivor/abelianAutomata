@@ -673,7 +673,20 @@ computes exactly the same function as $\vv \in \G$.
 However, most vectors cannot be written as $p \cdot \vv$. 
 What do they do as functions?
 We call such vectors (and their corresponding functions)
-\textbf{Fractional}, due to the following observation and theorem:
+\textbf{Fractional}, due to the following analogy:
+
+Say we are only allowed to compute with $\Z$, but we want the ability
+to work with fractions. We can approximate $\Q$ by allowing fractions
+with fixed denominator. After all, $\Z \cong \frac{1}{n} \Z \leq \Q$
+for every $n$. So if we want to be able to talk about fractions like 
+$\frac{1}{3}$, we might work in $\frac{1}{3} \Z$, where we identify $1$
+with $\frac{1}{3}$, $2$ with $\frac{2}{3}$, $3$ with $\frac{3}{3} = 1$, 
+and so on. Now we can treat this as though it was $\Z$, knowing that we are
+really computing with fractional elements. If we now want multiples of $5$ 
+as well, we can scale up again and work with $\frac{1}{15} \Z$. Notice
+$\frac{1}{3} \Z \hookrightarrow \frac{1}{15} \Z$ by the homomorphism sending
+$\frac{n}{3} \mapsto \frac{5n}{15}$. 
+
 
 Consider $\e_1 \in 3 \cdot \G$. By the above theorem, $3\e_1 = \delta$,
 and so we should expect $\e_1$ to behave like ``$\frac{1}{3}\delta$'', 
