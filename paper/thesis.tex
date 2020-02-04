@@ -5,6 +5,7 @@
 \usepackage{amsmath,amsthm,amssymb}
 \usepackage{tikz, tikz-cd}
 \usepackage{subcaption}
+\captionsetup{compatibility=false} % we need this to make subcaption work
 
 \newcommand{\A}{\mathcal{A}}
 \newcommand{\G}{\mathcal{G}}
@@ -106,8 +107,10 @@ counterexamples to Milnor's Conjecture regarding the existence of such groups
 Recall $\2 = \{0,1\}$. For our purposes, a \textbf{Mealey Automaton} is a 
 tuple $\A = (S, \tau)$ where $S$ is the \textbf{State Set}, and 
 $\tau : S \times \2 \to S \times \2$ is the \textbf{transition function}. 
-We represent $\A$ as a (multi-)graph with $S$ as vertices and a labelled
-edge from $s_1$ to $s_2$ by $a/b$ exactly when $\tau(s_1,a) = (s_2,b)$.
+We represent $\A$ as a (directed, multi-)graph with $S$ as vertices and a 
+labelled edge from $s_1$ to $s_2$ by $a/b$ exactly when $\tau(s_1,a) = (s_2,b)$.
+Following Sutner, we remove clutter by writing a single unlabled edge in place
+of two parallel edges labelled $0/0$ and $1/1$.
 We write $(\del_a s, \underline{s}(a)) = \tau(s,a)$ and call $\del_0 s$ 
 (resp. $\del_1 s$) the \textbf{0-residual} (resp. \textbf{1-residual}) of $s$.
 
@@ -126,7 +129,7 @@ $\underline{s} : \2^* \to \2^*$
   \centering
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+        \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black, fill=blue!30] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -139,16 +142,18 @@ $\underline{s} : \2^* \to \2^*$
         \draw (17.67,-14.97) node [left] {$1/0$};
         \draw [black] (33.761,-27.277) arc (-48.14861:-128.09563:11.117);
         \fill [black] (33.76,-27.28) -- (32.83,-27.44) -- (33.5,-28.18);
+        \draw [black] (29.501,-12.822) arc (67.8011:2.5992:10.451);
+        \fill [black] (29.5,-12.82) -- (30.05,-13.59) -- (30.43,-12.66);
         \draw [black] (32.758,-24.474) arc (-108.88288:-180.71682:9.832);
         \fill [black] (32.76,-24.47) -- (32.16,-23.74) -- (31.84,-24.69);
           \draw (27.31,-22.21) node [left] {$0/1$};
         \end{tikzpicture}
     \caption{$\underline{x}(0110)$}
-  \end{subfigure}
-
+  \end{subfigure}%
+%
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+        \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -168,11 +173,11 @@ $\underline{s} : \2^* \to \2^*$
         \draw (27.31,-22.21) node [left] {$0/1$};
         \end{tikzpicture}
     \caption{$1 \underline{z}(110)$}
-  \end{subfigure}
-
+  \end{subfigure}%
+%
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+        \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black, fill=blue!30] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -192,11 +197,11 @@ $\underline{s} : \2^* \to \2^*$
         \draw (27.31,-22.21) node [left] {$0/1$};
         \end{tikzpicture}
     \caption{$11 \underline{x}(10)$}
-  \end{subfigure}
-
+  \end{subfigure}%
+%
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+      \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -216,11 +221,11 @@ $\underline{s} : \2^* \to \2^*$
         \draw (27.31,-22.21) node [left] {$0/1$};
         \end{tikzpicture}
     \caption{$110 \underline{y}(0)$}
-  \end{subfigure}
-
+  \end{subfigure}%
+%
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+        \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -240,11 +245,11 @@ $\underline{s} : \2^* \to \2^*$
         \draw (27.31,-22.21) node [left] {$0/1$};
         \end{tikzpicture}
     \caption{$1100 \underline{z}(\varepsilon)$}
-  \end{subfigure}
-
+  \end{subfigure}%
+%
   \begin{subfigure}{.16\textwidth}
     \centering
-        \begin{tikzpicture}[scale=0.25]
+        \begin{tikzpicture}[scale=0.07]
         \tikzstyle{every node}+=[inner sep=0pt]
         \draw [black] (26.6,-12.1) circle (3);
         \draw (26.6,-12.1) node {$x$};
@@ -266,7 +271,10 @@ $\underline{s} : \2^* \to \2^*$
     \caption{$1100$}
   \end{subfigure}
 
-  \caption{An example computation -- $\underline{x}(0110) = 1100$}
+  \caption%
+  {%
+    An example computation -- $\underline{x}(0110) = 1100$. 
+  }
 \end{figure}
 
 Clearly we can treat $\underline{s}$ as a function 
@@ -334,18 +342,20 @@ exactly the vectors with odd (resp. even) first component. The automata
 structure is given by the following affine maps
 (which depend on a matrix $\Am$ and an odd vector $\e$):
 
-\begin{align*}
+\begin{align}
   \tau(\vv, 0) &= 
   \begin{cases} 
     \Am \vv        & \vv \text{ even}\\
     \Am (\vv - \e) & \vv \text{ odd}
   \end{cases}
-
+  \label{eq:1}\\
   \tau(\vv, 1) &=
   \begin{cases} 
     \Am \vv        & \vv \text{ even}\\
     \Am (\vv + \e) & \vv \text{ odd}
-\end{align*}
+  \end{cases}
+  \label{eq:2}
+\end{align}
 
 In the above definition, $\Am$ is a $\frac{1}{2}-integral$ matrix $\Am$ of 
 $\Q$-irreducible character. This automaton group is generated by a 
@@ -381,7 +391,8 @@ If $\vv$ is odd:
 
 Following Sutner \cite{Sutner18:abelian_automata}, for a specific matrix
 $\Am$ and residuation vector $\e$ we define \textbf{The Complete Automaton} 
-$\C = (\Z^m, \tau)$. 
+$\C = (\Z^m, \tau)$, where $\tau$ is defined as in equations \ref{eq:1} and 
+\ref{eq:2}. 
 
 Nekrashevich and Sidki's theorem gives us a purely linear algebraic method
 of discussing these automaton groups, since a restatement of their theorem 
@@ -425,14 +436,16 @@ We will write $\P$ when the matrix is clear from context.
 We shall soon see that the same element of $\P$ is located at $\e$ in 
 $\C$ for all $\e$, and so we call this group element $\delta \in \G(\P)$. 
 Notice that for all $\e$, $\del_0 \delta = \Am(\e - \e) = \bar{0} = I$, and so
-$\del_1 \delta = \gamma$, since for any odd vector 
-$\del_1 \vv - \del_0 \vv = \gamma$. Thus, $\gamma$ depends on only the 
-matrix $\Am$, rather than on individual automata.
+$\del_1 \delta = \gamma$. $\P$ is clearly minimal in terms of state complexity, 
+as its states are distinct group elements of $\mathfrak{C}(\Am, \e_1)$ and 
+therefore definitionally have different behavior. However it will be more 
+interesting for us to note that $\P$ is also minimal in the subgroup relation 
+for nontrivial automata sharing its matrix. 
 
-$\P$ is clearly minimal in terms of state complexity, as its states are
-distinct group elements of $\mathfrak{C}(\Am, \e_1)$ and therefore 
-definitionally have different behavior. However, $\P$ is also minimal in the
-subgroup relation for nontrivial automata sharing its matrix. 
+By this we mean for every automaton $\A$ with associated matrix $\Am$, 
+$\G(\P(\Am)) \leq \G(\A)$, and so every function in $\P$ is
+a $\Z$-linear combination of functions in $\A$. In particular, we see
+$\P(\Am)$ is a subautomaton of $\G(\A)$ for every $\A$ with matrix $\Am$.
 While there are proofs of this claim which rely heavily on the
 ambient linear algebraic structure \cite{Okano15:thesis}, 
 we present here a difference construction which uses only the given 
@@ -487,8 +500,6 @@ $\G(\A)$, and the subgroup relation follows.
   Then $\G(\P(\Am)) \leq \G(\A)$, as desired.
 \end{proof}
 
-
-
 \subsection{An Example}
 Consider the following machine, $\A^3_2$:
 
@@ -514,7 +525,7 @@ Consider the following machine, $\A^3_2$:
 \end{tikzpicture}
 \end{center}
 
-Here the unlabeled transitions both copy the input bit, however these
+As before, the unlabeled transitions both copy the input bit, however these
 have been omitted for cleanliness.
 
 Then by letting $\gamma = \del_1 f - \del_0 f = f_1 - f_0$, and closing
@@ -584,7 +595,7 @@ polynomial other than $x^m - \frac{1}{2}$, which corresponds to the so called
 sausage automata. Unfortunately, however, this conjecture is yet unproven,
 and so in the above proof we had to explicitly add in these extra states.
 
-\section{Group Extensions}
+\section{Fractional Elements}
 Going forward, $\G = \Z^m$ will denote $\G(\P)$ for some principal machine $\P$.
 
 $\G$ clearly admits representation as a $\Z[x]$ module where 
