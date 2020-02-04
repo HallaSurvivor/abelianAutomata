@@ -1,0 +1,211 @@
+\documentclass[12pt]{article}
+
+%{{{ Preamble
+
+%%%%%%%%{{{ Packages
+%%%%%%%%%%%%%%%%%%%%
+
+% the default margins have always felt big to me
+\usepackage[margin=1in]{geometry}
+
+% we aren't animals - we might use more than ASCII
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+% obligatory math environments, symbols, and theorems
+\usepackage{amsmath, amssymb, amsthm}
+
+% moar symbols
+\usepackage{stmaryrd}
+
+% obligatory citation library
+\usepackage{natbib}
+
+% sometimes you gotta draw stuff, like _c_ommutative _d_iagrams.
+\usepackage{tikz, tikz-cd}
+
+% sometimes you gotta put in pretty pictures
+\usepackage{graphicx}
+
+% sometimes you gotta write code
+\usepackage{listings}
+
+% proof trees are useful
+\usepackage{proof}
+
+% use \mathbbm for bb-numerals, use \bm for bold math symbols.
+\usepackage{bbm, bm}
+
+% I like clickable links in pdfs
+\usepackage{hyperref}
+
+% Convenient todo-notes and missing figure boxes
+\usepackage{todonotes}
+
+% remove paragraph indentation
+\usepackage{parskip}
+
+% allow fancy stuff
+\usepackage{fancyhdr}
+
+%}}}
+
+%%%%%%%%{{{ Formatting
+%%%%%%%%%%%%%%%%%%%%%%
+
+% prevent orphans/widows
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+% never break words across lines -- hyphens are stupid
+\hyphenpenalty 10000
+\exhyphenpenalty 10000
+
+%}}}
+
+%%%%%%%%{{{ Environments
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newtheorem{thm}{Theorem}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+
+%}}}
+
+%%{{{ Aliases and Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%{{{ blackboard letters
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+%}}}
+
+%{{{ categories
+\newcommand*{\catFont}[1]{\mathsf{#1}} 
+\newcommand*{\catVarFont}[1]{\mathcal{#1}}
+
+\newcommand{\Set}{\catFont{Set}}
+\newcommand{\Top}{\catFont{Top}}
+\newcommand{\Cat}{\catFont{Cat}}
+\newcommand{\Grp}{\catFont{Grp}}
+\newcommand{\Mod}{\catFont{Mod}}
+\newcommand{\Sub}{\catFont{Sub}}
+\newcommand{\FP}{\catFont{FP}}
+\newcommand{\Pos}{\catFont{Pos}}
+\newcommand{\FinSet}{\catFont{FinSet}}
+
+\newcommand{\cata}{\catVarFont{A}}
+\newcommand{\catb}{\catVarFont{B}}
+\newcommand{\catc}{\catVarFont{C}}
+\newcommand{\catd}{\catVarFont{D}}
+\newcommand{\catx}{\catVarFont{X}}
+\newcommand{\caty}{\catVarFont{Y}}
+\newcommand{\catZ}{\catVarFont{Z}}
+%}}}
+
+%{{{ "operators" (words in math mode)
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\End}{End}
+\DeclareMathOperator{\Aut}{Aut}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+%}}}
+
+%{{{ arrows
+\newcommand{\hookr}{\hookrightarrow}
+\newcommand{\hookl}{\hookleftarrow}
+\newcommand{\monor}{\rightarrowtail}
+\newcommand{\monol}{\leftarrowtail}
+\newcommand{\epir}{\twoheadrightarrow}
+\newcommand{\epil}{\twoheadleftarrow}
+\newcommand{\regepir}{\rightarrowtriangle}
+\newcommand{\regepil}{\leftarrowtriangle}
+%}}}
+
+%{{{ categorical limits
+\newcommand{\limr}{\varinjlim}
+\newcommand{\liml}{\varprojlim}
+%}}}
+
+%{{{ analysis
+\DeclareMathOperator{\dif}{d \!}
+\DeclareMathOperator{\Dif}{D \!}
+\newcommand{\del}{\partial}
+\newcommand*{\abs}[1]{\left \lvert #1 \right \rvert}
+\newcommand*{\norm}[1]{\left \lVert #1 \right \rVert}
+\newcommand*{\eval}[1]{\left . #1 \right \rvert}
+
+% partial derivative command (taken from commath package)
+% usage: \pd[n]{f}{x}
+\newcommand*{\pd}[3][]{\ensuremath{
+\ifinner
+\tfrac{\partial{^{#1}}#2}{ \partial{#3^{#1}} }
+\else
+\dfrac{\partial{^{#1}}#2}{ \partial{#3^{#1}} }
+\fi
+}}
+
+% ordinary derivative command (taken from commath package)
+% usage: \od[n]{f}{x}
+\newcommand*{\od}[3][]{\ensuremath{
+\ifinner
+\tfrac{\dif{^{#1}}#2}{ \dif{#3^{#1}} }
+\else
+\dfrac{\dif{^{#1}}#2}{ \dif{#3^{#1}} }
+\fi
+}}
+
+%}}}
+
+%{{{ algebra
+\newcommand{\meet}{\wedge}
+\newcommand{\join}{\vee}
+\newcommand{\id}{\mathrm{id}}
+%}}}
+
+%{{{ topology
+\newcommand*{\interior}[1]{ {\kern0pt#1}^{\mathrm{o}} }
+%}}}
+
+%{{{ logic
+\renewcommand{\diamond}{\lozenge}
+\newcommand*{\denote}[1]{\llbracket #1 \rrbracket}
+%}}}
+
+%{{{ misc symbols
+\newcommand{\teq}{\triangleq}
+\newcommand{\fin}{ \subseteq_{\text{fin}} }
+\newcommand{\lleft}{\llbracket}
+\newcommand{\rright}{\rrbracket}
+
+% define a "danger" symbol for use when something surprising might occur
+% https://tex.stackexchange.com/questions/159669/
+% 	how-to-print-a-warning-sign-triangle-with-exclamation-point
+% use outside of math mode!
+
+\newcommand*{\TakeFourierOrnament}[1]{{%
+\fontencoding{U}\fontfamily{futs}\selectfont\char#1}}
+\newcommand*{\danger}{\TakeFourierOrnament{66}}
+%}}}
+
+%}}}
+
+%% project specific aliases (if they exist)
+\IfFileExists{../preamble.tex}{\input{../preamble.tex}}{}
+
+%}}}
+
+%% Heading
+\author{Chris Grossack}
+\title{On the Orbit Relation for the Natural Action of Abelian Automata Groups}
+
+\begin{document}
+\maketitle
+
+
+
+\end{document}
