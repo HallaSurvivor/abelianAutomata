@@ -197,15 +197,68 @@
 %% project specific aliases (if they exist)
 \IfFileExists{../preamble.tex}{\input{../preamble.tex}}{}
 
+\newcommand{\G}{\mathcal{G}}
+\newcommand{\coord}[1]{\langle #1 \rangle}
+
 %}}}
 
 %% Heading
 \author{Chris Grossack}
 \title{On the Orbit Relation for the Natural Action of Abelian Automata Groups}
 
+\institute%
+{%
+  Carnegie Mellon University, Pittsburgh, USA\\
+  \email{cgrossac@alumni.cmu.edu}
+}
+
 \begin{document}
 \maketitle
 
+\begin{abstract}
+  \todo{write this. ``we solve this problem on a dense set of cantor space''}
 
+  \keywords{Abelian Automata \and Transducer \and Group Action \and Orbit}
+\end{abstract}
+
+\section{Background}
+
+\todo{Applications in DST, GGT, and CS}
+
+\todo{Define automata and their groups}
+
+\todo{Give an example computation}
+
+\todo{Introduce notation $p^{-1} \cdot \G$ and assert N+S result on integer lattices}
+
+\todo{Introduce the Orbit Problem}
+
+\section{The Identifying Function}
+
+\todo{come up wither a better name for $\coord{\overline{v}}$ than ``the identifying fn''?}
+  
+\todo{Introduce $\coord{\overline{v}}$}
+
+\todo{Cite that old paper of Klaus?}
+
+\todo{explain that the best we can do is ultimately periodic $\overline{v}$}
+
+\todo{Prove it actually sends $0^\omega$ to $\overline{v}$}
+
+\section{Solving the Orbit Problem}
+  
+\todo{Show two strings are in the same orbit iff $\coord{\overline{v}} - \coord{\overline{w}} = tf$}
+
+\todo{Extend this result to a semidecidable procedure for all of $2^\omega$?}
+
+\section{Conclusion}
+  
+\section*{Acknowledgements}
+
+\todo{Say how much you love Klaus}
+
+\newpage
+
+\bibliography{bib}
 
 \end{document}
