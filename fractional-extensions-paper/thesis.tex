@@ -596,7 +596,7 @@ sausage automata. Unfortunately, however, this conjecture is yet unproven,
 and so in the above proof we had to explicitly add in these extra states.
 
 \section{Fractional Elements}
-Going forward, $\G = \frac{C}(\Am,\e_1)$ will denote $\G(\P)$ for some 
+Going forward, $\G = \mathfrak{C}(\Am,\e_1)$ will denote $\G(\P)$ for some 
 principal machine $\P$. We will make use of some module theoretic machinery 
 in this section. Every theorem we cite can be found in \cite{} TODO: aluffi or d+f? 
 
@@ -687,68 +687,23 @@ as well, we can scale up again and work with $\frac{1}{15} \Z$. Notice
 $\frac{1}{3} \Z \hookrightarrow \frac{1}{15} \Z$ by the homomorphism sending
 $\frac{n}{3} \mapsto \frac{5n}{15}$. 
 
+When we scale $\G \cong \Z^m$ by some polynomial $p$, we are doing exactly
+the same embedding as above, but now in multiple dimensions. As an example,
+take $\delta \in \G$ which is located at $\e_1$. By the above theorem, we
+must have $\delta$ located at $3 \e_1 \in 3 \cdot \G$. Then, $\e_1$ behaves 
+like ``$\frac{1}{3} \delta$''. Indeed, by scaling up our integer lattice 
+by some polynomial $p$, we render elements in $p^{-1} \Z^m$ integral,
+and thus we have access to elements which are fractions of elements in $\G$.
 
-Consider $\e_1 \in 3 \cdot \G$. By the above theorem, $3\e_1 = \delta$,
-and so we should expect $\e_1$ to behave like ``$\frac{1}{3}\delta$'', 
-and in fact it does.
-
-In general, $\vv \in p \cdot \G$ behaves like $p^{-1} \cdot \vv \in \G$,
-(where $p^{-1}$ comes from $\Q[x]$ and so $p^{-1} \cdot \vv \in \Q^m$)
-and so Group Extensions give us access to fractions of functions from 
-our base group $\G$.
-
-We will consider $p^{-1} \cdot \Z^m = \{ p^{-1} \cdot \vv~|~\vv \in \Z^m \}$
-as a subgroup of $\Q^m$. Residuation in this setting is given by
-$\del_0 \vv = \Am (\vv - \e_1)$ and $\del_1 \vv = \Am (\vv + \e_1)$.
-Here, instead of scaling \emph{up} our residuation vector, 
-we scale \emph{down} all of our other vectors. Then we have access to 
-certain elements of $\Q^m$, which are exactly the factional elements
-as noted before. Now $\delta$ is always located at $\e_1$.
-
-Morally, however, this is just a different way of looking at the group 
-extension construction. We justify this with the following theorem:
-
-\begin{thm}
-  For $p \in \Z[x]$ with odd constant term, 
-  $p^{-1} \cdot \Z^m \cong p \cdot \G$.
-\end{thm}
-
-\begin{proof}
-  Consider $\varphi : p^{-1} \cdot \Z^m \to p \cdot \G$ by
-  $\varphi(p^{-1} \cdot \vv) = \vv$.\\
-  $\varphi$ is clearly bijective, and is a homomorphism since:
-  \begin{align*}
-       \varphi(p^{-1} \cdot \vv_1 + p^{-1} \cdot \vv_2) 
-    &= \varphi(p^{-1} \cdot (\vv_1 + \vv_2))\\
-    &= \vv_1 + \vv_2\\
-    &= \varphi(p^{-1} \cdot \vv_1) + \varphi(p^{-1} \cdot \vv_2) 
-  \end{align*}
-
-  Further, if $\vv$ is even, then:
-
-  \begin{align*}
-       \varphi(\del_0 (p^{-1} \cdot \vv))
-    &= \varphi(\Am (p^{-1} \cdot \vv))\\
-    &= \varphi(p^{-1} \cdot \Am \vv)\\
-    &= \Am \vv\\
-    &= \del_0 (\varphi(p^{-1} \cdot \vv))
-  \end{align*}
-
-  If $\vv$ is odd, then: 
-
-  \begin{align*}
-       \varphi(\del_0 (p^{-1} \cdot \vv))
-    &= \varphi(\Am (p^{-1} \cdot \vv - \e_1))\\
-    &= \varphi(p^{-1} \cdot \Am (\vv - p \cdot \e_1))\\
-    &= \Am (\vv - p \cdot \e_1)\\
-    &= \del_0 (\varphi(p^{-1} \cdot \vv))
-  \end{align*}
-
-  The proof for $\del_1$ is similar.
-\end{proof}
+Through this lens, we see exactly why $\A$ might appear in some $p \cdot \G$
+but not in others. It is the same reason $\frac{1}{3}$ shows up some
+$\frac{1}{n} \Z$ but not others. We need to know $3 \div n$. This also makes it
+obvious why $\A$ is located at seemingly sporadic spots. It is the same reason
+$\frac{1}{3}$ is located at $1 \in \frac{1}{3} \Z$, but is located at 
+$5 \in \frac{1}{15} \Z$. 
 
 Thus we can view functions in $p \cdot \G$ as fractions of functions in $\G$.
-It is a natural question to ask which fractions are attainable in this way.
+It is natural to ask which fractions are attainable in this way.
 
 Clearly, for any $f \in \G$, we can attain $\frac{1}{k} f$ for any odd $k$.
 Simply take $\vv \in k \cdot \G$ for $f$ located at $\vv$.
@@ -803,7 +758,7 @@ shows this is always possible.
 
 For any automaton $\A$, we can now completely characterize in
 which $\C$ it can be located, and at what vectors.
-Simply locate $\A$ at $\e_1 \in p \cdot \G$, and then to locate it at
+First locate $\A$ at $\e_1 \in p \cdot \G$, and then to locate it at
 any odd vector $\vv$, scale both sides by $p_{\vv}$ to see $\A$ located at
 $\vv \in p_{\vv} p \cdot \G$. 
 In the above proof, the choice of $\vv_f = \e_1$ was arbitrary, and we can
@@ -841,7 +796,7 @@ Recall the abelian automaton $\A^3_2$ from earlier in the paper:
 Say we want to find $\vv$ and $\e$ such that $\A^3_2$ is located at 
 $\vv \in \C$.
 
-Using the algorithm described by Becker \cite{Becker18:thesis} gives 
+Using the algorithm described by Becker \cite{Becker18:thesis}, we find
 $\Am = \begin{pmatrix} -1 & 1 \\ -\frac{1}{2} & 0 \end{pmatrix}$.
 
 Then notice $\del_0 \del_0 f = f$.
@@ -855,33 +810,43 @@ Choosing $\vv_f = \e_1$ gives $\e = \begin{pmatrix} 3 \\ 2 \end{pmatrix}$.
 Then $f = \begin{pmatrix} 1 \\ 0 \end{pmatrix} \in (3+2x) \cdot \G$
 
 \subsection{Limiting Object}
-Since each $p \cdot \G$ can be viewed as $p^{-1} \cdot \Z^m \subseteq \Q^m$
-with residuation vector $\e_1$,
-it is reasonable to consider the subgroup of $\Q^m$
-\[ 
-  \widetilde{\G} = \bigcup_p p^{-1} \cdot \Z^m 
-\]
-(Recall we only include polynomials with odd constant term in this union)
+Just as we can recover $\Q$ as a limit of the fractional groups 
+$\frac{1}{n} \Z$, we can define a group $\widetilde{\G}$ as the limit of
+our $p^{-1} \cdot \G$. Indeed, just as
+$\Q$ eliminates the parameter $n$ in $\frac{1}{n} \Z$, $\widetilde{\G}$ 
+contains every automaton $\A$ at exactly one position, while removing the need
+for the parameter $p$ (and thus, the parameter $\e$ in $\C$). Morever, it is
+still effective to work with $\widetilde{\G}$, so we do not lose any of the
+computability of working with automata groups.
 
-Notice that this group is universal, in the sense that it contains as
-subgroups each $p \cdot \G$. Further, it concretely shows the relationships
-between the various automata. In this setting, we see exactly why automata 
-show up in multiple group extensions, and why the division ordering of 
-polynomials is the characterizing factor. $p \cdot \G$ is an approximation
-of $\widetilde{\G}$, where we scale up by a factor of $p$ and take only
-the integral vectors (residuation is necessarily scaled up to match). 
-In this structure, then, there is no unnecessary duplication of the location
-of automata, and there is no extra parameter $\e$.
+Formally, we define $\widetilde{\G}$ to be $\varinjlim p^{-1} \cdot \G$ 
+where the colimit (in the category of abelian groups) is taken over the poset 
+of polynomials (with odd constant term) under the divisbility ordering. This 
+colimit can then be given residuation structure in a unique way which is 
+compatable with the residuation structure on all the $p^{-1} \cdot \G$.
+
+Explicitly, we look at the set 
+$\widetilde{\G} = \{ \frac{\vv}{p} ~|~ \vv \in \Z^m, p \in \Z[x], p_0 \text{ odd} \} / \sim$
+where we quotient by $\frac{\vv}{p} \sim \frac{q \cdot \vv}{pq}$ for every
+$q$ with odd coefficient. We first endow this with a group structure by
+declaring $[\frac{\vv}{p}] + [\frac{\overline{w}}{q}] = 
+[\frac{q \cdot \vv + p \cdot \overline{w}}{pq}]$. Finally, we give
+$\widetilde{\G}$ residuation structure too, by declaring 
+$\del_0 [\frac{\vv}{p}] = [\frac{\del_0 \vv}{p}]$ where the residuation
+on the right hand side takes place in $p^{-1} \cdot \G$. We define 
+$\del_1 [\frac{\vv}{p}]$ analogously, and these operations are quickly seen
+to be well defined.  This structure remains computable, because any finite 
+computation we wish to do will have a least common denominator, and we can
+simply work in a good enough approximation.
 
 \section{Conclusion}
 We have shown that the residuation vector $\e$ corresponds to how fine an
 approximation of $\widetilde{\G}$ one wants. This is because each $\C$ 
 corresponds to $p_{\e} \cdot \G$, with progressively larger $\e$ 
 corresponding to progressively more complicated fractional elements, which
-approximate $\widetilde{\G}$. Thus, the parameter really provides a way of
-interacting with these elements living in $\Q^m$ as though they were in $\Z^m$,
-and so by computing in $\widetilde{\G}$ (or a suitably large approximation) 
-directly, we can remove the need for this parameter.
+approximate $\widetilde{\G}$. This allows us to characterize which automata
+show up in which $\C$ (and, moreover, where they show up) by finding a minimal 
+(in the division ordering) $p_{\e}$ in which a given machine is found.
 
 Further, the existence of the universal object $\widetilde{\G}$ 
 sheds new light on the connection between affine tiles
@@ -931,7 +896,6 @@ then shows the existence of a path from $-\delta$ to $\delta$.
 Then to prove the SCC conjecture, it suffices to prove that whenever $\Am$ 
 does not have characteristic $x^n + \frac{1}{2}$ there is a polynomial 
 $p \in \{-1,0,1\}[x]$ which is congruent to $-1$ mod $\chi^*$. 
-Efforts are underway to use this method to actually prove the conjecture.
 
 \section*{Acknowledgements}
 This paper would not exist without the advice of my advisor Klaus Sutner.
