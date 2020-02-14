@@ -174,6 +174,7 @@
 %{{{ logic
 \renewcommand{\diamond}{\lozenge}
 \newcommand*{\denote}[1]{\llbracket #1 \rrbracket}
+\newcommand*{\code}[1]{\langle #1 \rangle}
 %}}}
 
 %{{{ misc symbols
@@ -206,11 +207,11 @@
 \author{Chris Grossack}
 \title{On the Orbit Relation for the Natural Action of Abelian Automata Groups}
 
-\institute%
-{%
-  Carnegie Mellon University, Pittsburgh, USA\\
-  \email{cgrossac@alumni.cmu.edu}
-}
+% \institute%
+% {%
+%   Carnegie Mellon University, Pittsburgh, USA\\
+%   \email{cgrossac@alumni.cmu.edu}
+% }
 
 \begin{document}
 \maketitle
@@ -218,10 +219,14 @@
 \begin{abstract}
   \todo{write this. ``we solve this problem on a dense set of cantor space''}
 
-  \keywords{Abelian Automata \and Transducer \and Group Action \and Orbit}
+  % \keywords{Abelian Automata \and Transducer \and Group Action \and Orbit}
 \end{abstract}
 
 \section{Background}
+
+Automata Groups give a way of combinatorially encoding extremely rich
+group theoretic structure. They take the form of subgroups of the group
+of automorphisms of Cantor Space \cite{N+S}
 
 \todo{Applications in DST, GGT, and CS}
 
