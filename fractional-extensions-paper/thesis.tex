@@ -76,10 +76,11 @@ Burnside's Problem \cite{Gupta83:burnside}, and automata groups have
 provided the only examples of groups of intermediate growth, providing 
 counterexamples to Milnor's Conjecture regarding the existence of such groups
 \cite{Grigorchuk11:Milnor}. In fact, one of the simplest conceivable automata 
-(shown below) already generates the lamplighter group $\Z/2\Z \wr \Z$
-\cite{GrigorchukZuk01:lamplighter}.
+(shown below) already generates the lamplighter group $\Z/2\Z \wr \Z$, as
+is shown in \cite{GrigorchukZuk01:lamplighter}.
 
 \begin{figure}
+\begin{center}
 \begin{tikzpicture}[scale=0.2]
 \tikzstyle{every node}+=[inner sep=0pt]
 \draw [black] (15.8,-29.2) circle (3);
@@ -99,6 +100,7 @@ counterexamples to Milnor's Conjecture regarding the existence of such groups
 \fill [black] (18.14,-31.06) -- (18.55,-31.91) -- (19.09,-31.07);
 \draw (25.55,-33.71) node [below] {$1/1$};
 \end{tikzpicture}
+\end{center}
 
 \caption{An automaton generating the lampligher group}
 \label{fig:1}
@@ -108,11 +110,11 @@ counterexamples to Milnor's Conjecture regarding the existence of such groups
 
 Recall $\2 = \{0,1\}$. For our purposes, a \textbf{Mealey Automaton} is a 
 tuple $\A = (S, \tau)$ where $S$ is the \textbf{State Set}, and 
-$\tau : S \times \2 \to S \times \2$ is the \textbf{transition function}. 
+$\tau : S \times \2 \to S \times \2$ is the \textbf{Transition Function}. 
 We represent $\A$ as a (directed, multi-)graph with $S$ as vertices and a 
-labelled edge from $s_1$ to $s_2$ by $a/b$ exactly when $\tau(s_1,a) = (s_2,b)$.
-Following Sutner, we remove clutter by writing a single unlabled edge in place
-of two parallel edges labelled $0/0$ and $1/1$.
+labeled edge from $s_1$ to $s_2$ by $a/b$ exactly when $\tau(s_1,a) = (s_2,b)$.
+Following Sutner, whenever we have two parallel edges labeled $0/0$ and $1/1$,
+we instead write one unlabeled edge to remove clutter.
 We write $(\del_a s, \underline{s}(a)) = \tau(s,a)$ and call $\del_0 s$ 
 (resp. $\del_1 s$) the \textbf{0-residual} (resp. \textbf{1-residual}) of $s$.
 
@@ -296,11 +298,10 @@ For a state $s \in S$, it is clear that
 $\del_a \underline{s} = \underline{s'}$, where $(s',a') = \tau(s,a)$, so
 that this extends the old definition. 
 
-Thus each $\G(\A)$ can also be viewed as an automaton, by taking $\G(\A)$ 
-as states, and defining $\tau(f,i) = \del_i f$. Now $\A$ is a natural 
-subautomaton of $\G(\A)$ by identifying $s \in \A$ with 
-$\underline{s} \in \G(\A)$.
-
+Thus $\G(\A)$ can also be viewed as an automaton, by taking $\G(\A)$ 
+as the state set and defining $\tau(f,i) = (\del_i f, f(i))$. Under this
+definition, we find $\A$ as a natural subautomaton of $\G(\A)$ by identifying 
+$s \in \A$ with $\underline{s} \in \G(\A)$.
 We will call a function \textbf{Odd} if it flips its first bit, and 
 \textbf{Even} otherwise, and we call an automaton \textbf{Abelian} or 
 \textbf{Trivial} exactly when its group is. 
@@ -311,8 +312,8 @@ and $\del_1 \underline{\alpha} = \underline{\alpha}$.
 For a more in depth description of Mealy Automata and their properties, 
 see \cite{Sakarovitch09:automata_theory,Holcombe}. (TODO: add Klaus' early paper)
 
-Of great importance to abelian automata theory is the result of 
-Nekrashevich and Sidki that every such group is either torsion free abelian or 
+The results of this paper stand on the shoulders of a result of Nekrashevich and 
+Sidki that every abelian automata group is either torsion free abelian or 
 boolean \cite{NekrashevychSidki04:automorphisms}. Because of this classification, 
 much of the interesting structure of these groups comes from the residuation
 functions. To that end, for the duration of this paper, 
@@ -336,8 +337,8 @@ and $\gamma \not = I$.%
 \subsection{The Complete Automaton}
 
 From the discussion above, it follows that $\Z^m \cong \G(\A)$ carries a
-residuation structure, and Nekrashvych and Sidki give a characterization of
-all posible such structures \cite{NekrashevychSidki04:automorphisms}.
+residuation structure, and Nekrashvych and Sidki also give a characterization 
+of all possible such structures \cite{NekrashevychSidki04:automorphisms}.
 
 Without loss of generality, we can take the odd (resp. even) states to be 
 exactly the vectors with odd (resp. even) first component. The automata 
@@ -345,13 +346,13 @@ structure is given by the following affine maps
 (which depend on a matrix $\Am$ and an odd vector $\e$):
 
 \begin{align}
-  \tau(\vv, 0) &= 
+  \tau_{\Am, \e}(\vv, 0) &= 
   \begin{cases} 
     \Am \vv        & \vv \text{ even}\\
     \Am (\vv - \e) & \vv \text{ odd}
   \end{cases}
   \label{eq:1}\\
-  \tau(\vv, 1) &=
+  \tau_{\Am, \e}(\vv, 1) &=
   \begin{cases} 
     \Am \vv        & \vv \text{ even}\\
     \Am (\vv + \e) & \vv \text{ odd}
@@ -359,11 +360,11 @@ structure is given by the following affine maps
   \label{eq:2}
 \end{align}
 
-In the above definition, $\Am$ is a $\frac{1}{2}-integral$ matrix $\Am$ of 
-$\Q$-irreducible character. This automaton group is generated by a 
-\emph{finite} automaton exactly if $\Am$ is a contraction (that is, all of 
-its complex eigenvalues have norm $<1$). By a $\frac{1}{2}-integral$ matrix, 
-we mean a matrix of the form
+In the above definition, $\Am$ is a ``$\frac{1}{2}$--integral'' matrix $\Am$ of 
+$\Q$-irreducible character. This group (with its residuation structure) is 
+generated by a \emph{finite} automaton exactly if $\Am$ is a contraction 
+(that is, all of its complex eigenvalues have norm $<1$). By a 
+$\frac{1}{2}$--integral matrix, we mean a matrix of the form
 
 \[
 \begin{pmatrix}
@@ -373,16 +374,20 @@ we mean a matrix of the form
 \end{pmatrix}
 \]
 
-where each $a_{ij} \in \Z$. These matrices all have characteristic polynomial
+\noindent
+where each $a_{ij} \in \Z$. 
+
+These matrices all have characteristic polynomial
 $\chi = x^n + \frac{1}{2}g(x)$, where $g \in \Z[x]$ and has constant term 
 $\pm 1$. Without loss of generality we may take $\Am$ to be in rational 
-canonical form.
+canonical form, with the coefficients of $\chi$ in the first column.
 
-Since $\Am : 2\Z \oplus \Z^{m-1} \to \Z^m$,
-residuation acts as multiplication by $\Am$ for even vectors,
-but for odd vectors we need to first make them even. This is the reason
-for the \textbf{residuation vector} $\e$ in the above definition. It is easy 
-to see that this definition gives rise to the following residuation structure:
+Now we see the reason for the \textbf{Residuation Vector} $\e$ in the 
+above definition. Since $\Am : 2\Z \oplus \Z^{m-1} \to \Z^m$, the transition
+function $\tau$ can act as simple multiplication on even vectors. However,
+to ensure we have an integral output, we must first make an odd vector 
+even by adding or subtracting another odd vector $\e$. It is easy to see 
+that this definition gives rise to the following residuation structure:
 
 If $\vv$ is even:
 \[ \del_0 \vv = \del_1 \vv = \Am \vv \]
@@ -391,34 +396,37 @@ If $\vv$ is odd:
 \[ \del_0 \vv = \Am (\vv - \e) \]
 \[ \del_1 \vv = \Am (\vv + \e) \]
 
+\noindent
 Following Sutner \cite{Sutner18:abelian_automata}, for a specific matrix
-$\Am$ and residuation vector $\e$ we define \textbf{The Complete Automaton} 
-$\C = (\Z^m, \tau)$, where $\tau$ is defined as in equations \ref{eq:1} and 
-\ref{eq:2}. 
+$\Am$ and residuation vector $\e$ we define a \textbf{Complete Automaton} 
+$\C = (\Z^m, \tau_{\Am,\e})$. Moreover, if $\G(\A) \cong \C$, we say a 
+function $f \in \G(\A)$ is \textbf{Located at} $\vv \in \C$ iff the isomorphism 
+between $\G(\A)$ and $\C$ sends $f$ to $\vv$. Finally, given any 
+state $\vv \in \C$, closing $\{ \vv \}$ under residuation will result in an
+automaton $\A_{\vv}$ (which will be finite whenever $\A$ is contracting). 
+We say $\A$ is \textbf{Located at} $\vv \in \C$ iff the isomorphism sends 
+$\A \subseteq \G(\A)$ to $\A_{\vv} \subseteq \C$. 
 
 Nekrashevich and Sidki's theorem gives us a purely linear algebraic method
-of discussing these automaton groups, since a restatement of their theorem 
-says that every torsion free abelian automaton group $\G(\A)$ is isomorphic 
-to $\C$ for some $\Am$ and $\e$, and therefore every abelian automaton $\A$
-is a subautomaton of some $\C$. Nekrashevych and Sidki show that each $\A$ 
+for discussing these automata groups, since a restatement of their theorem 
+says that every torsion free abelian automata group $\G(\A)$ is isomorphic 
+to $\C$ for some $\Am$ and $\e$. Seeing this fact, it is natural to ask if,
+given an automaton $\A$, we can characterize all $\Am$ and $\e$ for which 
+$\A \subseteq \C$. Indeed, it is natural to ask which vector $\vv$ will $\A$
+be located at in this identification.
+
+Nekrashevych and Sidki show that each $\A$ 
 has a unique matrix $\Am$ (up to GL($\Q$) similarity) which works, though
 their proof is nonconstructive. We call this $\Am$ (in rational canonical form)
-the \textbf{Associated Matrix} of $\A$. 
-
-We say a function $f \in \G(\A)$ is \textbf{Located at} $\vv \in \C$ iff the 
-isomorphism between $\G(\A)$ and $\C$ sends $f$ to $\vv$. Further, given any 
-state $\vv \in \C$, closing $\{ \vv \}$ under residuation will result in an
-automaton $\A_{\vv}$. We say $\A$ is \textbf{Located at} $\vv \in \C$ iff the 
-isomorphism sends $\A$ to $\A_{\vv} \subseteq \C$. 
-Note that the location of a function or an automaton, and indeed whether a 
-location exists or not, will depend on the choice of $\e$. 
-
-Unfortuately, Nekrashevych and Sidki leave entirely open the question of 
-which $\e$ admit $\A$ as a subautomaton, and moreover where $\A$ is located
-if an embedding exists. This problem was first acknowledged in a paper of 
+the \textbf{Associated Matrix} of $\A$. Unfortuately, Nekrashevych and Sidki 
+leave entirely open the question of which $\e$ admit $\A$ as a subautomaton
+once we have the correct $\Am$, and moreover where $\A$ is located
+if an embedding into $\C$ exists. This problem was first acknowledged in a paper of 
 Okano \cite{Okano15:thesis} (TODO: double check that), and in 2018 Becker found an 
 effective algorithm to compute $\Am$ from $\A$ \cite{Becker18:thesis}, solving
-part of the problem. In this paper we finish the job by fully
+part of the problem. 
+
+In this paper we finish the job by fully
 characterizing the impact of $\e$ on the residuation structure of $\C$.
 For a more detailed discussion of these linear algebraic methods and their 
 origins, see %
