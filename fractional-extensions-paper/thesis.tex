@@ -403,6 +403,11 @@ automaton $\A_{\vv}$ (which will be finite whenever $\A$ is contracting).
 We say $\A$ is \textbf{Located at} $\vv \in \C$ iff the isomorphism sends 
 $\A \subseteq \G(\A)$ to $\A_{\vv} \subseteq \C$. 
 
+Keep in mind the distinction between the group of functions $\G(\A)$
+and a particular isomorphism between $\G(\A)$ and $\C$! We will freely
+identify these objects, but the location of a particular function
+depends heavily on the choice of $\e$.
+
 Nekrashevich and Sidki's theorem gives us a purely linear algebraic method
 for discussing these automata groups, since a restatement of their theorem 
 says that every torsion free abelian automata group $\G(\A)$ is isomorphic 
@@ -621,7 +626,7 @@ polynomial other than $x^m - \frac{1}{2}$, which corresponds to the so called
 sausage automata. Unfortunately, this conjecture is yet unproven,
 and so in the above proof we had to explicitly add in these extra states.
 
-\section{Fractional Elements}
+\section{Fractional Extensions}
 Going forward, $\G = \mathfrak{C}(\Am,\e_1)$ will denote $\G(\P)$ for some 
 principal machine $\P$. 
 
@@ -647,12 +652,12 @@ We will only discuss polynomials $p$ with an odd constant term, as
 this ensures $p^{-1} \cdot \e_1$, our residuation vector, is odd.
 
 We call $p^{-1} \cdot \G$ the \textbf{Fractional Extension} of $\G$ by $p$.
-To justify this nomenclature, we first notice 
+To first justify the use of the word ``extension'', notice 
 $\G \hookrightarrow p^{-1} \cdot \G$ for all $p$ by the
 homomorphism $\vv \mapsto p \cdot \vv$. 
-Further, we recognize that if $p$ is not a unit in 
-$\Z[x] / \chi^*$, this homomorphism is \emph{not} 
-surjective. That is to say $\G$ is a proper subgroup of $p^{-1} \cdot \G$.
+Further, if $p$ is not a unit in $\Z[x] / \chi^*$, this 
+homomorphism is \emph{not} surjective. That is to say $\G$ is a proper 
+subgroup of $p^{-1} \cdot \G$.
 This observation is true in more generality, as shown below.
 Recall we work in the category whose arrows also preserve the residuation
 structure, and thus an isomorphism identifying two vectors will show that
@@ -692,49 +697,44 @@ we must show that our embeddings genuinely do preserve this structure.
   is an isomorphism with inverse $\varphi_{r^{-1}}$.
 \end{proof}
 
-\section{Why are they fractional?}
+The previous proof has justified the use of the word ``extension'', 
+but it is still not clear why this extension should be ``fractional''.
 As the previous proof shows, $p \cdot \vv \in p^{-1} \cdot \G$, 
 computes exactly the same function as $\vv \in \G$.
-However, most vectors cannot be written as $p \cdot \vv$. 
+However, most vectors cannot be written as a multiple of $p$.
 What do they do as functions?
 We call such vectors (and their corresponding functions)
 \textbf{Fractional}, due to the following analogy:
 
 Say we are only allowed to compute with $\Z$, but we want the ability
 to work with fractions. We can approximate $\Q$ by allowing fractions
-with fixed denominator. After all, $\Z \cong \frac{1}{n} \Z \leq \Q$
-for every $n$. So if we want to be able to talk about fractions like 
-$\frac{1}{3}$, we might work in $\frac{1}{3} \Z$, where we identify $1$
-with $\frac{1}{3}$, $2$ with $\frac{2}{3}$, $3$ with $\frac{3}{3} = 1$, 
-and so on. Now we can treat this as though it was $\Z$, knowing that we are
-really computing with fractional elements. If we now want multiples of $5$ 
-as well, we can scale up again and work with $\frac{1}{15} \Z$. Notice
-$\frac{1}{3} \Z \hookrightarrow \frac{1}{15} \Z$ by the homomorphism sending
-$\frac{n}{3} \mapsto \frac{5n}{15}$. 
+with fixed denominator. If we write 
+$\frac{1}{n} \mathbb{Z} = \{ \frac{k}{n} ~|~ k \in \Z \}$, 
+then we clearly see $\Z \cong \frac{1}{n} \Z \leq \Q$ for every $n$. 
+So if we want to be able to talk about fractions like 
+$\frac{1}{3}$, we might work in the ``extension'' $\frac{1}{3} \Z$, where 
+$\Z \hookrightarrow \frac{1}{3}\Z$ by the embedding $k \mapsto 3k$.
+The new elements, then, are ``fractional'' in the obvious sense. 
+Once we have made this identification, we can (computationally) forget
+about the fact that we're working in an extension at all. The equation
+$4 + 6 = 10$ remains true, we simply reinterpret this as being 
+$\frac{4}{3} + \frac{6}{3} = \frac{10}{3}$. 
 
-When we scale $\G \cong \Z^m$ by some polynomial $p$, we are doing exactly
-the same embedding as above, but now in multiple dimensions. As an example,
-take $\delta \in \G$ which is located at $\e_1$. By the above theorem, we
-must have $\delta$ located at $3 \e_1 \in 3^{-1} \cdot \G$. Then, $\e_1$ behaves 
-like ``$\frac{1}{3} \delta$''. Indeed, by scaling up our integer lattice 
-by some polynomial $p$, we render elements in $p^{-1} \Z^m$ integral,
-and thus we have access to elements which are fractions of elements in $\G$.
+Scaling $\G \cong \Z^m$ by some polynomial $p^{-1}$ is \emph{exactly} the
+same operation. However, in this new higher dimensional setting, we have 
+more degrees of freedom, and must therefore index by polynomials $p$ instead
+of mere constants. Note this explains all of the ambiguity regarding the
+location of a function $f$ in an extension $\C$. Since $\e$ correpsonds to
+our choice of $p^{-1}$, the change in location of $f$ is entirely analogous
+to the change in position of $\frac{1}{2} \in \Q$ in various $\frac{1}{n}\Z$.
+In $n=10$, $\frac{1}{2}$ shows up at $5$. In $n=6$, $\frac{1}{2}$ shows up 
+at $3$. But mysteriously, $\frac{1}{2}$ doesn't appear when $n=3$\ldots
+It's exactly the same phenomenon.
 
-Through this lens, we see exactly why $\A$ might appear in some $p^{-1} \cdot \G$
-but not in others. It is the same reason $\frac{1}{3}$ shows up some
-$\frac{1}{n} \Z$ but not others. We need to know $3 \div n$. This also makes it
-obvious why $\A$ is located at seemingly sporadic spots. It is the same reason
-$\frac{1}{3}$ is located at $1 \in \frac{1}{3} \Z$, but is located at 
-$5 \in \frac{1}{15} \Z$. 
-
-Thus we can view functions in $p^{-1} \cdot \G$ as fractions of functions in $\G$.
-It is natural to ask which fractions are attainable in this way.
-
-Clearly, for any $f \in \G$, we can attain $\frac{1}{k} f$ for any odd $k$.
-Simply take $\vv \in k^{-1} \cdot \G$ for $f$ located at $\vv$.
-However, fractions with even denominator are, in general, unattainable.
-$2 \frac{1}{2}\delta = \delta$ should be an odd function,
-but no function, when doubled, is odd.
+Of course, there is a minimal $n$ for which $\frac{1}{2} \in \frac{1}{n}\Z$.
+Moreover, once we know it, we can characterize exactly where $\frac{1}{2}$
+will be in all extensions $\frac{1}{m}\Z$ where $n \div m$. We can, in fact,
+do the same thing for automata.
 
 \section{Characterizing Automata}
 Since each automaton $\A$ is a subautomaton of some $\C$,
@@ -842,7 +842,7 @@ $\Q$ eliminates the parameter $n$ in $\frac{1}{n} \Z$, $\widetilde{\G}$
 contains every automaton $\A$ at exactly one position, while removing the need
 for the parameter $p$ (and thus, the parameter $\e$ in $\C$). Morever, it is
 still effective to work with $\widetilde{\G}$, so we do not lose any of the
-computability of working with automata groups.
+computability benefits of working with automata groups.
 
 Formally, we define $\widetilde{\G}$ to be $\varinjlim p^{-1} \cdot \G$ 
 where the colimit (in the category of abelian groups) is taken over the poset 
@@ -851,7 +851,11 @@ colimit can then be given residuation structure in a unique way which is
 compatable with the residuation structure on all the $p^{-1} \cdot \G$.
 
 Explicitly, we look at the set 
-$\widetilde{\G} = \{ \frac{\vv}{p} ~|~ \vv \in \Z^m, p \in \Z[x], p_0 \text{ odd} \} / \sim$
+
+\[ 
+  \widetilde{\G} = \{ \frac{\vv}{p} ~|~ \vv \in \Z^m, p \in \Z[x], p_0 \text{ odd} \} / \sim
+\]
+
 where we quotient by $\frac{\vv}{p} \sim \frac{q \cdot \vv}{pq}$ for every
 $q$ with odd coefficient. We first endow this with a group structure by
 declaring $[\frac{\vv}{p}] + [\frac{\overline{w}}{q}] = 
@@ -908,8 +912,8 @@ ending in $\delta$, since they undo residuation:
 Sutner made a similar observation, and described Path Polynomials 
 \cite{Sutner18:abelian_automata} which
 allow us to reason about the existence of directed paths between states 
-in an automaton by purely algebraic means. However, these polynomials are
-clunky and not always defined, since they correspond to paths
+in an automaton by purely algebraic means. However, the traditional path 
+polynomials are clunky and not always defined, since they correspond to paths
 \emph{starting} at $\delta$, and so $P'_{w0} \cdot \delta$ is only well 
 defined if $P'_w \cdot \delta$ is even (and $P'_{w1}$ and $P'_{w\bar{1}}$ 
 are only well defined if $P_w \cdot \delta$ is odd). Since the polynomials 
