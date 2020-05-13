@@ -3,8 +3,10 @@
 \let\proof\relax
 \let\endproof\relax
 \usepackage{amsmath,amsthm,amssymb}
+% \usepackage[monochrome]{color}
 \usepackage{tikz, tikz-cd}
 \usepackage{subcaption}
+\usepackage{float}
 \captionsetup{compatibility=false} % we need this to make subcaption work
 
 \newcommand{\A}{\mathcal{A}}
@@ -135,7 +137,7 @@ $\underline{s} : \2^* \to \2^*$
   ~~~(\text{where } (s', a') = \tau(s,a))
 \end{align*}
 
-\begin{figure}
+\begin{figure}[H]
   \centering
   \begin{subfigure}{.16\textwidth}
     \centering
